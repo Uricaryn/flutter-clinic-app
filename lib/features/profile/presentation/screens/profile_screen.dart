@@ -29,34 +29,34 @@ class ProfileScreen extends ConsumerWidget {
         ],
       ),
       body: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Profile Header
+            Center(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Profile Header
-                  Center(
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: theme.colorScheme.primary,
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: theme.colorScheme.primary,
                     child: Text(
                       user?.email?.substring(0, 1).toUpperCase() ?? 'U',
                       style: theme.textTheme.headlineLarge?.copyWith(
-                                    color: theme.colorScheme.onPrimary,
-                                  ),
-                                ),
+                        color: theme.colorScheme.onPrimary,
+                      ),
+                    ),
                   ).animate().fadeIn().scale(),
-                        const SizedBox(height: 16),
-                        Text(
+                  const SizedBox(height: 16),
+                  Text(
                     userData.when(
                       data: (data) => data?['fullName'] ?? 'User',
                       loading: () => 'Loading...',
                       error: (_, __) => 'Error loading name',
                     ),
-                          style: theme.textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ).animate().fadeIn().slideY(begin: 0.2, end: 0),
                   Text(
                     user?.email ?? '',
@@ -64,21 +64,21 @@ class ProfileScreen extends ConsumerWidget {
                       color: theme.colorScheme.onSurface.withOpacity(0.7),
                     ),
                   ).animate().fadeIn().slideY(begin: 0.2, end: 0),
-                          ],
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  // Account Settings
-                  Text(
-                    'Account Settings',
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 32),
+            // Account Settings
+            Text(
+              'Account Settings',
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ).animate().fadeIn().slideX(begin: -0.2, end: 0),
-                  const SizedBox(height: 16),
-                  Card(
-                    child: Column(
-                      children: [
+            const SizedBox(height: 16),
+            Card(
+              child: Column(
+                children: [
                   ListTile(
                     leading: const Icon(Icons.person_outline),
                     title: const Text('Edit Profile'),
@@ -102,10 +102,10 @@ class ProfileScreen extends ConsumerWidget {
                     },
                   ),
                   const Divider(height: 1),
-                        ListTile(
-                          leading: const Icon(Icons.lock_outline),
-                          title: const Text('Change Password'),
-                          trailing: const Icon(Icons.chevron_right),
+                  ListTile(
+                    leading: const Icon(Icons.lock_outline),
+                    title: const Text('Change Password'),
+                    trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -124,46 +124,46 @@ class ProfileScreen extends ConsumerWidget {
               'Preferences',
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                        ),
+              ),
             ).animate().fadeIn().slideX(begin: -0.2, end: 0),
             const SizedBox(height: 16),
             Card(
               child: Column(
                 children: [
-                        ListTile(
-                          leading: const Icon(Icons.notifications_outlined),
-                          title: const Text('Notifications'),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () {
-                            // TODO: Navigate to notifications settings
-                          },
-                        ),
-                        const Divider(height: 1),
-                        ListTile(
-                          leading: const Icon(Icons.language_outlined),
-                          title: const Text('Language'),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () {
-                            // TODO: Navigate to language settings
-                          },
-                        ),
-                      ],
-                    ),
+                  ListTile(
+                    leading: const Icon(Icons.notifications_outlined),
+                    title: const Text('Notifications'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      // TODO: Navigate to notifications settings
+                    },
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.language_outlined),
+                    title: const Text('Language'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      // TODO: Navigate to language settings
+                    },
+                  ),
+                ],
+              ),
             ).animate().fadeIn().slideX(begin: 0.2, end: 0),
-                  const SizedBox(height: 32),
-                  // Sign Out Button
+            const SizedBox(height: 32),
+            // Sign Out Button
             CustomButton(
-                      text: 'Sign Out',
+              text: 'Sign Out',
               onPressed: () async {
                 await ref.read(authServiceProvider).signOut();
                 if (context.mounted) {
                   Navigator.of(context).pushReplacementNamed('/login');
                 }
               },
-                      variant: ButtonVariant.secondary,
+              variant: ButtonVariant.secondary,
             ).animate().fadeIn().slideY(begin: 0.2, end: 0),
-              ],
-            ),
+          ],
+        ),
       ),
     );
   }
