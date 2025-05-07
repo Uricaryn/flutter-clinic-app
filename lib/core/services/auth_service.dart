@@ -20,8 +20,25 @@ class AuthService {
         password: password,
       );
       return credential;
+    } on FirebaseAuthException catch (e) {
+      print('Firebase Auth Error: ${e.code} - ${e.message}');
+      switch (e.code) {
+        case 'user-not-found':
+          throw 'No user found with this email.';
+        case 'wrong-password':
+          throw 'Wrong password provided.';
+        case 'invalid-email':
+          throw 'The email address is not valid.';
+        case 'user-disabled':
+          throw 'This user has been disabled.';
+        case 'too-many-requests':
+          throw 'Too many attempts. Please try again later.';
+        default:
+          throw 'An error occurred. Please try again.';
+      }
     } catch (e) {
-      throw _handleAuthException(e);
+      print('General Error: $e');
+      throw 'An unexpected error occurred. Please try again.';
     }
   }
 
@@ -122,3 +139,4 @@ class AuthService {
     return 'An error occurred. Please try again.';
   }
 }
+ 

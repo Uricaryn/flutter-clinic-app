@@ -10,7 +10,7 @@
 -keep class com.google.firebase.** { *; }
 -keep class com.google.android.gms.** { *; }
 
-# Keep your application classes that will be accessed through reflection
+# Keep your application class
 -keep class com.clinicapp.clinic_app.** { *; }
 
 # Keep native methods
@@ -21,6 +21,17 @@
 # Keep Parcelable classes
 -keep class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator *;
+}
+
+# Keep R8 rules
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keepattributes Signature
+-keepattributes Exceptions
+
+# Keep JavaScript interface methods
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
 }
 
 # Keep R classes

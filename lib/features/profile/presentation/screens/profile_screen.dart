@@ -1,20 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
 import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:clinic_app/features/profile/presentation/screens/change_password_screen.dart';
 
-class ProfileScreen extends ConsumerWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  bool _isLoading = true;
+  Map<String, dynamic>? _userData;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    if (!mounted) return;
+
+    setState(() => _isLoading = true);
+    try {
+      final snapshot = await ref.read(currentUserDataProvider.future);
+      if (mounted) {
+        setState(() {
+          _userData = snapshot?.data() as Map<String, dynamic>?;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final user = ref.watch(currentUserProvider);
-    final userData = ref.watch(currentUserDataProvider);
+
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -28,10 +67,10 @@ class ProfileScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: RefreshIndicator(
+        onRefresh: _loadUserData,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
           children: [
             // Profile Header
             Center(
@@ -46,24 +85,20 @@ class ProfileScreen extends ConsumerWidget {
                         color: theme.colorScheme.onPrimary,
                       ),
                     ),
-                  ).animate().fadeIn().scale(),
+                  ),
                   const SizedBox(height: 16),
                   Text(
-                    userData.when(
-                      data: (data) => data?['fullName'] ?? 'User',
-                      loading: () => 'Loading...',
-                      error: (_, __) => 'Error loading name',
-                    ),
+                    _userData?['fullName'] ?? 'User',
                     style: theme.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-                  ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+                  ),
                   Text(
                     user?.email ?? '',
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.colorScheme.onSurface.withOpacity(0.7),
                     ),
-                  ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+                  ),
                 ],
               ),
             ),
@@ -74,7 +109,7 @@ class ProfileScreen extends ConsumerWidget {
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
-            ).animate().fadeIn().slideX(begin: -0.2, end: 0),
+            ),
             const SizedBox(height: 16),
             Card(
               child: Column(
@@ -117,7 +152,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-            ).animate().fadeIn().slideX(begin: 0.2, end: 0),
+            ),
             const SizedBox(height: 24),
             // Preferences
             Text(
@@ -125,7 +160,7 @@ class ProfileScreen extends ConsumerWidget {
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
-            ).animate().fadeIn().slideX(begin: -0.2, end: 0),
+            ),
             const SizedBox(height: 16),
             Card(
               child: Column(
@@ -149,7 +184,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-            ).animate().fadeIn().slideX(begin: 0.2, end: 0),
+            ),
             const SizedBox(height: 32),
             // Sign Out Button
             CustomButton(
@@ -161,7 +196,7 @@ class ProfileScreen extends ConsumerWidget {
                 }
               },
               variant: ButtonVariant.secondary,
-            ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+            ),
           ],
         ),
       ),
