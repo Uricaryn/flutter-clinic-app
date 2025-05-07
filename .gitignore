@@ -43,3 +43,60 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Flutter/Dart specific
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+ios/Pods/
+android/.gradle/
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# Firebase configuration
+google-services.json
+GoogleService-Info.plist
+firebase-debug.log
+firebase-debug.*.log
+
+# Environment files
+.env
+.env.*
+*.env
+
+# IDE specific
+.idea/
+.vscode/
+*.iml
+*.iws
+.DS_Store
+
+# Generated files
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Firebase Functions
+functions/node_modules/
+functions/.runtimeconfig.json
+functions/lib/
+
+# Coverage
+coverage/
+*.lcov
+
+# Temporary files
+*.swp
+*.swo
+*~

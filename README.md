@@ -1,16 +1,74 @@
-# clinic_app
+# Flutter Clinic App
 
-A new Flutter project.
+A comprehensive clinic management application built with Flutter and Firebase.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- User Authentication (Admin, Doctor, Nurse, Receptionist, Patient)
+- Clinic Management
+- Appointment Scheduling
+- Patient Records
+- Stock Management
+- Procedure Management
+- Real-time Notifications
+- Analytics Dashboard
 
-A few resources to get you started if this is your first Flutter project:
+## Setup
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/flutter-clinic-app.git
+cd flutter-clinic-app
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. Install dependencies:
+```bash
+flutter pub get
+```
+
+3. Firebase Setup:
+   - Create a new Firebase project
+   - Enable Authentication, Firestore, Storage, and Cloud Functions
+   - Download `google-services.json` and place it in `android/app/`
+   - Download `GoogleService-Info.plist` and place it in `ios/Runner/`
+
+4. Environment Setup:
+   - Copy `google-services.json.example` to `google-services.json`
+   - Update the Firebase configuration with your project details
+
+5. Run the app:
+```bash
+flutter run
+```
+
+## Project Structure
+
+```
+lib/
+├── core/           # Core functionality and services
+├── features/       # Feature modules
+│   ├── admin/     # Admin panel
+│   ├── auth/      # Authentication
+│   ├── clinic/    # Clinic management
+│   ├── profile/   # User profiles
+│   └── ...
+└── shared/        # Shared widgets and utilities
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Flutter Team
+- Firebase Team
+- All contributors 
