@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
+import 'package:clinic_app/core/providers/locale_provider.dart';
 import 'package:clinic_app/shared/widgets/custom_text_field.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:clinic_app/features/home/presentation/screens/home_screen.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -67,30 +69,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _showEmailVerificationDialog() {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: const Text('Email Verification Required'),
+        title: Text(l10n.emailVerificationRequired),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Please verify your email address before logging in. '
-              'Check your inbox for the verification link.',
-            ),
+            Text(l10n.pleaseVerifyEmail),
             const SizedBox(height: 16),
             CustomButton(
-              text: 'Resend Verification Email',
+              text: l10n.resendVerificationEmail,
               onPressed: () async {
                 try {
                   await ref.read(authServiceProvider).verifyEmail();
                   if (!mounted) return;
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                          'Verification email sent. Please check your inbox.'),
+                    SnackBar(
+                      content: Text(l10n.verificationEmailSent),
                     ),
                   );
                 } catch (e) {
@@ -112,7 +111,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               Navigator.of(context).pop();
               ref.read(authServiceProvider).signOut();
             },
-            child: const Text('OK'),
+            child: Text(l10n.ok),
           ),
         ],
       ),
@@ -124,6 +123,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final isLoading = ref.watch(authLoadingProvider);
     final error = ref.watch(authErrorProvider);
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Stack(
@@ -135,8 +136,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.blue.shade50,
-                  Colors.teal.shade50,
+                  Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                 ],
               ),
             ),
@@ -149,14 +150,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Container(
               height: size.height * 0.7,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(size.width * 0.5),
                   topRight: Radius.circular(size.width * 0.5),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color:
+                        Theme.of(context).colorScheme.shadow.withOpacity(0.1),
                     blurRadius: 20,
                     offset: const Offset(0, -5),
                   ),
@@ -171,7 +173,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Icon(
               Icons.medical_services_outlined,
               size: 40,
-              color: Colors.blue.shade200,
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
             ).animate().fadeIn().scale(),
           ),
           Positioned(
@@ -180,7 +182,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Icon(
               Icons.favorite_outline,
               size: 40,
-              color: Colors.teal.shade200,
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
             ).animate().fadeIn().scale(),
           ),
           // Login form
@@ -192,36 +194,47 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    // Language Switcher
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        icon: const Icon(Icons.language),
+                        onPressed: () {
+                          ref.read(localeProvider.notifier).toggleLocale();
+                        },
+                        tooltip: l10n.language,
+                      ),
+                    ),
                     const SizedBox(height: 48),
                     Icon(
                       Icons.local_hospital,
                       size: 64,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ).animate().fadeIn().scale(),
                     const SizedBox(height: 24),
                     Text(
-                      'Welcome Back',
+                      l10n.welcomeBack,
                       style: Theme.of(context).textTheme.headlineMedium,
                       textAlign: TextAlign.center,
                     ).animate().fadeIn().moveY(begin: 10, end: 0),
                     const SizedBox(height: 8),
                     Text(
-                      'Sign in to continue',
+                      l10n.signInToContinue,
                       style: Theme.of(context).textTheme.bodyLarge,
                       textAlign: TextAlign.center,
                     ).animate().fadeIn().moveY(begin: 10, end: 0),
                     const SizedBox(height: 48),
                     CustomTextField(
                       controller: _emailController,
-                      label: 'Email',
+                      label: l10n.email,
                       keyboardType: TextInputType.emailAddress,
                       prefixIcon: Icon(Icons.email_outlined),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
+                          return l10n.pleaseEnterEmail;
                         }
                         if (!value.contains('@')) {
-                          return 'Please enter a valid email';
+                          return l10n.pleaseEnterValidEmail;
                         }
                         return null;
                       },
@@ -229,7 +242,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const SizedBox(height: 16),
                     CustomTextField(
                       controller: _passwordController,
-                      label: 'Password',
+                      label: l10n.password,
                       obscureText: _obscurePassword,
                       prefixIcon: Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
@@ -246,10 +259,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
+                          return l10n.pleaseEnterPassword;
                         }
                         if (value.length < 6) {
-                          return 'Password must be at least 6 characters';
+                          return l10n.passwordMustBeAtLeast6Characters;
                         }
                         return null;
                       },
@@ -266,30 +279,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ],
                     const SizedBox(height: 24),
                     CustomButton(
-                      text: 'Sign In',
+                      text: l10n.signIn,
                       onPressed: _handleLogin,
                       isLoading: isLoading,
                     ).animate().fadeIn().moveY(begin: 10, end: 0),
                     const SizedBox(height: 16),
                     TextButton(
                       onPressed: () {
-                        // TODO: Implement forgot password
                         ref.read(authServiceProvider).sendPasswordResetEmail(
                               _emailController.text.trim(),
                             );
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Password reset email sent'),
+                          SnackBar(
+                            content: Text(l10n.passwordResetEmailSent),
                           ),
                         );
                       },
-                      child: const Text('Forgot Password?'),
+                      child: Text(l10n.forgotPassword),
                     ).animate().fadeIn(),
                     const SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Don't have an account?"),
+                        Text(l10n.dontHaveAccount),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -298,7 +310,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ),
                             );
                           },
-                          child: const Text('Sign Up'),
+                          child: Text(l10n.signUp),
                         ),
                       ],
                     ).animate().fadeIn(),

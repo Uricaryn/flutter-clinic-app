@@ -7,6 +7,8 @@ import 'package:clinic_app/features/profile/presentation/screens/profile_screen.
 import 'package:clinic_app/shared/widgets/custom_bottom_nav.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/features/admin/presentation/screens/admin_panel_screen.dart';
+import 'package:clinic_app/shared/widgets/custom_app_bar.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,7 +41,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
+      appBar: _currentIndex == 0
+          ? CustomAppBar(
+              title: l10n.home,
+              showThemeToggle: true,
+            )
+          : null,
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
@@ -58,14 +68,33 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  String _getPageTitle(AppLocalizations l10n) {
+    switch (_currentIndex) {
+      case 0:
+        return l10n.home;
+      case 1:
+        return l10n.appointments;
+      case 2:
+        return l10n.procedures;
+      case 3:
+        return l10n.stock;
+      case 4:
+        return l10n.profile;
+      default:
+        return l10n.home;
+    }
+  }
+
   Widget _buildHomePage() {
+    final l10n = AppLocalizations.of(context)!;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Welcome back!',
+            l10n.welcomeBack,
             style: Theme.of(context).textTheme.headlineMedium,
           ).animate().fadeIn().slideX(),
           const SizedBox(height: 24),
@@ -82,11 +111,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildQuickActions() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Quick Actions',
+          l10n.quickActions,
           style: Theme.of(context).textTheme.titleLarge,
         ).animate().fadeIn().slideX(),
         const SizedBox(height: 16),
@@ -99,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
           childAspectRatio: 1.5,
           children: [
             _buildActionCard(
-              'Appointments',
+              l10n.appointments,
               Icons.event,
               Colors.blue,
               () {
@@ -111,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             _buildActionCard(
-              'Procedures',
+              l10n.procedures,
               Icons.medical_services,
               Colors.green,
               () {
@@ -123,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             _buildActionCard(
-              'Stock',
+              l10n.stock,
               Icons.inventory,
               Colors.orange,
               () {
@@ -135,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             _buildActionCard(
-              'Profile',
+              l10n.profile,
               Icons.person,
               Colors.purple,
               () {
@@ -186,11 +217,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildRecentActivity() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Recent Activity',
+          l10n.recentActivity,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -203,15 +236,15 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 _buildActivityItem(
                   icon: Icons.calendar_today,
-                  title: 'Upcoming Appointments',
-                  subtitle: 'You have 3 appointments today',
+                  title: l10n.upcomingAppointments,
+                  subtitle: l10n.youHaveAppointmentsToday(3),
                   onTap: () => _onNavItemTapped(1),
                 ),
                 const Divider(),
                 _buildActivityItem(
                   icon: Icons.inventory,
-                  title: 'Low Stock Alert',
-                  subtitle: '5 items need to be restocked',
+                  title: l10n.lowStockAlert,
+                  subtitle: l10n.itemsNeedRestock(5),
                   onTap: () => _onNavItemTapped(3),
                 ),
               ],
@@ -246,11 +279,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildAdminSection() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Admin Controls',
+          l10n.adminControls,
           style: Theme.of(context).textTheme.titleLarge,
         ).animate().fadeIn().slideX(),
         const SizedBox(height: 16),
@@ -260,8 +294,8 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.purple,
               child: Icon(Icons.admin_panel_settings, color: Colors.white),
             ),
-            title: const Text('Super Admin Panel'),
-            subtitle: const Text('Manage clinics, users, and view statistics'),
+            title: Text(l10n.superAdminPanel),
+            subtitle: Text(l10n.manageClinicsUsersStats),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {
               Navigator.push(

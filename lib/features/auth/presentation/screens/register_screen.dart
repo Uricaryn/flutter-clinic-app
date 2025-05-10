@@ -5,6 +5,7 @@ import 'package:clinic_app/shared/widgets/custom_text_field.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
 import 'package:clinic_app/features/auth/presentation/screens/email_verification_screen.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -19,6 +20,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -68,10 +70,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final size = MediaQuery.of(context).size;
     final isLoading = ref.watch(authLoadingProvider);
     final error = ref.watch(authErrorProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Account'),
+        title: Text(l10n.createAccount),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -85,7 +88,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 children: [
                   // Welcome Text
                   Text(
-                    'Join Us',
+                    l10n.joinUs,
                     style: theme.textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.primary,
@@ -96,7 +99,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       .slideY(begin: 0.2, end: 0),
                   const SizedBox(height: 8),
                   Text(
-                    'Create your account to get started',
+                    l10n.createAccountToGetStarted,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.colorScheme.onSurface.withOpacity(0.7),
                     ),
@@ -104,82 +107,68 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   const SizedBox(height: 32),
                   // Name Field
                   CustomTextField(
-                    label: 'Full Name',
-                    hint: 'Enter your full name',
                     controller: _nameController,
-                    prefixIcon: Icon(Icons.person_outline,
-                        color: theme.colorScheme.primary),
+                    label: l10n.fullName,
+                    prefixIcon: const Icon(Icons.person_outline),
                     validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Please enter your name';
+                      if (value == null || value.isEmpty) {
+                        return l10n.pleaseEnterName;
                       }
                       return null;
                     },
-                  ),
-                  const SizedBox(height: 24),
+                  ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+                  const SizedBox(height: 16),
                   // Email Field
                   CustomTextField(
-                    label: 'Email',
-                    hint: 'Enter your email',
                     controller: _emailController,
+                    label: l10n.email,
                     keyboardType: TextInputType.emailAddress,
-                    prefixIcon: Icon(Icons.email_outlined,
-                        color: theme.colorScheme.primary),
+                    prefixIcon: const Icon(Icons.email_outlined),
                     validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Please enter your email';
+                      if (value == null || value.isEmpty) {
+                        return l10n.pleaseEnterEmail;
                       }
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                          .hasMatch(value!)) {
-                        return 'Please enter a valid email';
+                      if (!value.contains('@')) {
+                        return l10n.pleaseEnterValidEmail;
                       }
                       return null;
                     },
-                  ),
-                  const SizedBox(height: 24),
+                  ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+                  const SizedBox(height: 16),
                   // Password Field
                   CustomTextField(
-                    label: 'Password',
-                    hint: 'Enter your password',
                     controller: _passwordController,
-                    obscureText: true,
-                    prefixIcon: Icon(Icons.lock_outline,
-                        color: theme.colorScheme.primary),
+                    label: l10n.password,
+                    obscureText: _obscurePassword,
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
                     validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Please enter your password';
+                      if (value == null || value.isEmpty) {
+                        return l10n.pleaseEnterPassword;
                       }
-                      if (value!.length < 6) {
-                        return 'Password must be at least 6 characters';
+                      if (value.length < 6) {
+                        return l10n.passwordMustBeAtLeast6Characters;
                       }
                       return null;
                     },
-                  ),
-                  const SizedBox(height: 24),
-                  // Confirm Password Field
-                  CustomTextField(
-                    label: 'Confirm Password',
-                    hint: 'Confirm your password',
-                    controller: _confirmPasswordController,
-                    obscureText: true,
-                    prefixIcon: Icon(Icons.lock_outline,
-                        color: theme.colorScheme.primary),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Please confirm your password';
-                      }
-                      if (value != _passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
-                  ),
+                  ).animate().fadeIn().slideY(begin: 0.2, end: 0),
                   if (error != null) ...[
                     const SizedBox(height: 16),
                     Text(
                       error,
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
+                        color: theme.colorScheme.error,
                       ),
                       textAlign: TextAlign.center,
                     ).animate().fadeIn(),
@@ -187,7 +176,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   const SizedBox(height: 32),
                   // Register Button
                   CustomButton(
-                    text: 'Create Account',
+                    text: l10n.createAccount,
                     onPressed: _handleRegister,
                     isLoading: isLoading,
                     width: size.width,
@@ -198,7 +187,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Already have an account? ',
+                        l10n.alreadyHaveAccount,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurface.withOpacity(0.7),
                         ),
@@ -208,7 +197,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           Navigator.pop(context);
                         },
                         child: Text(
-                          'Sign In',
+                          l10n.signIn,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.primary,
                             fontWeight: FontWeight.w600,

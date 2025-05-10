@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:clinic_app/core/config/app_config.dart';
 import 'package:clinic_app/core/theme/app_theme.dart';
+import 'package:clinic_app/core/providers/theme_provider.dart';
+import 'package:clinic_app/core/providers/locale_provider.dart';
 import 'package:clinic_app/core/services/navigation_service.dart';
 import 'package:clinic_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:clinic_app/features/auth/presentation/screens/register_screen.dart';
@@ -25,11 +29,25 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
+    final locale = ref.watch(localeProvider);
+
     return MaterialApp(
       title: AppConfig.appName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: themeMode,
+      locale: locale,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('tr'),
+      ],
       debugShowCheckedModeBanner: false,
       navigatorKey: NavigationService.navigatorKey,
       home: const SplashScreen(),

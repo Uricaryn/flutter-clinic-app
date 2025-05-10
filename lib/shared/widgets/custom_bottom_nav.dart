@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 
 class CustomBottomNav extends StatelessWidget {
   final int currentIndex;
@@ -13,35 +14,37 @@ class CustomBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: onTap,
       type: BottomNavigationBarType.fixed,
-      items: const [
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          activeIcon: Icon(Icons.home),
-          label: 'Home',
+          icon: const Icon(Icons.home_outlined),
+          activeIcon: const Icon(Icons.home),
+          label: l10n.home,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_today_outlined),
-          activeIcon: Icon(Icons.calendar_today),
-          label: 'Appointments',
+          icon: const Icon(Icons.calendar_today_outlined),
+          activeIcon: const Icon(Icons.calendar_today),
+          label: l10n.appointments,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.medical_services_outlined),
-          activeIcon: Icon(Icons.medical_services),
-          label: 'Procedures',
+          icon: const Icon(Icons.medical_services_outlined),
+          activeIcon: const Icon(Icons.medical_services),
+          label: l10n.procedures,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.inventory_2_outlined),
-          activeIcon: Icon(Icons.inventory_2),
-          label: 'Stock',
+          icon: const Icon(Icons.inventory_2_outlined),
+          activeIcon: const Icon(Icons.inventory_2),
+          label: l10n.stock,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
-          activeIcon: Icon(Icons.person),
-          label: 'Profile',
+          icon: const Icon(Icons.person_outline),
+          activeIcon: const Icon(Icons.person),
+          label: l10n.profile,
         ),
       ],
     );

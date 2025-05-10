@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:clinic_app/features/stock/domain/models/stock_item_model.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 
 class StockItemCard extends StatelessWidget {
   final StockItemModel item;
@@ -21,6 +22,7 @@ class StockItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -75,7 +77,7 @@ class StockItemCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Quantity',
+                          l10n.quantity,
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: theme.colorScheme.onSurface.withOpacity(0.7),
                           ),
@@ -98,7 +100,7 @@ class StockItemCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Price',
+                          l10n.price,
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: theme.colorScheme.onSurface.withOpacity(0.7),
                           ),
@@ -126,7 +128,7 @@ class StockItemCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Last restocked: ${_formatDate(item.lastRestocked)}',
+                    l10n.lastRestocked(_formatDate(item.lastRestocked)),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurface.withOpacity(0.7),
                     ),
@@ -152,7 +154,7 @@ class StockItemCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        'Needs Restock',
+                        l10n.needsRestock,
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: theme.colorScheme.error,
                           fontWeight: FontWeight.w600,
@@ -168,7 +170,7 @@ class StockItemCard extends StatelessWidget {
                     child: TextButton.icon(
                       onPressed: onRestock,
                       icon: const Icon(Icons.add_shopping_cart),
-                      label: const Text('Restock Now'),
+                      label: Text(l10n.restockNow),
                       style: TextButton.styleFrom(
                         foregroundColor: theme.colorScheme.primary,
                       ),

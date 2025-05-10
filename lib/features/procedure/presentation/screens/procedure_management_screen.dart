@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:clinic_app/features/procedure/domain/models/procedure_model.dart';
 import 'package:clinic_app/features/procedure/presentation/widgets/procedure_card.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 
 class ProcedureManagementScreen extends StatefulWidget {
   const ProcedureManagementScreen({super.key});
@@ -138,10 +139,11 @@ class _ProcedureManagementScreenState extends State<ProcedureManagementScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Procedure Management'),
+        title: Text(l10n.procedureManagement),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -163,19 +165,19 @@ class _ProcedureManagementScreenState extends State<ProcedureManagementScreen> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'No Procedures Found',
+                        l10n.noProceduresFound,
                         style: theme.textTheme.titleLarge,
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Add a new procedure to get started',
+                        l10n.addProcedureToStart,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurface.withOpacity(0.7),
                         ),
                       ),
                       const SizedBox(height: 24),
                       CustomButton(
-                        text: 'Add Procedure',
+                        text: l10n.addProcedure,
                         onPressed: () => _showAddEditProcedureDialog(),
                       ),
                     ],

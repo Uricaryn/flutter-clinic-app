@@ -3,8 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
 import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
+import 'package:clinic_app/shared/widgets/custom_app_bar.dart';
 import 'package:clinic_app/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:clinic_app/features/profile/presentation/screens/change_password_screen.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
+import 'package:clinic_app/core/providers/locale_provider.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -46,6 +49,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final user = ref.watch(currentUserProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     if (_isLoading) {
       return const Scaffold(
@@ -56,8 +60,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
+      appBar: CustomAppBar(
+        title: l10n.profile,
+        showThemeToggle: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined),
@@ -88,7 +93,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    _userData?['fullName'] ?? 'User',
+                    _userData?['fullName'] ?? l10n.user,
                     style: theme.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -105,7 +110,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             const SizedBox(height: 32),
             // Account Settings
             Text(
-              'Account Settings',
+              l10n.accountSettings,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -116,7 +121,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   ListTile(
                     leading: const Icon(Icons.person_outline),
-                    title: const Text('Edit Profile'),
+                    title: Text(l10n.editProfile),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -130,7 +135,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.email_outlined),
-                    title: const Text('Change Email'),
+                    title: Text(l10n.changeEmail),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       // TODO: Navigate to change email
@@ -139,7 +144,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.lock_outline),
-                    title: const Text('Change Password'),
+                    title: Text(l10n.changePassword),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -156,7 +161,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             const SizedBox(height: 24),
             // Preferences
             Text(
-              'Preferences',
+              l10n.preferences,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -167,7 +172,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   ListTile(
                     leading: const Icon(Icons.notifications_outlined),
-                    title: const Text('Notifications'),
+                    title: Text(l10n.notifications),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       // TODO: Navigate to notifications settings
@@ -176,10 +181,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.language_outlined),
-                    title: const Text('Language'),
-                    trailing: const Icon(Icons.chevron_right),
+                    title: Text(l10n.language),
+                    trailing: Text(
+                      ref.watch(localeProvider).languageCode.toUpperCase(),
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
                     onTap: () {
-                      // TODO: Navigate to language settings
+                      ref.read(localeProvider.notifier).toggleLocale();
                     },
                   ),
                 ],
@@ -188,7 +198,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             const SizedBox(height: 32),
             // Sign Out Button
             CustomButton(
-              text: 'Sign Out',
+              text: l10n.signOut,
               onPressed: () async {
                 await ref.read(authServiceProvider).signOut();
                 if (context.mounted) {

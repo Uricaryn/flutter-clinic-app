@@ -1,0 +1,405 @@
+{
+    "appName": "Clinic App",
+    "@appName": {
+        "description": "The name of the application"
+    },
+    "welcomeBack": "Welcome back!",
+    "@welcomeBack": {
+        "description": "Welcome message on home screen"
+    },
+    "signInToContinue": "Sign in to continue",
+    "@signInToContinue": {
+        "description": "Subtitle on login screen"
+    },
+    "email": "Email",
+    "@email": {
+        "description": "Email field label"
+    },
+    "password": "Password",
+    "@password": {
+        "description": "Password field label"
+    },
+    "signIn": "Sign In",
+    "@signIn": {
+        "description": "Sign in button text"
+    },
+    "forgotPassword": "Forgot Password?",
+    "@forgotPassword": {
+        "description": "Forgot password button text"
+    },
+    "dontHaveAccount": "Don't have an account?",
+    "@dontHaveAccount": {
+        "description": "Text for sign up prompt"
+    },
+    "signUp": "Sign Up",
+    "@signUp": {
+        "description": "Sign up button text"
+    },
+    "pleaseEnterEmail": "Please enter your email",
+    "@pleaseEnterEmail": {
+        "description": "Email validation message"
+    },
+    "pleaseEnterPassword": "Please enter your password",
+    "@pleaseEnterPassword": {
+        "description": "Password validation message"
+    },
+    "user": "User",
+    "@user": {
+        "description": "Default user name"
+    },
+    "quickActions": "Quick Actions",
+    "@quickActions": {
+        "description": "Quick actions section title"
+    },
+    "appointments": "Appointments",
+    "@appointments": {
+        "description": "Appointments menu item"
+    },
+    "procedures": "Procedures",
+    "@procedures": {
+        "description": "Procedures menu item"
+    },
+    "stock": "Stock",
+    "@stock": {
+        "description": "Stock menu item"
+    },
+    "profile": "Profile",
+    "@profile": {
+        "description": "Profile menu item"
+    },
+    "recentActivity": "Recent Activity",
+    "@recentActivity": {
+        "description": "Recent activity section title"
+    },
+    "upcomingAppointments": "Upcoming Appointments",
+    "@upcomingAppointments": {
+        "description": "Upcoming appointments title"
+    },
+    "youHaveAppointmentsToday": "You have {count} appointments today",
+    "@youHaveAppointmentsToday": {
+        "description": "Message showing number of appointments today",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "lowStockAlert": "Low Stock Alert",
+    "@lowStockAlert": {
+        "description": "Low stock alert title"
+    },
+    "itemsNeedRestock": "{count} items need to be restocked",
+    "@itemsNeedRestock": {
+        "description": "Message showing number of items needing restock",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "searchAppointments": "Search appointments...",
+    "@searchAppointments": {
+        "description": "Search appointments placeholder"
+    },
+    "all": "All",
+    "@all": {
+        "description": "All filter option"
+    },
+    "today": "Today",
+    "@today": {
+        "description": "Today filter option"
+    },
+    "upcoming": "Upcoming",
+    "@upcoming": {
+        "description": "Upcoming filter option"
+    },
+    "past": "Past",
+    "@past": {
+        "description": "Past filter option"
+    },
+    "procedureManagement": "Procedure Management",
+    "@procedureManagement": {
+        "description": "Procedure management screen title"
+    },
+    "noProceduresFound": "No Procedures Found",
+    "@noProceduresFound": {
+        "description": "Message when no procedures are found"
+    },
+    "addProcedureToStart": "Add a new procedure to get started",
+    "@addProcedureToStart": {
+        "description": "Message to add first procedure"
+    },
+    "addProcedure": "Add Procedure",
+    "@addProcedure": {
+        "description": "Add procedure button text"
+    },
+    "accountSettings": "Account Settings",
+    "@accountSettings": {
+        "description": "Account settings section title"
+    },
+    "editProfile": "Edit Profile",
+    "@editProfile": {
+        "description": "Edit profile menu item"
+    },
+    "changeEmail": "Change Email",
+    "@changeEmail": {
+        "description": "Change email menu item"
+    },
+    "changePassword": "Change Password",
+    "@changePassword": {
+        "description": "Change password menu item"
+    },
+    "preferences": "Preferences",
+    "@preferences": {
+        "description": "Preferences section title"
+    },
+    "notifications": "Notifications",
+    "@notifications": {
+        "description": "Notifications menu item"
+    },
+    "language": "Language",
+    "@language": {
+        "description": "Language menu item"
+    },
+    "signOut": "Sign Out",
+    "@signOut": {
+        "description": "Sign out button text"
+    },
+    "passwordResetEmailSent": "Password reset email sent",
+    "@passwordResetEmailSent": {
+        "description": "Message shown when password reset email is sent"
+    },
+    "createAccount": "Create Account",
+    "@createAccount": {
+        "description": "Create account button text"
+    },
+    "joinUs": "Join Us",
+    "@joinUs": {
+        "description": "Welcome text on register screen"
+    },
+    "createAccountToGetStarted": "Create your account to get started",
+    "@createAccountToGetStarted": {
+        "description": "Subtitle on register screen"
+    },
+    "fullName": "Full Name",
+    "@fullName": {
+        "description": "Full name field label"
+    },
+    "pleaseEnterName": "Please enter your name",
+    "@pleaseEnterName": {
+        "description": "Name validation message"
+    },
+    "pleaseEnterValidEmail": "Please enter a valid email",
+    "@pleaseEnterValidEmail": {
+        "description": "Email validation message"
+    },
+    "passwordMustBeAtLeast6Characters": "Password must be at least 6 characters",
+    "@passwordMustBeAtLeast6Characters": {
+        "description": "Password validation message"
+    },
+    "alreadyHaveAccount": "Already have an account?",
+    "@alreadyHaveAccount": {
+        "description": "Text for sign in prompt"
+    },
+    "home": "Home",
+    "@home": {
+        "description": "Home navigation item"
+    },
+    "stockManagement": "Stock Management",
+    "@stockManagement": {
+        "description": "Stock management screen title"
+    },
+    "noStockItemsFound": "No Stock Items Found",
+    "@noStockItemsFound": {
+        "description": "Message when no stock items are found"
+    },
+    "addStockItemToStart": "Add a new stock item to get started",
+    "@addStockItemToStart": {
+        "description": "Message to add first stock item"
+    },
+    "addStockItem": "Add Stock Item",
+    "@addStockItem": {
+        "description": "Add stock item button text"
+    },
+    "editStockItem": "Edit Stock Item",
+    "@editStockItem": {
+        "description": "Edit stock item dialog title"
+    },
+    "addNewStockItem": "Add New Stock Item",
+    "@addNewStockItem": {
+        "description": "Add new stock item dialog title"
+    },
+    "itemName": "Item Name",
+    "@itemName": {
+        "description": "Item name field label"
+    },
+    "enterItemName": "Enter item name",
+    "@enterItemName": {
+        "description": "Item name field hint"
+    },
+    "description": "Description",
+    "@description": {
+        "description": "Description field label"
+    },
+    "enterItemDescription": "Enter item description",
+    "@enterItemDescription": {
+        "description": "Description field hint"
+    },
+    "price": "Price",
+    "@price": {
+        "description": "Price field label"
+    },
+    "enterItemPrice": "Enter item price",
+    "@enterItemPrice": {
+        "description": "Price field hint"
+    },
+    "quantity": "Quantity",
+    "@quantity": {
+        "description": "Quantity field label"
+    },
+    "enterCurrentQuantity": "Enter current quantity",
+    "@enterCurrentQuantity": {
+        "description": "Quantity field hint"
+    },
+    "unit": "Unit",
+    "@unit": {
+        "description": "Unit field label"
+    },
+    "enterUnit": "Enter unit (e.g., boxes, bottles)",
+    "@enterUnit": {
+        "description": "Unit field hint"
+    },
+    "minimumQuantity": "Minimum Quantity",
+    "@minimumQuantity": {
+        "description": "Minimum quantity field label"
+    },
+    "enterMinimumQuantity": "Enter minimum quantity for restock alert",
+    "@enterMinimumQuantity": {
+        "description": "Minimum quantity field hint"
+    },
+    "cancel": "Cancel",
+    "@cancel": {
+        "description": "Cancel button text"
+    },
+    "saveChanges": "Save Changes",
+    "@saveChanges": {
+        "description": "Save changes button text"
+    },
+    "restockItem": "Restock Item",
+    "@restockItem": {
+        "description": "Restock item dialog title"
+    },
+    "currentQuantity": "Current quantity: {quantity} {unit}",
+    "@currentQuantity": {
+        "description": "Current quantity text",
+        "placeholders": {
+            "quantity": {
+                "type": "int",
+                "example": "5"
+            },
+            "unit": {
+                "type": "String",
+                "example": "boxes"
+            }
+        }
+    },
+    "addQuantity": "Add Quantity",
+    "@addQuantity": {
+        "description": "Add quantity field label"
+    },
+    "enterQuantityToAdd": "Enter quantity to add",
+    "@enterQuantityToAdd": {
+        "description": "Add quantity field hint"
+    },
+    "restock": "Restock",
+    "@restock": {
+        "description": "Restock button text"
+    },
+    "deleteStockItem": "Delete Stock Item",
+    "@deleteStockItem": {
+        "description": "Delete stock item dialog title"
+    },
+    "deleteConfirmation": "Are you sure you want to delete {itemName}?",
+    "@deleteConfirmation": {
+        "description": "Delete confirmation message",
+        "placeholders": {
+            "itemName": {
+                "type": "String",
+                "example": "Gloves"
+            }
+        }
+    },
+    "delete": "Delete",
+    "@delete": {
+        "description": "Delete button text"
+    },
+    "lastRestocked": "Last restocked: {date}",
+    "@lastRestocked": {
+        "description": "Last restocked date text",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "01/01/2024"
+            }
+        }
+    },
+    "needsRestock": "Needs Restock",
+    "@needsRestock": {
+        "description": "Needs restock label"
+    },
+    "restockNow": "Restock Now",
+    "@restockNow": {
+        "description": "Restock now button text"
+    },
+    "adminPanel": "Admin Panel",
+    "statistics": "Statistics",
+    "errorWithMessage": "Error: {error}",
+    "totalClinics": "Total Clinics",
+    "activeClinics": "Active Clinics",
+    "totalUsers": "Total Users",
+    "totalAppointments": "Total Appointments",
+    "manageClinics": "Manage Clinics",
+    "addEditRemoveClinics": "Add, edit, or remove clinics",
+    "manageUsers": "Manage Users",
+    "viewManageUsers": "View and manage user accounts",
+    "systemSettings": "System Settings",
+    "configureSystemPreferences": "Configure system preferences",
+    "addNewClinic": "Add New Clinic",
+    "clinicName": "Clinic Name",
+    "address": "Address",
+    "phone": "Phone",
+    "adminControls": "Admin Controls",
+    "@adminControls": {
+        "description": "Title for admin controls section"
+    },
+    "superAdminPanel": "Super Admin Panel",
+    "@superAdminPanel": {
+        "description": "Title for super admin panel card"
+    },
+    "manageClinicsUsersStats": "Manage clinics, users, and view statistics",
+    "@manageClinicsUsersStats": {
+        "description": "Description for super admin panel card"
+    },
+    "emailVerificationRequired": "Email Verification Required",
+    "@emailVerificationRequired": {
+        "description": "Title for email verification dialog"
+    },
+    "pleaseVerifyEmail": "Please verify your email address before logging in. Check your inbox for the verification link.",
+    "@pleaseVerifyEmail": {
+        "description": "Message shown in email verification dialog"
+    },
+    "resendVerificationEmail": "Resend Verification Email",
+    "@resendVerificationEmail": {
+        "description": "Button text for resending verification email"
+    },
+    "verificationEmailSent": "Verification email sent. Please check your inbox.",
+    "@verificationEmailSent": {
+        "description": "Message shown when verification email is sent"
+    },
+    "ok": "OK",
+    "@ok": {
+        "description": "OK button text"
+    }
+} 

@@ -7,6 +7,7 @@ import 'package:clinic_app/features/admin/domain/models/admin_stats_model.dart';
 import 'package:clinic_app/features/clinic/domain/models/clinic_model.dart';
 import 'package:clinic_app/features/profile/domain/models/user_model.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 
 class AdminPanelScreen extends ConsumerWidget {
   const AdminPanelScreen({super.key});
@@ -16,10 +17,11 @@ class AdminPanelScreen extends ConsumerWidget {
     final stats = ref.watch(adminStatsProvider);
     final clinics = ref.watch(clinicListProvider);
     final users = ref.watch(userListProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Panel'),
+        title: Text(l10n.adminPanel),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -28,7 +30,7 @@ class AdminPanelScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Statistics',
+                l10n.statistics,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -38,12 +40,12 @@ class AdminPanelScreen extends ConsumerWidget {
                 data: (data) => _buildStatsGrid(context, data),
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) => Center(
-                  child: Text('Error: $error'),
+                  child: Text(l10n.errorWithMessage(error.toString())),
                 ),
               ),
               const SizedBox(height: 32),
               Text(
-                'Quick Actions',
+                l10n.quickActions,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -58,6 +60,7 @@ class AdminPanelScreen extends ConsumerWidget {
   }
 
   Widget _buildStatsGrid(BuildContext context, AdminStats stats) {
+    final l10n = AppLocalizations.of(context)!;
     return LayoutBuilder(
       builder: (context, constraints) {
         final cardWidth =
@@ -73,7 +76,7 @@ class AdminPanelScreen extends ConsumerWidget {
               height: cardHeight,
               child: _buildStatCard(
                 context,
-                'Total Clinics',
+                l10n.totalClinics,
                 stats.totalClinics.toString(),
                 Icons.local_hospital_outlined,
                 Colors.blue,
@@ -84,7 +87,7 @@ class AdminPanelScreen extends ConsumerWidget {
               height: cardHeight,
               child: _buildStatCard(
                 context,
-                'Active Clinics',
+                l10n.activeClinics,
                 stats.activeClinics.toString(),
                 Icons.check_circle_outline,
                 Colors.green,
@@ -95,7 +98,7 @@ class AdminPanelScreen extends ConsumerWidget {
               height: cardHeight,
               child: _buildStatCard(
                 context,
-                'Total Users',
+                l10n.totalUsers,
                 stats.totalUsers.toString(),
                 Icons.people_outline,
                 Colors.purple,
@@ -106,7 +109,7 @@ class AdminPanelScreen extends ConsumerWidget {
               height: cardHeight,
               child: _buildStatCard(
                 context,
-                'Total Appointments',
+                l10n.totalAppointments,
                 stats.totalAppointments.toString(),
                 Icons.calendar_today_outlined,
                 Colors.orange,
@@ -164,6 +167,7 @@ class AdminPanelScreen extends ConsumerWidget {
   }
 
   Widget _buildQuickActions(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
         Card(
@@ -172,8 +176,8 @@ class AdminPanelScreen extends ConsumerWidget {
               backgroundColor: Colors.blue,
               child: Icon(Icons.local_hospital, color: Colors.white),
             ),
-            title: const Text('Manage Clinics'),
-            subtitle: const Text('Add, edit, or remove clinics'),
+            title: Text(l10n.manageClinics),
+            subtitle: Text(l10n.addEditRemoveClinics),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {
               Navigator.push(
@@ -192,8 +196,8 @@ class AdminPanelScreen extends ConsumerWidget {
               backgroundColor: Colors.purple,
               child: Icon(Icons.people, color: Colors.white),
             ),
-            title: const Text('Manage Users'),
-            subtitle: const Text('View and manage user accounts'),
+            title: Text(l10n.manageUsers),
+            subtitle: Text(l10n.viewManageUsers),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {
               // TODO: Navigate to user management
@@ -207,8 +211,8 @@ class AdminPanelScreen extends ConsumerWidget {
               backgroundColor: Colors.orange,
               child: Icon(Icons.settings, color: Colors.white),
             ),
-            title: const Text('System Settings'),
-            subtitle: const Text('Configure system preferences'),
+            title: Text(l10n.systemSettings),
+            subtitle: Text(l10n.configureSystemPreferences),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {
               // TODO: Navigate to settings
@@ -220,53 +224,48 @@ class AdminPanelScreen extends ConsumerWidget {
   }
 
   void _showAddClinicDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Add New Clinic'),
+        title: Text(l10n.addNewClinic),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-              decoration: const InputDecoration(
-                labelText: 'Clinic Name',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.clinicName,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
             TextField(
-              decoration: const InputDecoration(
-                labelText: 'Address',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.address,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
             TextField(
-              decoration: const InputDecoration(
-                labelText: 'Phone',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.phone,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
-            TextField(
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-              ),
-            ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
-          ElevatedButton(
+          TextButton(
             onPressed: () {
-              // TODO: Implement clinic creation
+              // TODO: Implement add clinic
               Navigator.pop(context);
             },
-            child: const Text('Add Clinic'),
+            child: Text(l10n.saveChanges),
           ),
         ],
       ),

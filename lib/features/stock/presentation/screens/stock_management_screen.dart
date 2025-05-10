@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:clinic_app/features/stock/domain/models/stock_item_model.dart';
 import 'package:clinic_app/features/stock/presentation/widgets/stock_item_card.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 
 class StockManagementScreen extends StatefulWidget {
   const StockManagementScreen({super.key});
@@ -43,36 +44,38 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
     final minimumQuantityController =
         TextEditingController(text: item?.minimumQuantity.toString() ?? '');
 
+    final l10n = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(isEditing ? 'Edit Stock Item' : 'Add New Stock Item'),
+        title: Text(isEditing ? l10n.editStockItem : l10n.addNewStockItem),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Item Name',
-                  hintText: 'Enter item name',
+                decoration: InputDecoration(
+                  labelText: l10n.itemName,
+                  hintText: l10n.enterItemName,
                 ),
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                  hintText: 'Enter item description',
+                decoration: InputDecoration(
+                  labelText: l10n.description,
+                  hintText: l10n.enterItemDescription,
                 ),
                 maxLines: 3,
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: priceController,
-                decoration: const InputDecoration(
-                  labelText: 'Price',
-                  hintText: 'Enter item price',
+                decoration: InputDecoration(
+                  labelText: l10n.price,
+                  hintText: l10n.enterItemPrice,
                   prefixText: '\$',
                 ),
                 keyboardType: TextInputType.number,
@@ -80,26 +83,26 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
               const SizedBox(height: 16),
               TextField(
                 controller: quantityController,
-                decoration: const InputDecoration(
-                  labelText: 'Quantity',
-                  hintText: 'Enter current quantity',
+                decoration: InputDecoration(
+                  labelText: l10n.quantity,
+                  hintText: l10n.enterCurrentQuantity,
                 ),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: unitController,
-                decoration: const InputDecoration(
-                  labelText: 'Unit',
-                  hintText: 'Enter unit (e.g., boxes, bottles)',
+                decoration: InputDecoration(
+                  labelText: l10n.unit,
+                  hintText: l10n.enterUnit,
                 ),
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: minimumQuantityController,
-                decoration: const InputDecoration(
-                  labelText: 'Minimum Quantity',
-                  hintText: 'Enter minimum quantity for restock alert',
+                decoration: InputDecoration(
+                  labelText: l10n.minimumQuantity,
+                  hintText: l10n.enterMinimumQuantity,
                 ),
                 keyboardType: TextInputType.number,
               ),
@@ -109,10 +112,10 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           CustomButton(
-            text: isEditing ? 'Save Changes' : 'Add Item',
+            text: isEditing ? l10n.saveChanges : l10n.addStockItem,
             onPressed: () {
               // TODO: Implement save functionality
               Navigator.pop(context);
@@ -125,25 +128,26 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
 
   void _showRestockDialog(StockItemModel item) {
     final quantityController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Restock Item'),
+        title: Text(l10n.restockItem),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Current quantity: ${item.quantity} ${item.unit}',
+              l10n.currentQuantity(item.quantity, item.unit),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 16),
             TextField(
               controller: quantityController,
               decoration: InputDecoration(
-                labelText: 'Add Quantity',
-                hintText: 'Enter quantity to add',
+                labelText: l10n.addQuantity,
+                hintText: l10n.enterQuantityToAdd,
                 suffixText: item.unit,
               ),
               keyboardType: TextInputType.number,
@@ -153,10 +157,10 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           CustomButton(
-            text: 'Restock',
+            text: l10n.restock,
             onPressed: () {
               // TODO: Implement restock functionality
               Navigator.pop(context);
@@ -168,18 +172,20 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
   }
 
   void _showDeleteConfirmationDialog(StockItemModel item) {
+    final l10n = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Stock Item'),
-        content: Text('Are you sure you want to delete ${item.name}?'),
+        title: Text(l10n.deleteStockItem),
+        content: Text(l10n.deleteConfirmation(item.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           CustomButton(
-            text: 'Delete',
+            text: l10n.delete,
             variant: ButtonVariant.secondary,
             onPressed: () {
               // TODO: Implement delete functionality
@@ -194,10 +200,11 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stock Management'),
+        title: Text(l10n.stockManagement),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -219,19 +226,19 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'No Stock Items Found',
+                        l10n.noStockItemsFound,
                         style: theme.textTheme.titleLarge,
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Add a new stock item to get started',
+                        l10n.addStockItemToStart,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurface.withOpacity(0.7),
                         ),
                       ),
                       const SizedBox(height: 24),
                       CustomButton(
-                        text: 'Add Stock Item',
+                        text: l10n.addStockItem,
                         onPressed: () => _showAddEditStockItemDialog(),
                       ),
                     ],

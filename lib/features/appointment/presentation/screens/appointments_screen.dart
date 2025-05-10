@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:clinic_app/features/appointment/domain/models/appointment_model.dart';
 import 'package:clinic_app/features/appointment/presentation/widgets/appointment_card.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 
 class AppointmentsScreen extends StatefulWidget {
   const AppointmentsScreen({super.key});
@@ -181,9 +182,11 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Appointments'),
+        title: Text(l10n.appointments),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -201,7 +204,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                 TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    hintText: 'Search appointments...',
+                    hintText: l10n.searchAppointments,
                     prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -214,7 +217,8 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: _filters.map((filter) {
+                    children: [l10n.all, l10n.today, l10n.upcoming, l10n.past]
+                        .map((filter) {
                       final isSelected = filter == _selectedFilter;
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
