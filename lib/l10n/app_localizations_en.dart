@@ -365,4 +365,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noAppointmentsFound => 'No appointments found';
+
+  @override
+  String get splashSlogan => 'Smart Clinic Management, Easy Appointment Tracking';
 }

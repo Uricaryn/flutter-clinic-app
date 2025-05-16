@@ -69,7 +69,7 @@ class AppointmentCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     dateFormat.format(appointment.dateTime),
-                    style: theme.textTheme.bodyMedium?.copyWith(
+                      style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.onSurface.withOpacity(0.7),
                     ),
                   ),
@@ -108,8 +108,8 @@ class AppointmentCard extends StatelessWidget {
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: _getStatusColor(appointment.status),
                       fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ],

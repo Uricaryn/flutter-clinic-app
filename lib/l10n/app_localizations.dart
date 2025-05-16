@@ -790,6 +790,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No appointments found'**
   String get noAppointmentsFound;
+
+  /// No description provided for @splashSlogan.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Clinic Management, Easy Appointment Tracking'**
+  String get splashSlogan;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

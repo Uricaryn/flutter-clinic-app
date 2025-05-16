@@ -106,5 +106,6 @@
     "ok": "Tamam",
     "confirmPassword": "Şifreyi Onayla",
     "registrationSuccess": "Kayıt Başarılı",
-    "noAppointmentsFound": "Randevu bulunamadı"
+    "noAppointmentsFound": "Randevu bulunamadı",
+    "splashSlogan": "Akıllı Klinik Yönetimi, Kolay Randevu Takibi"
 } 

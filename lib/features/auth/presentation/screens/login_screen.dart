@@ -206,10 +206,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 48),
-                    Icon(
-                      Icons.local_hospital,
-                      size: 64,
-                      color: Theme.of(context).colorScheme.primary,
+                    Image.asset(
+                      'assets/images/ordana_login_logo.png',
+                      width: 100,
+                      height: 100,
                     ).animate().fadeIn().scale(),
                     const SizedBox(height: 24),
                     Text(

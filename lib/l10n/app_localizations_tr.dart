@@ -365,4 +365,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get noAppointmentsFound => 'Randevu bulunamadı';
+
+  @override
+  String get splashSlogan => 'Akıllı Klinik Yönetimi, Kolay Randevu Takibi';
 }

@@ -573,3 +573,4 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
     );
   }
 }
+ 

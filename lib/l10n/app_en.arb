@@ -436,5 +436,6 @@
     "@addClinic": {
         "description": "Add clinic button text"
     },
-    "noAppointmentsFound": "No appointments found"
+    "noAppointmentsFound": "No appointments found",
+    "splashSlogan": "Smart Clinic Management, Easy Appointment Tracking"
 } 
