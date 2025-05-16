@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:clinic_app/shared/widgets/custom_text_field.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
-import 'package:clinic_app/features/auth/presentation/screens/email_verification_screen.dart';
+import 'package:clinic_app/features/auth/presentation/screens/registration_success_screen.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
+import 'package:clinic_app/core/services/logger_service.dart';
+import 'package:clinic_app/core/services/navigation_service.dart';
+import 'package:clinic_app/core/utils/validation_utils.dart';
+import 'package:clinic_app/core/enums/user_role.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -15,15 +18,26 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+  final _logger = LoggerService();
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  UserRole? _selectedRole;
   bool _obscurePassword = true;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _logger.info('RegisterScreen initialized');
+    _selectedRole = UserRole.clinicAdmin; // Sadece klinik yöneticisi kaydı
+  }
 
   @override
   void dispose() {
+    _logger.info('RegisterScreen disposed');
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -32,110 +46,128 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   Future<void> _handleRegister() async {
-    if (!_formKey.currentState!.validate()) return;
+    _logger.info('_handleRegister started');
 
-    // Set loading state
-    ref.read(authLoadingProvider.notifier).state = true;
-    // Clear any previous errors
-    ref.read(authErrorProvider.notifier).state = null;
+    if (!_formKey.currentState!.validate()) {
+      _logger.info('Form validation failed');
+      return;
+    }
+    if (_isLoading) {
+      _logger.info('Registration already in progress');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    _logger.info('Loading state set to true');
 
     try {
-      await ref.read(authServiceProvider).registerWithEmailAndPassword(
-            _emailController.text.trim(),
-            _passwordController.text,
-            _nameController.text.trim(),
-            'patient', // Default role
-          );
+      _logger.info('Starting registration process...');
 
-      if (!mounted) return;
+      final credential =
+          await ref.read(authServiceProvider).registerWithEmailAndPassword(
+                _emailController.text.trim(),
+                _passwordController.text,
+                _nameController.text.trim(),
+                UserRole.clinicAdmin.value,
+              );
 
-      // Navigate to email verification screen
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-            builder: (context) => const EmailVerificationScreen()),
+      _logger.info(
+          'Registration successful, user created: \\${credential.user?.uid}');
+
+      if (!mounted) {
+        _logger.warning('Widget not mounted after registration');
+        return;
+      }
+
+      _logger.info('Navigating to registration success screen...');
+
+      // Direct navigation after successful registration
+      await NavigationService.navigateToSlideUp(
+        const RegistrationSuccessScreen(),
+        replace: true,
       );
     } catch (e) {
-      if (!mounted) return;
-      ref.read(authErrorProvider.notifier).state = e.toString();
-    } finally {
-      if (mounted) {
-        ref.read(authLoadingProvider.notifier).state = false;
+      _logger.error('Registration failed: $e');
+      if (!mounted) {
+        _logger.warning('Widget not mounted after error');
+        return;
       }
+
+      setState(() => _isLoading = false);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: Theme.of(context).colorScheme.error,
+          duration: const Duration(seconds: 5),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    _logger.info('RegisterScreen build method called');
     final theme = Theme.of(context);
-    final size = MediaQuery.of(context).size;
-    final isLoading = ref.watch(authLoadingProvider);
-    final error = ref.watch(authErrorProvider);
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.createAccount),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
+    return WillPopScope(
+      onWillPop: () async {
+        _logger.info('Back button pressed, loading state: $_isLoading');
+        return !_isLoading;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.createAccount),
+          centerTitle: true,
+          automaticallyImplyLeading: !_isLoading,
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Welcome Text
                   Text(
-                    l10n.joinUs,
+                    'Kliniğinizi Kaydedin',
                     style: theme.textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.primary,
                     ),
-                  )
-                      .animate()
-                      .fadeIn(duration: 300.ms)
-                      .slideY(begin: 0.2, end: 0),
+                  ),
                   const SizedBox(height: 8),
                   Text(
-                    l10n.createAccountToGetStarted,
+                    'Klinik yöneticisi olarak kaydolun ve kliniğinizi sisteme ekleyin.',
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.colorScheme.onSurface.withOpacity(0.7),
                     ),
-                  ).animate().fadeIn(delay: 100.ms).slideY(begin: 0.2, end: 0),
+                  ),
                   const SizedBox(height: 32),
-                  // Name Field
                   CustomTextField(
                     controller: _nameController,
                     label: l10n.fullName,
                     prefixIcon: const Icon(Icons.person_outline),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return l10n.pleaseEnterName;
-                      }
-                      return null;
-                    },
-                  ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+                    validator: ValidationUtils.validateName,
+                    enabled: !_isLoading,
+                  ),
                   const SizedBox(height: 16),
-                  // Email Field
                   CustomTextField(
                     controller: _emailController,
                     label: l10n.email,
                     keyboardType: TextInputType.emailAddress,
                     prefixIcon: const Icon(Icons.email_outlined),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return l10n.pleaseEnterEmail;
-                      }
-                      if (!value.contains('@')) {
-                        return l10n.pleaseEnterValidEmail;
-                      }
-                      return null;
-                    },
-                  ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+                    validator: ValidationUtils.validateEmail,
+                    enabled: !_isLoading,
+                  ),
                   const SizedBox(height: 16),
-                  // Password Field
                   CustomTextField(
                     controller: _passwordController,
                     label: l10n.password,
@@ -147,42 +179,36 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             ? Icons.visibility_off
                             : Icons.visibility,
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
+                      onPressed: _isLoading
+                          ? null
+                          : () {
+                              setState(
+                                  () => _obscurePassword = !_obscurePassword);
+                            },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return l10n.pleaseEnterPassword;
-                      }
-                      if (value.length < 6) {
-                        return l10n.passwordMustBeAtLeast6Characters;
-                      }
-                      return null;
-                    },
-                  ).animate().fadeIn().slideY(begin: 0.2, end: 0),
-                  if (error != null) ...[
-                    const SizedBox(height: 16),
-                    Text(
-                      error,
-                      style: TextStyle(
-                        color: theme.colorScheme.error,
-                      ),
-                      textAlign: TextAlign.center,
-                    ).animate().fadeIn(),
-                  ],
+                    validator: ValidationUtils.validatePassword,
+                    enabled: !_isLoading,
+                  ),
+                  const SizedBox(height: 16),
+                  CustomTextField(
+                    controller: _confirmPasswordController,
+                    label: l10n.confirmPassword,
+                    obscureText: _obscurePassword,
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    validator: (value) =>
+                        ValidationUtils.validatePasswordConfirmation(
+                      value,
+                      _passwordController.text,
+                    ),
+                    enabled: !_isLoading,
+                  ),
                   const SizedBox(height: 32),
-                  // Register Button
                   CustomButton(
                     text: l10n.createAccount,
-                    onPressed: _handleRegister,
-                    isLoading: isLoading,
-                    width: size.width,
+                    onPressed: _isLoading ? null : _handleRegister,
+                    isLoading: _isLoading,
                   ),
                   const SizedBox(height: 24),
-                  // Login Link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -193,9 +219,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed: _isLoading
+                            ? null
+                            : () {
+                                _logger.info('Sign in button pressed');
+                                NavigationService.goBack();
+                              },
                         child: Text(
                           l10n.signIn,
                           style: theme.textTheme.bodyMedium?.copyWith(
@@ -205,7 +234,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         ),
                       ),
                     ],
-                  ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
+                  ),
                 ],
               ),
             ),

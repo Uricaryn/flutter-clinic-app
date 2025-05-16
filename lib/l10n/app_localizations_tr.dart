@@ -332,4 +332,37 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get ok => 'Tamam';
+
+  @override
+  String get confirmPassword => 'Şifreyi Onayla';
+
+  @override
+  String get registrationSuccess => 'Kayıt Başarılı';
+
+  @override
+  String get emailVerifiedSuccess => 'Email verified successfully!';
+
+  @override
+  String get emailNotVerifiedYet => 'Email not verified yet. Please check your inbox.';
+
+  @override
+  String get checkStatus => 'Check Status';
+
+  @override
+  String get backToLogin => 'Back to Login';
+
+  @override
+  String get clinicManagement => 'Clinic Management';
+
+  @override
+  String get noClinicsFound => 'No Clinics Found';
+
+  @override
+  String get addClinicToStart => 'Add a new clinic to get started';
+
+  @override
+  String get addClinic => 'Add Clinic';
+
+  @override
+  String get noAppointmentsFound => 'Randevu bulunamadı';
 }

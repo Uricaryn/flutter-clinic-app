@@ -8,9 +8,62 @@ import 'package:clinic_app/features/clinic/domain/models/clinic_model.dart';
 import 'package:clinic_app/features/profile/domain/models/user_model.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:clinic_app/core/services/logger_service.dart';
 
 class AdminPanelScreen extends ConsumerWidget {
   const AdminPanelScreen({super.key});
+
+  Future<void> _createTestData(BuildContext context) async {
+    try {
+      final functions = FirebaseFunctions.instance;
+      final callable = functions.httpsCallable('createTestData');
+
+      // Loading göster
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      // Fonksiyonu çağır
+      final result = await callable();
+
+      // Loading'i kapat
+      Navigator.pop(context);
+
+      // Başarı mesajını göster
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Test data başarıyla oluşturuldu!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+
+      LoggerService().info('Test data created successfully: ${result.data}');
+    } catch (e) {
+      // Loading'i kapat
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
+      // Hata mesajını göster
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Hata: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+
+      LoggerService().error('Failed to create test data', e);
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,6 +105,11 @@ class AdminPanelScreen extends ConsumerWidget {
               ).animate().fadeIn().slideX(),
               const SizedBox(height: 16),
               _buildQuickActions(context),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => _createTestData(context),
+                child: const Text('Test Data Oluştur'),
+              ),
             ],
           ),
         ),

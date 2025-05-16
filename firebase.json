@@ -1,18 +1,1 @@
-{
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "*.local"
-      ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint"
-      ]
-    }
-  ]
-}
+{"functions":[{"source":"functions","codebase":"default","ignore":["node_modules",".git","firebase-debug.log","firebase-debug.*.log","*.local"],"predeploy":["npm --prefix \"$RESOURCE_DIR\" run lint"]}],"flutter":{"platforms":{"android":{"default":{"projectId":"flutterclinicapp-77e7a","appId":"1:68328845844:android:c7574ea38d89f7f9176d01","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"flutterclinicapp-77e7a","configurations":{"android":"1:68328845844:android:c7574ea38d89f7f9176d01","ios":"1:68328845844:ios:7f163e2bf7fc7266176d01","macos":"1:68328845844:ios:7f163e2bf7fc7266176d01","web":"1:68328845844:web:e8cc23b6246bed74176d01","windows":"1:68328845844:web:2201a81fb5d00307176d01"}}}}}}

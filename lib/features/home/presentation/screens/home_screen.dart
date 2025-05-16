@@ -9,15 +9,22 @@ import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/features/admin/presentation/screens/admin_panel_screen.dart';
 import 'package:clinic_app/shared/widgets/custom_app_bar.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
+import 'package:clinic_app/core/providers/auth_provider.dart';
+import 'package:clinic_app/core/enums/user_role.dart';
+import 'package:clinic_app/features/clinic/presentation/screens/clinic_manager_panel_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:clinic_app/core/providers/firestore_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _currentIndex = 0;
   final PageController _pageController = PageController();
 
@@ -87,6 +94,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildHomePage() {
     final l10n = AppLocalizations.of(context)!;
+    final user = ref.watch(currentUserProvider);
+    final userDataAsync = ref.watch(currentUserDataProvider);
+    bool isClinicAdmin = false;
+    if (userDataAsync.asData != null) {
+      final data = userDataAsync.asData!.value?.data() as Map<String, dynamic>?;
+      isClinicAdmin = data != null && data['role'] == 'clinic_admin';
+    }
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -104,6 +118,28 @@ class _HomeScreenState extends State<HomeScreen> {
           if (_isAdmin) ...[
             const SizedBox(height: 32),
             _buildAdminSection(),
+          ],
+          if (isClinicAdmin) ...[
+            const SizedBox(height: 32),
+            Card(
+              child: ListTile(
+                leading: const CircleAvatar(
+                  backgroundColor: Colors.blue,
+                  child: Icon(Icons.local_hospital, color: Colors.white),
+                ),
+                title: Text('Klinik Yönetimi'),
+                subtitle: Text('Klinik bilgilerini ve operatörleri yönetin'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ClinicManagerPanelScreen(),
+                    ),
+                  );
+                },
+              ),
+            ).animate().fadeIn().slideX(),
           ],
         ],
       ),
@@ -219,6 +255,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildRecentActivity() {
     final l10n = AppLocalizations.of(context)!;
 
+    final upcomingAppointmentsAsync =
+        ref.watch(upcomingAppointmentsStreamProvider);
+    final lowStockAsync = ref.watch(lowStockItemsStreamProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -234,18 +274,32 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                _buildActivityItem(
+                upcomingAppointmentsAsync.when(
+                  data: (snapshot) {
+                    final count = snapshot.docs.length;
+                    return _buildActivityItem(
                   icon: Icons.calendar_today,
                   title: l10n.upcomingAppointments,
-                  subtitle: l10n.youHaveAppointmentsToday(3),
+                      subtitle: l10n.youHaveAppointmentsToday(count),
                   onTap: () => _onNavItemTapped(1),
+                    );
+                  },
+                  loading: () => const ListTile(title: Text('Yükleniyor...')),
+                  error: (e, _) => ListTile(title: Text('Hata: $e')),
                 ),
                 const Divider(),
-                _buildActivityItem(
+                lowStockAsync.when(
+                  data: (snapshot) {
+                    final count = snapshot.docs.length;
+                    return _buildActivityItem(
                   icon: Icons.inventory,
                   title: l10n.lowStockAlert,
-                  subtitle: l10n.itemsNeedRestock(5),
+                      subtitle: l10n.itemsNeedRestock(count),
                   onTap: () => _onNavItemTapped(3),
+                    );
+                  },
+                  loading: () => const ListTile(title: Text('Yükleniyor...')),
+                  error: (e, _) => ListTile(title: Text('Hata: $e')),
                 ),
               ],
             ),
@@ -312,7 +366,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   bool get _isAdmin {
-    // TODO: Replace with actual user role check
-    return true;
+    final user = ref.watch(currentUserProvider);
+    if (user == null) return false;
+    // Gerçek rol kontrolü
+    return user.displayName != null &&
+        user.displayName!.contains('super_admin');
   }
 }

@@ -56,23 +56,29 @@ class CustomButton extends StatelessWidget {
       );
     }
 
-    return SizedBox(
-      width: width,
-      height: height,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: _getBackgroundColor(theme),
-          foregroundColor: _getTextColor(theme),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-            side: variant == ButtonVariant.outline
-                ? BorderSide(color: theme.colorScheme.primary)
-                : BorderSide.none,
+    return IgnorePointer(
+      ignoring: isLoading,
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: _getBackgroundColor(theme),
+            foregroundColor: _getTextColor(theme),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: variant == ButtonVariant.outline
+                  ? BorderSide(color: theme.colorScheme.primary)
+                  : BorderSide.none,
+            ),
+            disabledBackgroundColor:
+                _getBackgroundColor(theme).withOpacity(0.7),
+            disabledForegroundColor: _getTextColor(theme).withOpacity(0.7),
           ),
+          child: buttonChild,
         ),
-        child: buttonChild,
       ),
     ).animate().fadeIn(duration: 300.ms).scale(
           begin: const Offset(0.95, 0.95),

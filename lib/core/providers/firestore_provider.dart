@@ -5,10 +5,185 @@ import 'auth_provider.dart';
 import 'package:clinic_app/features/admin/domain/models/admin_stats_model.dart';
 import 'package:clinic_app/features/clinic/domain/models/clinic_model.dart';
 import 'package:clinic_app/features/profile/domain/models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 final firestoreServiceProvider = Provider<FirestoreService>((ref) {
   return FirestoreService();
 });
+
+final clinicServiceProvider = Provider<ClinicService>((ref) {
+  return ClinicService(FirebaseFirestore.instance);
+});
+
+class ClinicService {
+  final FirebaseFirestore _firestore;
+
+  ClinicService(this._firestore);
+
+  Future<void> addClinic(ClinicModel clinic) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not authenticated');
+
+    final clinicData = {
+      ...clinic.toJson(),
+      'ownerId': user.uid,
+      'patientIds': [],
+      'operatorIds': [],
+      'createdAt': DateTime.now().toIso8601String(),
+      'updatedAt': DateTime.now().toIso8601String(),
+    };
+
+    final docRef = await _firestore.collection('clinics').add(clinicData);
+    await docRef.update({'id': docRef.id});
+
+    // Kullanıcı dokümanını güncelle
+    await _firestore.collection('users').doc(user.uid).update({
+      'clinicId': docRef.id,
+      'role': 'clinic_owner',
+      'updatedAt': DateTime.now().toIso8601String(),
+    });
+  }
+
+  Future<void> updateClinic(ClinicModel clinic) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not authenticated');
+
+    // Klinik sahibi kontrolü
+    final clinicDoc =
+        await _firestore.collection('clinics').doc(clinic.id).get();
+    if (!clinicDoc.exists) throw Exception('Clinic not found');
+
+    final clinicData = clinicDoc.data();
+    if (clinicData?['ownerId'] != user.uid) {
+      throw Exception('You are not authorized to update this clinic');
+    }
+
+    // Mevcut ilişkili verileri koru
+    final existingData = clinicDoc.data() as Map<String, dynamic>;
+    final updatedData = {
+      ...clinic.toJson(),
+      'patientIds': existingData['patientIds'] ?? [],
+      'operatorIds': existingData['operatorIds'] ?? [],
+      'updatedAt': DateTime.now().toIso8601String(),
+    };
+
+    await _firestore.collection('clinics').doc(clinic.id).update(updatedData);
+  }
+
+  Future<void> deleteClinic(String id) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not authenticated');
+
+    // Klinik sahibi kontrolü
+    final clinicDoc = await _firestore.collection('clinics').doc(id).get();
+    if (!clinicDoc.exists) throw Exception('Clinic not found');
+
+    final clinicData = clinicDoc.data();
+    if (clinicData?['ownerId'] != user.uid) {
+      throw Exception('You are not authorized to delete this clinic');
+    }
+
+    // İlişkili verileri temizle
+    final batch = _firestore.batch();
+
+    // Operatörlerin clinicId'sini temizle
+    final operators = await _firestore
+        .collection('users')
+        .where('clinicId', isEqualTo: id)
+        .get();
+
+    for (var operator in operators.docs) {
+      batch.update(operator.reference, {
+        'clinicId': FieldValue.delete(),
+        'role': 'user',
+        'updatedAt': DateTime.now().toIso8601String(),
+      });
+    }
+
+    // Hastaların clinicId'sini temizle
+    final patients = await _firestore
+        .collection('users')
+        .where('clinicId', isEqualTo: id)
+        .get();
+
+    for (var patient in patients.docs) {
+      batch.update(patient.reference, {
+        'clinicId': FieldValue.delete(),
+        'updatedAt': DateTime.now().toIso8601String(),
+      });
+    }
+
+    // Klinik dokümanını sil
+    batch.delete(_firestore.collection('clinics').doc(id));
+
+    // Kullanıcı dokümanını güncelle
+    batch.update(_firestore.collection('users').doc(user.uid), {
+      'clinicId': FieldValue.delete(),
+      'role': 'user',
+      'updatedAt': DateTime.now().toIso8601String(),
+    });
+
+    await batch.commit();
+  }
+
+  // İlişkili verileri getir
+  Future<Map<String, dynamic>> getClinicDetails(String clinicId) async {
+    final clinicDoc =
+        await _firestore.collection('clinics').doc(clinicId).get();
+    if (!clinicDoc.exists) throw Exception('Clinic not found');
+
+    final clinicData = clinicDoc.data() as Map<String, dynamic>;
+    final patientIds = List<String>.from(clinicData['patientIds'] ?? []);
+    final operatorIds = List<String>.from(clinicData['operatorIds'] ?? []);
+
+    // Hastaları getir
+    final patients = await _firestore
+        .collection('users')
+        .where(FieldPath.documentId, whereIn: patientIds)
+        .get();
+
+    // Operatörleri getir
+    final operators = await _firestore
+        .collection('users')
+        .where(FieldPath.documentId, whereIn: operatorIds)
+        .get();
+
+    return {
+      'clinic': ClinicModel.fromJson({...clinicData, 'id': clinicDoc.id}),
+      'patients': patients.docs.map((doc) => doc.data()).toList(),
+      'operators': operators.docs.map((doc) => doc.data()).toList(),
+    };
+  }
+
+  Future<void> addAppointment({
+    required String clinicId,
+    required String patientName,
+    required String patientPhone,
+    required String procedureId,
+    required String operatorId,
+    required DateTime dateTime,
+    String? notes,
+  }) async {
+    try {
+      final appointmentData = {
+        'clinicId': clinicId,
+        'patientName': patientName,
+        'patientPhone': patientPhone,
+        'procedureId': procedureId,
+        'operatorId': operatorId,
+        'dateTime': Timestamp.fromDate(dateTime),
+        'notes': notes,
+        'status': 'scheduled',
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
+      await _firestore.collection('appointments').add(appointmentData);
+    } catch (e) {
+      throw Exception('Failed to add appointment: $e');
+    }
+  }
+}
 
 // Collection stream providers
 final usersStreamProvider = StreamProvider<QuerySnapshot>((ref) {
@@ -60,11 +235,13 @@ final userAppointmentsStreamProvider =
   return ref.watch(firestoreServiceProvider).getUserAppointmentsStream(userId);
 });
 
+// Klinik randevularını getir
 final clinicAppointmentsStreamProvider =
     StreamProvider.family<QuerySnapshot, String>((ref, clinicId) {
-  return ref
-      .watch(firestoreServiceProvider)
-      .getClinicAppointmentsStream(clinicId);
+  return FirebaseFirestore.instance
+      .collection('appointments')
+      .where('clinicId', isEqualTo: clinicId)
+      .snapshots();
 });
 
 // Current user's data provider
@@ -146,10 +323,19 @@ final adminStatsProvider = StreamProvider<AdminStats>((ref) {
 
 final clinicListProvider = StreamProvider<List<ClinicModel>>((ref) {
   final firestore = FirebaseFirestore.instance;
+  final user = ref.watch(currentUserProvider);
 
-  return firestore.collection('clinics').snapshots().map((snapshot) {
+  if (user == null) {
+    return Stream.value([]);
+  }
+
+  return firestore
+      .collection('clinics')
+      .where('ownerId', isEqualTo: user.uid)
+      .snapshots()
+      .map((snapshot) {
     return snapshot.docs
-        .map((doc) => ClinicModel.fromJson(doc.data()))
+        .map((doc) => ClinicModel.fromJson({...doc.data(), 'id': doc.id}))
         .toList();
   });
 });

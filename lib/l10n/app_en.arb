@@ -382,15 +382,15 @@
     "@manageClinicsUsersStats": {
         "description": "Description for super admin panel card"
     },
-    "emailVerificationRequired": "Email Verification Required",
+    "emailVerificationRequired": "Verify Email",
     "@emailVerificationRequired": {
-        "description": "Title for email verification dialog"
+        "description": "Title for email verification screen"
     },
-    "pleaseVerifyEmail": "Please verify your email address before logging in. Check your inbox for the verification link.",
+    "pleaseVerifyEmail": "Please check your email and click the verification link to continue.",
     "@pleaseVerifyEmail": {
-        "description": "Message shown in email verification dialog"
+        "description": "Message shown on email verification screen"
     },
-    "resendVerificationEmail": "Resend Verification Email",
+    "resendVerificationEmail": "Resend Email",
     "@resendVerificationEmail": {
         "description": "Button text for resending verification email"
     },
@@ -401,5 +401,40 @@
     "ok": "OK",
     "@ok": {
         "description": "OK button text"
-    }
+    },
+    "confirmPassword": "Confirm Password",
+    "registrationSuccess": "Registration Successful",
+    "emailVerifiedSuccess": "Email verified successfully!",
+    "@emailVerifiedSuccess": {
+        "description": "Message shown when email is verified successfully"
+    },
+    "emailNotVerifiedYet": "Email not verified yet. Please check your inbox.",
+    "@emailNotVerifiedYet": {
+        "description": "Message shown when email is not verified yet"
+    },
+    "checkStatus": "Check Status",
+    "@checkStatus": {
+        "description": "Button text for checking verification status"
+    },
+    "backToLogin": "Back to Login",
+    "@backToLogin": {
+        "description": "Button text for returning to login screen"
+    },
+    "clinicManagement": "Clinic Management",
+    "@clinicManagement": {
+        "description": "Title for clinic management screen"
+    },
+    "noClinicsFound": "No Clinics Found",
+    "@noClinicsFound": {
+        "description": "Message shown when no clinics are found"
+    },
+    "addClinicToStart": "Add a new clinic to get started",
+    "@addClinicToStart": {
+        "description": "Message to add first clinic"
+    },
+    "addClinic": "Add Clinic",
+    "@addClinic": {
+        "description": "Add clinic button text"
+    },
+    "noAppointmentsFound": "No appointments found"
 } 

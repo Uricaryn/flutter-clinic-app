@@ -319,17 +319,50 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manageClinicsUsersStats => 'Manage clinics, users, and view statistics';
 
   @override
-  String get emailVerificationRequired => 'Email Verification Required';
+  String get emailVerificationRequired => 'Verify Email';
 
   @override
-  String get pleaseVerifyEmail => 'Please verify your email address before logging in. Check your inbox for the verification link.';
+  String get pleaseVerifyEmail => 'Please check your email and click the verification link to continue.';
 
   @override
-  String get resendVerificationEmail => 'Resend Verification Email';
+  String get resendVerificationEmail => 'Resend Email';
 
   @override
   String get verificationEmailSent => 'Verification email sent. Please check your inbox.';
 
   @override
   String get ok => 'OK';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get registrationSuccess => 'Registration Successful';
+
+  @override
+  String get emailVerifiedSuccess => 'Email verified successfully!';
+
+  @override
+  String get emailNotVerifiedYet => 'Email not verified yet. Please check your inbox.';
+
+  @override
+  String get checkStatus => 'Check Status';
+
+  @override
+  String get backToLogin => 'Back to Login';
+
+  @override
+  String get clinicManagement => 'Clinic Management';
+
+  @override
+  String get noClinicsFound => 'No Clinics Found';
+
+  @override
+  String get addClinicToStart => 'Add a new clinic to get started';
+
+  @override
+  String get addClinic => 'Add Clinic';
+
+  @override
+  String get noAppointmentsFound => 'No appointments found';
 }

@@ -695,22 +695,22 @@ abstract class AppLocalizations {
   /// **'Manage clinics, users, and view statistics'**
   String get manageClinicsUsersStats;
 
-  /// Title for email verification dialog
+  /// Title for email verification screen
   ///
   /// In en, this message translates to:
-  /// **'Email Verification Required'**
+  /// **'Verify Email'**
   String get emailVerificationRequired;
 
-  /// Message shown in email verification dialog
+  /// Message shown on email verification screen
   ///
   /// In en, this message translates to:
-  /// **'Please verify your email address before logging in. Check your inbox for the verification link.'**
+  /// **'Please check your email and click the verification link to continue.'**
   String get pleaseVerifyEmail;
 
   /// Button text for resending verification email
   ///
   /// In en, this message translates to:
-  /// **'Resend Verification Email'**
+  /// **'Resend Email'**
   String get resendVerificationEmail;
 
   /// Message shown when verification email is sent
@@ -724,6 +724,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OK'**
   String get ok;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// No description provided for @registrationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration Successful'**
+  String get registrationSuccess;
+
+  /// Message shown when email is verified successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Email verified successfully!'**
+  String get emailVerifiedSuccess;
+
+  /// Message shown when email is not verified yet
+  ///
+  /// In en, this message translates to:
+  /// **'Email not verified yet. Please check your inbox.'**
+  String get emailNotVerifiedYet;
+
+  /// Button text for checking verification status
+  ///
+  /// In en, this message translates to:
+  /// **'Check Status'**
+  String get checkStatus;
+
+  /// Button text for returning to login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get backToLogin;
+
+  /// Title for clinic management screen
+  ///
+  /// In en, this message translates to:
+  /// **'Clinic Management'**
+  String get clinicManagement;
+
+  /// Message shown when no clinics are found
+  ///
+  /// In en, this message translates to:
+  /// **'No Clinics Found'**
+  String get noClinicsFound;
+
+  /// Message to add first clinic
+  ///
+  /// In en, this message translates to:
+  /// **'Add a new clinic to get started'**
+  String get addClinicToStart;
+
+  /// Add clinic button text
+  ///
+  /// In en, this message translates to:
+  /// **'Add Clinic'**
+  String get addClinic;
+
+  /// No description provided for @noAppointmentsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No appointments found'**
+  String get noAppointmentsFound;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

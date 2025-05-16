@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/features/patient/domain/models/patient_model.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -12,6 +13,10 @@ class FirestoreService {
       _firestore.collection('appointments');
   CollectionReference get stockItemsCollection =>
       _firestore.collection('stock_items');
+
+  // Patient Collection
+  CollectionReference get patientsCollection =>
+      _firestore.collection('patients');
 
   // Generic CRUD operations
   Future<DocumentReference> addDocument(
@@ -147,5 +152,113 @@ class FirestoreService {
         .doc(userId)
         .snapshots()
         .map((doc) => doc.data());
+  }
+
+  Future<void> addAppointment({
+    required String clinicId,
+    required String patientId,
+    required String patientName,
+    required String patientPhone,
+    required String procedureId,
+    required String operatorId,
+    required DateTime dateTime,
+    String? notes,
+  }) async {
+    try {
+      final appointmentData = {
+        'clinicId': clinicId,
+        'patientId': patientId,
+        'patientName': patientName,
+        'patientPhone': patientPhone,
+        'procedureId': procedureId,
+        'operatorId': operatorId,
+        'dateTime': Timestamp.fromDate(dateTime),
+        'notes': notes,
+        'status': 'scheduled',
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
+      await _firestore.collection('appointments').add(appointmentData);
+    } catch (e) {
+      throw Exception('Failed to add appointment: $e');
+    }
+  }
+
+  // Patient operations
+  Future<void> addPatient(PatientModel patient) async {
+    try {
+      final docRef = await patientsCollection.add(patient.toJson());
+      await docRef.update({'id': docRef.id});
+
+      // Klinik dokümanını güncelle
+      await clinicsCollection.doc(patient.clinicId).update({
+        'patientIds': FieldValue.arrayUnion([docRef.id]),
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      throw Exception('Failed to add patient: $e');
+    }
+  }
+
+  Future<void> updatePatient(PatientModel patient) async {
+    try {
+      await patientsCollection.doc(patient.id).update({
+        ...patient.toJson(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      throw Exception('Failed to update patient: $e');
+    }
+  }
+
+  Future<void> deletePatient(String patientId, String clinicId) async {
+    try {
+      // Hasta dokümanını sil
+      await patientsCollection.doc(patientId).delete();
+
+      // Klinik dokümanını güncelle
+      await clinicsCollection.doc(clinicId).update({
+        'patientIds': FieldValue.arrayRemove([patientId]),
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      throw Exception('Failed to delete patient: $e');
+    }
+  }
+
+  Future<PatientModel?> getPatient(String patientId) async {
+    try {
+      final doc = await patientsCollection.doc(patientId).get();
+      if (!doc.exists) return null;
+      return PatientModel.fromJson(
+          {...doc.data() as Map<String, dynamic>, 'id': doc.id});
+    } catch (e) {
+      throw Exception('Failed to get patient: $e');
+    }
+  }
+
+  Stream<QuerySnapshot> getClinicPatientsStream(String clinicId) {
+    return patientsCollection
+        .where('clinicId', isEqualTo: clinicId)
+        .snapshots();
+  }
+
+  Future<List<PatientModel>> searchPatients(
+      String clinicId, String query) async {
+    try {
+      final snapshot = await patientsCollection
+          .where('clinicId', isEqualTo: clinicId)
+          .where('fullName', isGreaterThanOrEqualTo: query)
+          .where('fullName', isLessThanOrEqualTo: query + '\uf8ff')
+          .get();
+
+      return snapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return PatientModel.fromJson({...data, 'id': doc.id});
+      }).toList();
+    } catch (e) {
+      throw Exception('Failed to search patients: $e');
+    }
   }
 }

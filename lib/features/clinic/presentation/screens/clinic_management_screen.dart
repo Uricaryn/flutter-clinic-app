@@ -3,31 +3,114 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:clinic_app/features/clinic/domain/models/clinic_model.dart';
 import 'package:clinic_app/features/clinic/presentation/widgets/clinic_card.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:clinic_app/core/providers/firestore_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
+import 'package:clinic_app/core/services/logger_service.dart';
 
-class ClinicManagementScreen extends StatefulWidget {
+class ClinicManagementScreen extends ConsumerStatefulWidget {
   const ClinicManagementScreen({super.key});
 
   @override
-  State<ClinicManagementScreen> createState() => _ClinicManagementScreenState();
+  ConsumerState<ClinicManagementScreen> createState() =>
+      _ClinicManagementScreenState();
 }
 
-class _ClinicManagementScreenState extends State<ClinicManagementScreen> {
-  List<ClinicModel> _clinics = [];
-  bool _isLoading = true;
+class _ClinicManagementScreenState
+    extends ConsumerState<ClinicManagementScreen> {
+  final _logger = LoggerService();
 
-  @override
-  void initState() {
-    super.initState();
-    _loadClinics();
+  Future<void> _addClinic({
+    required String name,
+    required String specialization,
+    required String address,
+    required String phone,
+    required String email,
+    required bool isActive,
+  }) async {
+    try {
+      final clinic = ClinicModel(
+        id: '', // Firestore will generate this
+        name: name,
+        specialization: specialization,
+        address: address,
+        phone: phone,
+        email: email,
+        isActive: isActive,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      await ref.read(clinicServiceProvider).addClinic(clinic);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Clinic added successfully')),
+        );
+      }
+    } catch (e) {
+      _logger.error('Failed to add clinic', e);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
+        );
+      }
+    }
   }
 
-  Future<void> _loadClinics() async {
-    // Simulate loading delay
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _clinics = ClinicModel.getMockClinics();
-      _isLoading = false;
-    });
+  Future<void> _updateClinic({
+    required String id,
+    required String name,
+    required String specialization,
+    required String address,
+    required String phone,
+    required String email,
+    required bool isActive,
+  }) async {
+    try {
+      final clinic = ClinicModel(
+        id: id,
+        name: name,
+        specialization: specialization,
+        address: address,
+        phone: phone,
+        email: email,
+        isActive: isActive,
+        updatedAt: DateTime.now(),
+      );
+
+      await ref.read(clinicServiceProvider).updateClinic(clinic);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Clinic updated successfully')),
+        );
+      }
+    } catch (e) {
+      _logger.error('Failed to update clinic', e);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
+        );
+      }
+    }
+  }
+
+  Future<void> _deleteClinic(String id) async {
+    try {
+      await ref.read(clinicServiceProvider).deleteClinic(id);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Clinic deleted successfully')),
+        );
+      }
+    } catch (e) {
+      _logger.error('Failed to delete clinic', e);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
+        );
+      }
+    }
   }
 
   void _showAddEditClinicDialog([ClinicModel? clinic]) {
@@ -106,7 +189,26 @@ class _ClinicManagementScreenState extends State<ClinicManagementScreen> {
           CustomButton(
             text: isEditing ? 'Save Changes' : 'Add Clinic',
             onPressed: () {
-              // TODO: Implement save functionality
+              if (isEditing) {
+                _updateClinic(
+                  id: clinic!.id,
+                  name: nameController.text,
+                  specialization: specializationController.text,
+                  address: addressController.text,
+                  phone: phoneController.text,
+                  email: emailController.text,
+                  isActive: isActive,
+                );
+              } else {
+                _addClinic(
+                  name: nameController.text,
+                  specialization: specializationController.text,
+                  address: addressController.text,
+                  phone: phoneController.text,
+                  email: emailController.text,
+                  isActive: isActive,
+                );
+              }
               Navigator.pop(context);
             },
           ),
@@ -130,7 +232,7 @@ class _ClinicManagementScreenState extends State<ClinicManagementScreen> {
             text: 'Delete',
             variant: ButtonVariant.secondary,
             onPressed: () {
-              // TODO: Implement delete functionality
+              _deleteClinic(clinic.id);
               Navigator.pop(context);
             },
           ),
@@ -142,10 +244,12 @@ class _ClinicManagementScreenState extends State<ClinicManagementScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final clinicsAsync = ref.watch(clinicListProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Clinic Management'),
+        title: Text(l10n.clinicManagement),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -153,53 +257,57 @@ class _ClinicManagementScreenState extends State<ClinicManagementScreen> {
           ),
         ],
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _clinics.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.medical_services_outlined,
-                        size: 64,
-                        color: theme.colorScheme.primary.withOpacity(0.5),
+      body: clinicsAsync.when(
+        data: (clinics) => clinics.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.medical_services_outlined,
+                      size: 64,
+                      color: theme.colorScheme.primary.withOpacity(0.5),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      l10n.noClinicsFound,
+                      style: theme.textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n.addClinicToStart,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface.withOpacity(0.7),
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'No Clinics Found',
-                        style: theme.textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Add a new clinic to get started',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.7),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      CustomButton(
-                        text: 'Add Clinic',
-                        onPressed: () => _showAddEditClinicDialog(),
-                      ),
-                    ],
-                  ),
-                )
-              : ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  itemCount: _clinics.length,
-                  itemBuilder: (context, index) {
-                    final clinic = _clinics[index];
-                    return ClinicCard(
-                      clinic: clinic,
-                      onTap: () {
-                        // TODO: Navigate to clinic details
-                      },
-                      onEdit: () => _showAddEditClinicDialog(clinic),
-                      onDelete: () => _showDeleteConfirmationDialog(clinic),
-                    );
-                  },
+                    ),
+                    const SizedBox(height: 24),
+                    CustomButton(
+                      text: l10n.addClinic,
+                      onPressed: () => _showAddEditClinicDialog(),
+                    ),
+                  ],
                 ),
+              )
+            : ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                itemCount: clinics.length,
+                itemBuilder: (context, index) {
+                  final clinic = clinics[index];
+                  return ClinicCard(
+                    clinic: clinic,
+                    onTap: () {
+                      // TODO: Navigate to clinic details
+                    },
+                    onEdit: () => _showAddEditClinicDialog(clinic),
+                    onDelete: () => _showDeleteConfirmationDialog(clinic),
+                  );
+                },
+              ),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(
+          child: Text(l10n.errorWithMessage(error.toString())),
+        ),
+      ),
     );
   }
 }

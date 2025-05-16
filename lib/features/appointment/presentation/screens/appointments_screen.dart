@@ -4,26 +4,22 @@ import 'package:clinic_app/features/appointment/domain/models/appointment_model.
 import 'package:clinic_app/features/appointment/presentation/widgets/appointment_card.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:clinic_app/core/providers/firestore_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:clinic_app/core/providers/auth_provider.dart';
 
-class AppointmentsScreen extends StatefulWidget {
+class AppointmentsScreen extends ConsumerStatefulWidget {
   const AppointmentsScreen({super.key});
 
   @override
-  State<AppointmentsScreen> createState() => _AppointmentsScreenState();
+  ConsumerState<AppointmentsScreen> createState() => _AppointmentsScreenState();
 }
 
-class _AppointmentsScreenState extends State<AppointmentsScreen> {
-  final List<AppointmentModel> _appointments = [];
-  final TextEditingController _searchController = TextEditingController();
-  bool _isLoading = true;
-  String _selectedFilter = 'All';
-  final List<String> _filters = ['All', 'Today', 'Upcoming', 'Past'];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadAppointments();
-  }
+class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
+  final _searchController = TextEditingController();
+  String _selectedFilter = 'all';
 
   @override
   void dispose() {
@@ -31,166 +27,22 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
     super.dispose();
   }
 
-  Future<void> _loadAppointments() async {
-    setState(() => _isLoading = true);
-    // Simulate loading delay
-    await Future.delayed(const Duration(seconds: 1));
-    setState(() {
-      _appointments.clear();
-      _appointments.addAll(AppointmentModel.getMockAppointments());
-      _isLoading = false;
-    });
-  }
-
-  List<AppointmentModel> get _filteredAppointments {
-    var filtered = _appointments;
-
-    // Apply search filter
-    if (_searchController.text.isNotEmpty) {
-      final searchLower = _searchController.text.toLowerCase();
-      filtered = filtered.where((appointment) {
-        return appointment.patientName.toLowerCase().contains(searchLower) ||
-            appointment.procedureName.toLowerCase().contains(searchLower) ||
-            appointment.clinicName.toLowerCase().contains(searchLower);
-      }).toList();
-    }
-
-    // Apply status filter
-    switch (_selectedFilter) {
-      case 'Today':
-        filtered = filtered.where((a) => a.isToday).toList();
-        break;
-      case 'Upcoming':
-        filtered = filtered.where((a) => a.isUpcoming).toList();
-        break;
-      case 'Past':
-        filtered = filtered.where((a) => a.isPast).toList();
-        break;
-    }
-
-    return filtered;
-  }
-
-  void _showAppointmentDetails(AppointmentModel appointment) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.7,
-        minChildSize: 0.5,
-        maxChildSize: 0.95,
-        builder: (context, scrollController) => Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 8),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.all(16),
-                  children: [
-                    Text(
-                      'Appointment Details',
-                      style:
-                          Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                    ),
-                    const SizedBox(height: 24),
-                    _buildDetailRow('Patient', appointment.patientName),
-                    _buildDetailRow('Procedure', appointment.procedureName),
-                    _buildDetailRow('Clinic', appointment.clinicName),
-                    _buildDetailRow(
-                      'Date',
-                      '${appointment.dateTime.day}/${appointment.dateTime.month}/${appointment.dateTime.year}',
-                    ),
-                    _buildDetailRow(
-                      'Time',
-                      '${appointment.dateTime.hour.toString().padLeft(2, '0')}:${appointment.dateTime.minute.toString().padLeft(2, '0')}',
-                    ),
-                    _buildDetailRow(
-                        'Duration', '${appointment.durationMinutes} minutes'),
-                    _buildDetailRow(
-                        'Status', _getStatusText(appointment.status)),
-                    if (appointment.notes != null)
-                      _buildDetailRow('Notes', appointment.notes!),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDetailRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 100,
-            child: Text(
-              label,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.7),
-                  ),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _getStatusText(AppointmentStatus status) {
-    switch (status) {
-      case AppointmentStatus.scheduled:
-        return 'Scheduled';
-      case AppointmentStatus.confirmed:
-        return 'Confirmed';
-      case AppointmentStatus.completed:
-        return 'Completed';
-      case AppointmentStatus.cancelled:
-        return 'Cancelled';
-      case AppointmentStatus.noShow:
-        return 'No Show';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+    final user = ref.watch(currentUserProvider);
+    final clinicId = user?.uid;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.appointments),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadAppointments,
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.pushNamed(context, '/appointment/new');
+            },
           ),
         ],
       ),
@@ -199,6 +51,16 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
           // Search and Filter Bar
           Container(
             padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
             child: Column(
               children: [
                 TextField(
@@ -217,20 +79,12 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: [l10n.all, l10n.today, l10n.upcoming, l10n.past]
-                        .map((filter) {
-                      final isSelected = filter == _selectedFilter;
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: FilterChip(
-                          label: Text(filter),
-                          selected: isSelected,
-                          onSelected: (selected) {
-                            setState(() => _selectedFilter = filter);
-                          },
-                        ),
-                      );
-                    }).toList(),
+                    children: [
+                      _buildFilterChip(l10n.all, 'all'),
+                      _buildFilterChip(l10n.today, 'today'),
+                      _buildFilterChip(l10n.upcoming, 'upcoming'),
+                      _buildFilterChip(l10n.past, 'past'),
+                    ],
                   ),
                 ),
               ],
@@ -238,65 +92,134 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
           ),
           // Appointments List
           Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _filteredAppointments.isEmpty
-                    ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.event_busy,
-                              size: 64,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.5),
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              'No appointments found',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface
-                                        .withOpacity(0.7),
-                                  ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : ListView.builder(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        itemCount: _filteredAppointments.length,
+            child: clinicId == null
+                ? const Center(child: Text('Klinik bulunamadı'))
+                : StreamBuilder<QuerySnapshot>(
+                    stream: ref
+                        .read(firestoreServiceProvider)
+                        .getClinicAppointmentsStream(clinicId),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Hata: ${snapshot.error}'));
+                      }
+
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      final appointments = snapshot.data!.docs.where((doc) {
+                        final data = doc.data() as Map<String, dynamic>;
+                        final dateTime =
+                            (data['dateTime'] as Timestamp).toDate();
+                        final now = DateTime.now();
+                        final today = DateTime(now.year, now.month, now.day);
+
+                        switch (_selectedFilter) {
+                          case 'today':
+                            return dateTime.year == today.year &&
+                                dateTime.month == today.month &&
+                                dateTime.day == today.day;
+                          case 'upcoming':
+                            return dateTime.isAfter(now);
+                          case 'past':
+                            return dateTime.isBefore(now);
+                          default:
+                            return true;
+                        }
+                      }).where((doc) {
+                        if (_searchController.text.isEmpty) return true;
+                        final data = doc.data() as Map<String, dynamic>;
+                        return (data['patientName'] as String)
+                            .toLowerCase()
+                            .contains(_searchController.text.toLowerCase());
+                      }).toList();
+
+                      if (appointments.isEmpty) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.event_busy,
+                                size: 64,
+                                color:
+                                    theme.colorScheme.primary.withOpacity(0.5),
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                l10n.noAppointmentsFound,
+                                style: theme.textTheme.titleLarge,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Yeni bir randevu ekleyerek başlayın',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onSurface
+                                      .withOpacity(0.7),
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              CustomButton(
+                                text: 'Yeni Randevu',
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, '/appointment/new');
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+
+                      return ListView.builder(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        itemCount: appointments.length,
                         itemBuilder: (context, index) {
-                          final appointment = _filteredAppointments[index];
+                          final doc = appointments[index];
+                          final data = doc.data() as Map<String, dynamic>;
+                          final appointment = AppointmentModel.fromJson({
+                            ...data,
+                            'id': doc.id,
+                          });
+
                           return AppointmentCard(
                             appointment: appointment,
-                            onTap: () => _showAppointmentDetails(appointment),
+                            onTap: () {
+                              // TODO: Navigate to appointment details
+                            },
                             onEdit: () {
-                              // TODO: Implement edit functionality
+                              // TODO: Show edit dialog
                             },
-                            onCancel: () {
-                              // TODO: Implement cancel functionality
-                            },
-                            onComplete: () {
-                              // TODO: Implement complete functionality
+                            onDelete: () {
+                              // TODO: Show delete confirmation
                             },
                           );
                         },
-                      ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Implement new appointment creation
+          Navigator.pushNamed(context, '/appointment/new');
         },
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget _buildFilterChip(String label, String value) {
+    final isSelected = _selectedFilter == value;
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: FilterChip(
+        label: Text(label),
+        selected: isSelected,
+        onSelected: (selected) {
+          setState(() => _selectedFilter = value);
+        },
       ),
     );
   }

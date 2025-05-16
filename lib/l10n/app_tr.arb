@@ -103,5 +103,8 @@
     "pleaseVerifyEmail": "Giriş yapmadan önce e-posta adresinizi doğrulayın. Doğrulama bağlantısı için gelen kutunuzu kontrol edin.",
     "resendVerificationEmail": "Doğrulama E-postasını Tekrar Gönder",
     "verificationEmailSent": "Doğrulama e-postası gönderildi. Lütfen gelen kutunuzu kontrol edin.",
-    "ok": "Tamam"
+    "ok": "Tamam",
+    "confirmPassword": "Şifreyi Onayla",
+    "registrationSuccess": "Kayıt Başarılı",
+    "noAppointmentsFound": "Randevu bulunamadı"
 } 
