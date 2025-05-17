@@ -21,6 +21,22 @@ import 'package:clinic_app/features/splash/presentation/screens/splash_screen.da
 import 'package:clinic_app/core/routes/app_router.dart';
 import 'package:clinic_app/core/services/logger_service.dart';
 import 'firebase_options.dart';
+import 'package:clinic_app/core/providers/auth_provider.dart';
+
+class ErrorScreen extends StatelessWidget {
+  final String error;
+
+  const ErrorScreen({super.key, required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(error),
+      ),
+    );
+  }
+}
 
 Future<void> initializeFirebase() async {
   try {
@@ -73,30 +89,53 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Sistem temasını dinle
-    final brightness = MediaQuery.platformBrightnessOf(context);
-    final isDarkMode = brightness == Brightness.dark;
-
-    // Tema değişikliğini izle ve güncelle
-    ref.listen<ThemeMode>(themeProvider, (previous, next) {
-      if (next == ThemeMode.system) {
-        ref.read(themeProvider.notifier).setThemeMode(
-              isDarkMode ? ThemeMode.dark : ThemeMode.light,
-            );
-      }
-    });
+    final authState = ref.watch(authStateProvider);
+    final _logger = LoggerService();
 
     return MaterialApp(
       title: AppConfig.appName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ref.watch(themeProvider),
+      themeMode: ThemeMode.system,
       navigatorKey: NavigationService.navigatorKey,
+      scaffoldMessengerKey: NavigationService.scaffoldMessengerKey,
       onGenerateRoute: AppRouter.generateRoute,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: ref.watch(localeProvider),
-      home: const SplashScreen(),
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: child!,
+        );
+      },
+      home: FutureBuilder(
+        future: Future.delayed(const Duration(seconds: 4)),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const SplashScreen();
+          }
+
+          return authState.when(
+            data: (user) {
+              _logger.info(
+                  'Auth state changed: ${user != null ? 'User logged in' : 'No user'}');
+              if (user == null) {
+                return const LoginScreen();
+              }
+              return const HomeScreen();
+            },
+            loading: () {
+              _logger.info('Auth state is loading, showing splash screen');
+              return const SplashScreen();
+            },
+            error: (error, stack) {
+              _logger.error('Auth state error', error, stack);
+              return ErrorScreen(error: error.toString());
+            },
+          );
+        },
+      ),
     );
   }
 }
