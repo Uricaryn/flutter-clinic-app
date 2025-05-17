@@ -5,6 +5,7 @@ import 'auth_provider.dart';
 import 'package:clinic_app/features/admin/domain/models/admin_stats_model.dart';
 import 'package:clinic_app/features/clinic/domain/models/clinic_model.dart';
 import 'package:clinic_app/features/profile/domain/models/user_model.dart';
+import 'package:clinic_app/features/patient/domain/models/patient_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final firestoreServiceProvider = Provider<FirestoreService>((ref) {
@@ -183,6 +184,43 @@ class ClinicService {
       throw Exception('Failed to add appointment: $e');
     }
   }
+
+  Future<void> addPatient(PatientModel patient) async {
+    final docRef = _firestore.collection('patients').doc();
+    await docRef.set({
+      ...patient.toJson(),
+      'id': docRef.id,
+    });
+  }
+
+  Future<void> updatePatient(PatientModel patient) async {
+    await _firestore.collection('patients').doc(patient.id).update({
+      'fullName': patient.fullName,
+      'email': patient.email,
+      'phone': patient.phone,
+      'address': patient.address,
+      'dateOfBirth': Timestamp.fromDate(patient.dateOfBirth),
+      'gender': patient.gender,
+      'notes': patient.notes,
+      'updatedAt': Timestamp.fromDate(patient.updatedAt!),
+    });
+  }
+
+  Future<void> deletePatient(String patientId) async {
+    // Önce hastanın randevularını kontrol et
+    final appointments = await _firestore
+        .collection('appointments')
+        .where('patientId', isEqualTo: patientId)
+        .get();
+
+    if (appointments.docs.isNotEmpty) {
+      throw Exception(
+          'Bu hastaya ait randevular var. Önce randevuları iptal edin.');
+    }
+
+    // Hastayı sil
+    await _firestore.collection('patients').doc(patientId).delete();
+  }
 }
 
 // Collection stream providers
@@ -346,4 +384,29 @@ final userListProvider = StreamProvider<List<UserModel>>((ref) {
   return firestore.collection('users').snapshots().map((snapshot) {
     return snapshot.docs.map((doc) => UserModel.fromJson(doc.data())).toList();
   });
+});
+
+final clinicStockStreamProvider =
+    StreamProvider.family<QuerySnapshot, String>((ref, clinicId) {
+  return FirebaseFirestore.instance
+      .collection('stock_items')
+      .where('clinicId', isEqualTo: clinicId)
+      .snapshots();
+});
+
+final clinicExpensesStreamProvider =
+    StreamProvider.family<List<QueryDocumentSnapshot>, String>((ref, clinicId) {
+  return FirebaseFirestore.instance
+      .collection('expenses')
+      .where('clinicId', isEqualTo: clinicId)
+      .snapshots()
+      .map((snapshot) => snapshot.docs);
+});
+
+final clinicProceduresStreamProvider =
+    StreamProvider.family<QuerySnapshot, String>((ref, clinicId) {
+  return FirebaseFirestore.instance
+      .collection('procedures')
+      .where('clinicId', isEqualTo: clinicId)
+      .snapshots();
 });

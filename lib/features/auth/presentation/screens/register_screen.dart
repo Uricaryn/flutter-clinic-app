@@ -9,6 +9,7 @@ import 'package:clinic_app/core/services/logger_service.dart';
 import 'package:clinic_app/core/services/navigation_service.dart';
 import 'package:clinic_app/core/utils/validation_utils.dart';
 import 'package:clinic_app/core/enums/user_role.dart';
+import 'package:clinic_app/shared/widgets/auth_background.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -123,120 +124,152 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         return !_isLoading;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(l10n.createAccount),
-          centerTitle: true,
-          automaticallyImplyLeading: !_isLoading,
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Kliniğinizi Kaydedin',
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Klinik yöneticisi olarak kaydolun ve kliniğinizi sisteme ekleyin.',
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: theme.colorScheme.onSurface.withOpacity(0.7),
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  CustomTextField(
-                    controller: _nameController,
-                    label: l10n.fullName,
-                    prefixIcon: const Icon(Icons.person_outline),
-                    validator: ValidationUtils.validateName,
-                    enabled: !_isLoading,
-                  ),
-                  const SizedBox(height: 16),
-                  CustomTextField(
-                    controller: _emailController,
-                    label: l10n.email,
-                    keyboardType: TextInputType.emailAddress,
-                    prefixIcon: const Icon(Icons.email_outlined),
-                    validator: ValidationUtils.validateEmail,
-                    enabled: !_isLoading,
-                  ),
-                  const SizedBox(height: 16),
-                  CustomTextField(
-                    controller: _passwordController,
-                    label: l10n.password,
-                    obscureText: _obscurePassword,
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                      ),
-                      onPressed: _isLoading
-                          ? null
-                          : () {
-                              setState(
-                                  () => _obscurePassword = !_obscurePassword);
-                            },
-                    ),
-                    validator: ValidationUtils.validatePassword,
-                    enabled: !_isLoading,
-                  ),
-                  const SizedBox(height: 16),
-                  CustomTextField(
-                    controller: _confirmPasswordController,
-                    label: l10n.confirmPassword,
-                    obscureText: _obscurePassword,
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    validator: (value) =>
-                        ValidationUtils.validatePasswordConfirmation(
-                      value,
-                      _passwordController.text,
-                    ),
-                    enabled: !_isLoading,
-                  ),
-                  const SizedBox(height: 32),
-                  CustomButton(
-                    text: l10n.createAccount,
-                    onPressed: _isLoading ? null : _handleRegister,
-                    isLoading: _isLoading,
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+        body: AuthBackground(
+          child: SafeArea(
+            child: Column(
+              children: [
+                // Custom App Bar
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
                     children: [
-                      Text(
-                        l10n.alreadyHaveAccount,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.7),
+                      if (!_isLoading)
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () => Navigator.of(context).pop(),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: _isLoading
-                            ? null
-                            : () {
-                                _logger.info('Sign in button pressed');
-                                NavigationService.goBack();
-                              },
+                      Expanded(
                         child: Text(
-                          l10n.signIn,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          l10n.createAccount,
+                          style: theme.textTheme.titleLarge,
+                          textAlign: TextAlign.center,
                         ),
                       ),
+                      // Placeholder for symmetry
+                      const SizedBox(width: 48),
                     ],
                   ),
-                ],
-              ),
+                ),
+                // Main Content
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(24),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.registerTitle,
+                            style: theme.textTheme.headlineMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            l10n.registerSubtitle,
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              color:
+                                  theme.colorScheme.onSurface.withOpacity(0.7),
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          CustomTextField(
+                            controller: _nameController,
+                            label: l10n.fullName,
+                            hint: l10n.nameHint,
+                            prefixIcon: const Icon(Icons.person_outline),
+                            validator: ValidationUtils.validateName,
+                            enabled: !_isLoading,
+                          ),
+                          const SizedBox(height: 16),
+                          CustomTextField(
+                            controller: _emailController,
+                            label: l10n.email,
+                            hint: l10n.emailHint,
+                            keyboardType: TextInputType.emailAddress,
+                            prefixIcon: const Icon(Icons.email_outlined),
+                            validator: ValidationUtils.validateEmail,
+                            enabled: !_isLoading,
+                          ),
+                          const SizedBox(height: 16),
+                          CustomTextField(
+                            controller: _passwordController,
+                            label: l10n.password,
+                            hint: l10n.passwordHint,
+                            obscureText: _obscurePassword,
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: _isLoading
+                                  ? null
+                                  : () {
+                                      setState(() =>
+                                          _obscurePassword = !_obscurePassword);
+                                    },
+                            ),
+                            validator: ValidationUtils.validatePassword,
+                            enabled: !_isLoading,
+                          ),
+                          const SizedBox(height: 16),
+                          CustomTextField(
+                            controller: _confirmPasswordController,
+                            label: l10n.confirmPassword,
+                            hint: l10n.confirmPasswordHint,
+                            obscureText: _obscurePassword,
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            validator: (value) =>
+                                ValidationUtils.validatePasswordConfirmation(
+                              value,
+                              _passwordController.text,
+                            ),
+                            enabled: !_isLoading,
+                          ),
+                          const SizedBox(height: 32),
+                          CustomButton(
+                            text: l10n.registerButton,
+                            onPressed: _isLoading ? null : _handleRegister,
+                            isLoading: _isLoading,
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                l10n.alreadyHaveAccountText,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onSurface
+                                      .withOpacity(0.7),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: _isLoading
+                                    ? null
+                                    : () {
+                                        _logger.info('Sign in button pressed');
+                                        NavigationService.goBack();
+                                      },
+                                child: Text(
+                                  l10n.loginLink,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: theme.colorScheme.primary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

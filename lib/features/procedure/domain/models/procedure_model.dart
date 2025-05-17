@@ -8,6 +8,7 @@ class ProcedureModel {
   final bool isActive;
   final DateTime createdAt;
   final DateTime? updatedAt;
+  final List<ProcedureMaterial> materials;
 
   ProcedureModel({
     required this.id,
@@ -19,6 +20,7 @@ class ProcedureModel {
     this.isActive = true,
     required this.createdAt,
     this.updatedAt,
+    this.materials = const [],
   });
 
   // Mock data generator
@@ -66,6 +68,7 @@ class ProcedureModel {
       'isActive': isActive,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
+      'materials': materials.map((m) => m.toJson()).toList(),
     };
   }
 
@@ -82,6 +85,43 @@ class ProcedureModel {
       updatedAt: json['updatedAt'] != null
           ? DateTime.parse(json['updatedAt'] as String)
           : null,
+      materials: (json['materials'] as List<dynamic>?)
+              ?.map(
+                  (m) => ProcedureMaterial.fromJson(m as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+class ProcedureMaterial {
+  final String stockItemId;
+  final String stockItemName;
+  final int quantity;
+  final String unit;
+
+  ProcedureMaterial({
+    required this.stockItemId,
+    required this.stockItemName,
+    required this.quantity,
+    required this.unit,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'stockItemId': stockItemId,
+      'stockItemName': stockItemName,
+      'quantity': quantity,
+      'unit': unit,
+    };
+  }
+
+  factory ProcedureMaterial.fromJson(Map<String, dynamic> json) {
+    return ProcedureMaterial(
+      stockItemId: json['stockItemId'] as String,
+      stockItemName: json['stockItemName'] as String,
+      quantity: json['quantity'] as int,
+      unit: json['unit'] as String,
     );
   }
 }

@@ -422,7 +422,11 @@
     },
     "clinicManagement": "Clinic Management",
     "@clinicManagement": {
-        "description": "Title for clinic management screen"
+        "description": "Clinic management section title"
+    },
+    "manageClinicInfoAndOperators": "Manage clinic information and operators",
+    "@manageClinicInfoAndOperators": {
+        "description": "Clinic management section subtitle"
     },
     "noClinicsFound": "No Clinics Found",
     "@noClinicsFound": {
@@ -437,5 +441,154 @@
         "description": "Add clinic button text"
     },
     "noAppointmentsFound": "No appointments found",
-    "splashSlogan": "Smart Clinic Management, Easy Appointment Tracking"
+    "splashSlogan": "Smart Healthcare, Easy Management",
+    "@splashSlogan": {
+        "description": "Splash screen slogan"
+    },
+    "registerTitle": "Create Your Account",
+    "@registerTitle": {
+        "description": "Register screen title"
+    },
+    "registerSubtitle": "Join our healthcare community",
+    "@registerSubtitle": {
+        "description": "Register screen subtitle"
+    },
+    "nameHint": "Enter your full name",
+    "@nameHint": {
+        "description": "Name field hint text"
+    },
+    "emailHint": "Enter your email address",
+    "@emailHint": {
+        "description": "Email field hint text"
+    },
+    "passwordHint": "Create a password",
+    "@passwordHint": {
+        "description": "Password field hint text"
+    },
+    "confirmPasswordHint": "Confirm your password",
+    "@confirmPasswordHint": {
+        "description": "Confirm password field hint text"
+    },
+    "passwordsDoNotMatch": "Passwords do not match",
+    "@passwordsDoNotMatch": {
+        "description": "Password match validation message"
+    },
+    "registerButton": "Create Account",
+    "@registerButton": {
+        "description": "Register button text"
+    },
+    "alreadyHaveAccountText": "Already have an account?",
+    "@alreadyHaveAccountText": {
+        "description": "Text for login prompt"
+    },
+    "loginLink": "Sign In",
+    "@loginLink": {
+        "description": "Login link text"
+    },
+    "procedureName": "Procedure Name",
+    "@procedureName": {
+        "description": "Procedure name field label"
+    },
+    "enterProcedureName": "Enter procedure name",
+    "@enterProcedureName": {
+        "description": "Procedure name field hint"
+    },
+    "pleaseEnterProcedureName": "Please enter procedure name",
+    "@pleaseEnterProcedureName": {
+        "description": "Procedure name validation message"
+    },
+    "enterProcedureDescription": "Enter procedure description",
+    "@enterProcedureDescription": {
+        "description": "Procedure description field hint"
+    },
+    "pleaseEnterDescription": "Please enter description",
+    "@pleaseEnterDescription": {
+        "description": "Description validation message"
+    },
+    "enterProcedurePrice": "Enter procedure price",
+    "@enterProcedurePrice": {
+        "description": "Procedure price field hint"
+    },
+    "pleaseEnterPrice": "Please enter price",
+    "@pleaseEnterPrice": {
+        "description": "Price validation message"
+    },
+    "pleaseEnterValidPrice": "Please enter a valid price",
+    "@pleaseEnterValidPrice": {
+        "description": "Price format validation message"
+    },
+    "duration": "Duration",
+    "@duration": {
+        "description": "Duration field label"
+    },
+    "enterProcedureDuration": "Enter procedure duration",
+    "@enterProcedureDuration": {
+        "description": "Procedure duration field hint"
+    },
+    "minutes": "minutes",
+    "@minutes": {
+        "description": "Minutes unit text"
+    },
+    "pleaseEnterDuration": "Please enter duration",
+    "@pleaseEnterDuration": {
+        "description": "Duration validation message"
+    },
+    "pleaseEnterValidDuration": "Please enter a valid duration",
+    "@pleaseEnterValidDuration": {
+        "description": "Duration format validation message"
+    },
+    "materials": "Materials",
+    "@materials": {
+        "description": "Materials section title"
+    },
+    "addMaterial": "Add Material",
+    "@addMaterial": {
+        "description": "Add material dialog title"
+    },
+    "selectStockItem": "Select Stock Item",
+    "@selectStockItem": {
+        "description": "Stock item selection field label"
+    },
+    "enterQuantity": "Enter quantity",
+    "@enterQuantity": {
+        "description": "Quantity field hint"
+    },
+    "pleaseEnterQuantity": "Please enter quantity",
+    "@pleaseEnterQuantity": {
+        "description": "Quantity validation message"
+    },
+    "pleaseEnterValidQuantity": "Please enter a valid quantity",
+    "@pleaseEnterValidQuantity": {
+        "description": "Quantity format validation message"
+    },
+    "add": "Add",
+    "@add": {
+        "description": "Add button text"
+    },
+    "editProcedure": "Edit Procedure",
+    "@editProcedure": {
+        "description": "Edit procedure dialog title"
+    },
+    "deleteProcedure": "Delete Procedure",
+    "@deleteProcedure": {
+        "description": "Delete procedure dialog title"
+    },
+    "deleteProcedureConfirmation": "Are you sure you want to delete {procedureName}?",
+    "@deleteProcedureConfirmation": {
+        "description": "Delete procedure confirmation message",
+        "placeholders": {
+            "procedureName": {
+                "type": "String",
+                "example": "Dental Cleaning"
+            }
+        }
+    },
+    "pleaseEnterUnit": "Please enter unit",
+    "@pleaseEnterUnit": {
+        "description": "Unit validation message"
+    },
+    "pleaseEnterMinimumQuantity": "Please enter minimum quantity",
+    "@pleaseEnterMinimumQuantity": {
+        "description": "Minimum quantity validation message"
+    }
 } 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:clinic_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
 
@@ -57,12 +58,26 @@ class _SplashScreenState extends State<SplashScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo with simple fade-in animation
+              // Logo with enhanced animation
               Image.asset(
                 'assets/images/ordana_logo.png',
                 width: 200,
                 height: 200,
-              ).animate().fadeIn(duration: const Duration(milliseconds: 800)),
+              )
+                  .animate()
+                  .fadeIn(duration: const Duration(milliseconds: 800))
+                  .scale(
+                    begin: const Offset(0.8, 0.8),
+                    end: const Offset(1.0, 1.0),
+                    duration: const Duration(milliseconds: 600),
+                  )
+                  .then()
+                  .rotate(
+                    begin: -0.1,
+                    end: 0,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeOutBack,
+                  ),
               const SizedBox(height: 32),
               // App Name with slide and fade animation
               Text(
@@ -83,23 +98,24 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
               const SizedBox(height: 48),
               // Klinik yönetimi sloganı (daha küçük)
-              Text(
-                AppLocalizations.of(context)!.splashSlogan,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Colors.white.withOpacity(0.9),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                    ),
-              )
-                  .animate()
-                  .fadeIn(delay: const Duration(milliseconds: 800))
-                  .moveY(begin: 20, end: 0)
-                  .then()
-                  .shimmer(
-                    duration: const Duration(seconds: 2),
-                    color: Colors.white.withOpacity(0.8),
+              AnimatedTextKit(
+                animatedTexts: [
+                  TypewriterAnimatedText(
+                    AppLocalizations.of(context)!.splashSlogan,
+                    textStyle:
+                        Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: Colors.white.withOpacity(0.9),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                            ),
+                    textAlign: TextAlign.center,
+                    speed: const Duration(milliseconds: 50),
                   ),
+                ],
+                totalRepeatCount: 1,
+                displayFullTextOnTap: true,
+                stopPauseOnTap: true,
+              ),
               const SizedBox(height: 48),
               // Loading indicator with custom animation
               AnimatedBuilder(

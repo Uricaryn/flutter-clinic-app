@@ -10,7 +10,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appName => 'Klinik Uygulaması';
 
   @override
-  String get welcomeBack => 'Tekrar Hoşgeldiniz';
+  String get welcomeBack => 'Tekrar Hoş Geldiniz!';
 
   @override
   String get signInToContinue => 'Devam etmek için giriş yapın';
@@ -25,7 +25,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signIn => 'Giriş Yap';
 
   @override
-  String get forgotPassword => 'Şifremi Unuttum?';
+  String get forgotPassword => 'Şifremi Unuttum';
 
   @override
   String get dontHaveAccount => 'Hesabınız yok mu?';
@@ -73,11 +73,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String itemsNeedRestock(int count) {
-    return '$count ürünün stoklanması gerekiyor';
+    return '$count ürün yeniden stoklanmalı';
   }
 
   @override
-  String get searchAppointments => 'Randevularda ara...';
+  String get searchAppointments => 'Randevuları ara...';
 
   @override
   String get all => 'Tümü';
@@ -110,10 +110,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get editProfile => 'Profili Düzenle';
 
   @override
-  String get changeEmail => 'E-posta Değiştir';
+  String get changeEmail => 'E-postayı Değiştir';
 
   @override
-  String get changePassword => 'Şifre Değiştir';
+  String get changePassword => 'Şifreyi Değiştir';
 
   @override
   String get preferences => 'Tercihler';
@@ -203,13 +203,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get unit => 'Birim';
 
   @override
-  String get enterUnit => 'Birimi girin (örn. kutu, şişe)';
+  String get enterUnit => 'Birim girin';
 
   @override
   String get minimumQuantity => 'Minimum Miktar';
 
   @override
-  String get enterMinimumQuantity => 'Yeniden stok uyarısı için minimum miktarı girin';
+  String get enterMinimumQuantity => 'Lütfen minimum miktarı girin';
 
   @override
   String get cancel => 'İptal';
@@ -251,7 +251,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get needsRestock => 'Yeniden Stoklanması Gerekiyor';
+  String get needsRestock => 'Yeniden Stoklanmalı';
 
   @override
   String get restockNow => 'Şimdi Stokla';
@@ -283,7 +283,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get manageClinics => 'Klinikleri Yönet';
 
   @override
-  String get addEditRemoveClinics => 'Klinik ekle, düzenle veya sil';
+  String get addEditRemoveClinics => 'Klinikleri ekle, düzenle veya kaldır';
 
   @override
   String get manageUsers => 'Kullanıcıları Yönet';
@@ -316,16 +316,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get superAdminPanel => 'Süper Yönetici Paneli';
 
   @override
-  String get manageClinicsUsersStats => 'Klinikleri, kullanıcıları yönetin ve istatistikleri görüntüleyin';
+  String get manageClinicsUsersStats => 'Klinikleri ve kullanıcıları yönet, istatistikleri görüntüle';
 
   @override
-  String get emailVerificationRequired => 'E-posta Doğrulama Gerekli';
+  String get emailVerificationRequired => 'E-posta Doğrulama';
 
   @override
-  String get pleaseVerifyEmail => 'Giriş yapmadan önce e-posta adresinizi doğrulayın. Doğrulama bağlantısı için gelen kutunuzu kontrol edin.';
+  String get pleaseVerifyEmail => 'Devam etmek için lütfen e-postanızı kontrol edin ve doğrulama bağlantısına tıklayın.';
 
   @override
-  String get resendVerificationEmail => 'Doğrulama E-postasını Tekrar Gönder';
+  String get resendVerificationEmail => 'E-postayı Tekrar Gönder';
 
   @override
   String get verificationEmailSent => 'Doğrulama e-postası gönderildi. Lütfen gelen kutunuzu kontrol edin.';
@@ -340,32 +340,142 @@ class AppLocalizationsTr extends AppLocalizations {
   String get registrationSuccess => 'Kayıt Başarılı';
 
   @override
-  String get emailVerifiedSuccess => 'Email verified successfully!';
+  String get emailVerifiedSuccess => 'E-posta başarıyla doğrulandı!';
 
   @override
-  String get emailNotVerifiedYet => 'Email not verified yet. Please check your inbox.';
+  String get emailNotVerifiedYet => 'E-posta henüz doğrulanmadı. Lütfen gelen kutunuzu kontrol edin.';
 
   @override
-  String get checkStatus => 'Check Status';
+  String get checkStatus => 'Durumu Kontrol Et';
 
   @override
-  String get backToLogin => 'Back to Login';
+  String get backToLogin => 'Girişe Dön';
 
   @override
-  String get clinicManagement => 'Clinic Management';
+  String get clinicManagement => 'Klinik Yönetimi';
 
   @override
-  String get noClinicsFound => 'No Clinics Found';
+  String get manageClinicInfoAndOperators => 'Klinik bilgilerini ve operatörleri yönet';
 
   @override
-  String get addClinicToStart => 'Add a new clinic to get started';
+  String get noClinicsFound => 'Klinik Bulunamadı';
 
   @override
-  String get addClinic => 'Add Clinic';
+  String get addClinicToStart => 'Başlamak için yeni bir klinik ekleyin';
+
+  @override
+  String get addClinic => 'Klinik Ekle';
 
   @override
   String get noAppointmentsFound => 'Randevu bulunamadı';
 
   @override
-  String get splashSlogan => 'Akıllı Klinik Yönetimi, Kolay Randevu Takibi';
+  String get splashSlogan => 'Akıllı Sağlık, Kolay Yönetim';
+
+  @override
+  String get registerTitle => 'Hesabınızı Oluşturun';
+
+  @override
+  String get registerSubtitle => 'Sağlık topluluğumuza katılın';
+
+  @override
+  String get nameHint => 'Adınızı ve soyadınızı girin';
+
+  @override
+  String get emailHint => 'E-posta adresinizi girin';
+
+  @override
+  String get passwordHint => 'Şifre oluşturun';
+
+  @override
+  String get confirmPasswordHint => 'Şifrenizi onaylayın';
+
+  @override
+  String get passwordsDoNotMatch => 'Şifreler eşleşmiyor';
+
+  @override
+  String get registerButton => 'Hesap Oluştur';
+
+  @override
+  String get alreadyHaveAccountText => 'Zaten hesabınız var mı?';
+
+  @override
+  String get loginLink => 'Giriş Yap';
+
+  @override
+  String get procedureName => 'İşlem Adı';
+
+  @override
+  String get enterProcedureName => 'İşlem adını girin';
+
+  @override
+  String get pleaseEnterProcedureName => 'Lütfen işlem adını girin';
+
+  @override
+  String get enterProcedureDescription => 'İşlem açıklamasını girin';
+
+  @override
+  String get pleaseEnterDescription => 'Lütfen açıklama girin';
+
+  @override
+  String get enterProcedurePrice => 'İşlem fiyatını girin';
+
+  @override
+  String get pleaseEnterPrice => 'Lütfen fiyat girin';
+
+  @override
+  String get pleaseEnterValidPrice => 'Lütfen geçerli bir fiyat girin';
+
+  @override
+  String get duration => 'Süre';
+
+  @override
+  String get enterProcedureDuration => 'İşlem süresini girin';
+
+  @override
+  String get minutes => 'dakika';
+
+  @override
+  String get pleaseEnterDuration => 'Lütfen süre girin';
+
+  @override
+  String get pleaseEnterValidDuration => 'Lütfen geçerli bir süre girin';
+
+  @override
+  String get materials => 'Malzemeler';
+
+  @override
+  String get addMaterial => 'Malzeme Ekle';
+
+  @override
+  String get selectStockItem => 'Stok Ürünü Seçin';
+
+  @override
+  String get enterQuantity => 'Miktar girin';
+
+  @override
+  String get pleaseEnterQuantity => 'Lütfen miktar girin';
+
+  @override
+  String get pleaseEnterValidQuantity => 'Lütfen geçerli bir miktar girin';
+
+  @override
+  String get add => 'Ekle';
+
+  @override
+  String get editProcedure => 'İşlemi Düzenle';
+
+  @override
+  String get deleteProcedure => 'İşlemi Sil';
+
+  @override
+  String deleteProcedureConfirmation(String procedureName) {
+    return '$procedureName işlemini silmek istediğinizden emin misiniz?';
+  }
+
+  @override
+  String get pleaseEnterUnit => 'Lütfen birim girin';
+
+  @override
+  String get pleaseEnterMinimumQuantity => 'Lütfen minimum miktarı girin';
 }

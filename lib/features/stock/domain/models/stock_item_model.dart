@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class StockItemModel {
   final String id;
   final String name;
@@ -78,13 +80,22 @@ class StockItemModel {
       'unit': unit,
       'minimumQuantity': minimumQuantity,
       'clinicId': clinicId,
-      'lastRestocked': lastRestocked.toIso8601String(),
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt?.toIso8601String(),
+      'lastRestocked': Timestamp.fromDate(lastRestocked),
+      'createdAt': Timestamp.fromDate(createdAt),
+      'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
     };
   }
 
   factory StockItemModel.fromJson(Map<String, dynamic> json) {
+    DateTime parseDate(dynamic value) {
+      if (value is Timestamp) {
+        return value.toDate();
+      } else if (value is String) {
+        return DateTime.parse(value);
+      }
+      throw Exception('Invalid date format: $value');
+    }
+
     return StockItemModel(
       id: json['id'] as String,
       name: json['name'] as String,
@@ -94,11 +105,10 @@ class StockItemModel {
       unit: json['unit'] as String,
       minimumQuantity: json['minimumQuantity'] as int,
       clinicId: json['clinicId'] as String,
-      lastRestocked: DateTime.parse(json['lastRestocked'] as String),
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'] as String)
-          : null,
+      lastRestocked: parseDate(json['lastRestocked']),
+      createdAt: parseDate(json['createdAt']),
+      updatedAt:
+          json['updatedAt'] != null ? parseDate(json['updatedAt']) : null,
     );
   }
 

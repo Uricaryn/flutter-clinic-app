@@ -114,7 +114,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
     if (_selectedOperatorId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Lütfen operatör seçin'),
+          content: Text('Lütfen doktor seçin'),
           backgroundColor: Colors.red,
         ),
       );
@@ -312,6 +312,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                             dropdownSearchDecoration:
                                                 InputDecoration(
                                               labelText: 'Hasta Seçin',
+                                              hintText: 'Hasta seçin',
                                               prefixIcon:
                                                   const Icon(Icons.person),
                                               border: OutlineInputBorder(
@@ -351,41 +352,254 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                               backgroundColor: Colors.white,
                                               elevation: 2,
                                             ),
-                                            emptyBuilder:
-                                                (context, searchEntry) =>
-                                                    Column(
-                                              children: [
-                                                const Text('Hasta bulunamadı'),
-                                                const SizedBox(height: 16),
-                                                OutlinedButton.icon(
-                                                  onPressed: () {
-                                                    Navigator.pushNamed(
-                                                      context,
-                                                      '/patient/new',
-                                                    );
-                                                  },
-                                                  icon: const Icon(Icons.add),
-                                                  label: const Text(
-                                                      'Yeni Hasta Ekle'),
-                                                ),
-                                              ],
-                                            ),
                                           ),
                                           onChanged: (patient) {
-                                            setState(() {
-                                              _selectedPatientId = patient?.id;
-                                              _patientNameController.text =
-                                                  patient?.fullName ?? '';
-                                              _patientPhoneController.text =
-                                                  patient?.phone ?? '';
-                                            });
-                                          },
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return 'Lütfen hasta seçin';
+                                            if (patient != null) {
+                                              setState(() {
+                                                _selectedPatientId = patient.id;
+                                                _patientNameController.text =
+                                                    patient.fullName;
+                                                _patientPhoneController.text =
+                                                    patient.phone;
+                                              });
+
+                                              // Hasta notlarını göster
+                                              if (patient.notes.isNotEmpty) {
+                                                final notesController =
+                                                    TextEditingController(
+                                                        text: patient.notes);
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) => Dialog(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16),
+                                                    ),
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              24),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: theme
+                                                                      .colorScheme
+                                                                      .primary
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                ),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .note_alt_outlined,
+                                                                  color: theme
+                                                                      .colorScheme
+                                                                      .primary,
+                                                                  size: 24,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 16),
+                                                              Expanded(
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      patient
+                                                                          .fullName,
+                                                                      style: theme
+                                                                          .textTheme
+                                                                          .titleLarge
+                                                                          ?.copyWith(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                      ),
+                                                                    ),
+                                                                    const SizedBox(
+                                                                        height:
+                                                                            4),
+                                                                    Text(
+                                                                      'Hasta Notları',
+                                                                      style: theme
+                                                                          .textTheme
+                                                                          .bodyMedium
+                                                                          ?.copyWith(
+                                                                        color: Colors
+                                                                            .grey[600],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 24),
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(16),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors
+                                                                  .grey[50],
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                              border:
+                                                                  Border.all(
+                                                                color: Colors
+                                                                    .grey[200]!,
+                                                                width: 1,
+                                                              ),
+                                                            ),
+                                                            child: TextField(
+                                                              controller:
+                                                                  notesController,
+                                                              maxLines: 5,
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                border:
+                                                                    InputBorder
+                                                                        .none,
+                                                                hintText:
+                                                                    'Notları düzenleyin...',
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 24),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        context),
+                                                                child:
+                                                                    const Text(
+                                                                        'İptal'),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 8),
+                                                              ElevatedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  try {
+                                                                    await FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            'patients')
+                                                                        .doc(patient
+                                                                            .id)
+                                                                        .update({
+                                                                      'notes':
+                                                                          notesController
+                                                                              .text,
+                                                                      'updatedAt':
+                                                                          FieldValue
+                                                                              .serverTimestamp(),
+                                                                    });
+                                                                    if (context
+                                                                        .mounted) {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                        const SnackBar(
+                                                                          content:
+                                                                              Text('Notlar güncellendi'),
+                                                                          backgroundColor:
+                                                                              Colors.green,
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                  } catch (e) {
+                                                                    if (context
+                                                                        .mounted) {
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                          content:
+                                                                              Text('Hata: $e'),
+                                                                          backgroundColor:
+                                                                              Colors.red,
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                  }
+                                                                },
+                                                                child: const Text(
+                                                                    'Kaydet'),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
                                             }
-                                            return null;
                                           },
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: OutlinedButton.icon(
+                                                onPressed: () {
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    '/patient/new',
+                                                  );
+                                                },
+                                                icon: const Icon(Icons.add),
+                                                label: const Text(
+                                                    'Yeni Hasta Ekle'),
+                                              ),
+                                            ),
+                                            if (_selectedPatientId != null) ...[
+                                              const SizedBox(width: 8),
+                                              OutlinedButton.icon(
+                                                onPressed: () {
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    '/patient/edit',
+                                                    arguments:
+                                                        _selectedPatientId,
+                                                  );
+                                                },
+                                                icon: const Icon(Icons.edit),
+                                                label: const Text(
+                                                    'Hastayı Düzenle'),
+                                              ),
+                                            ],
+                                          ],
                                         ),
                                       ],
                                     );
@@ -492,44 +706,85 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                   },
                                 ),
                                 const SizedBox(height: 16),
-                                operatorsAsync.when(
-                                  loading: () => const Center(
-                                      child: CircularProgressIndicator()),
-                                  error: (e, _) => Text('Hata: $e'),
-                                  data: (users) {
-                                    final operators = users.docs
-                                        .where((doc) =>
-                                            doc['role'] ==
-                                            UserRole.operator.value)
-                                        .toList();
-                                    return DropdownButtonFormField<String>(
-                                      value: _selectedOperatorId,
-                                      decoration: InputDecoration(
-                                        labelText: 'Operatör',
-                                        prefixIcon: const Icon(Icons.person),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
+                                StreamBuilder<QuerySnapshot>(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('doctors')
+                                      .where('clinicId', isEqualTo: clinicId)
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasError) {
+                                      return Text('Hata: ${snapshot.error}');
+                                    }
+
+                                    if (!snapshot.hasData) {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    }
+
+                                    final doctors = snapshot.data!.docs;
+                                    if (doctors.isEmpty) {
+                                      return const Center(
+                                        child: Text('Henüz doktor bulunmuyor'),
+                                      );
+                                    }
+
+                                    return DropdownSearch<String>(
+                                      popupProps: const PopupProps.menu(
+                                        showSearchBox: true,
+                                        searchFieldProps: TextFieldProps(
+                                          decoration: InputDecoration(
+                                            labelText: 'Doktor Ara',
+                                            hintText: 'Doktor adı ile arayın',
+                                          ),
                                         ),
                                       ),
-                                      items: operators.map((doc) {
-                                        return DropdownMenuItem<String>(
-                                          value: doc.id,
-                                          child:
-                                              Text(doc['fullName'] as String),
-                                        );
+                                      items: doctors.map((doc) {
+                                        final data =
+                                            doc.data() as Map<String, dynamic>;
+                                        return data['name'] as String;
                                       }).toList(),
                                       onChanged: (value) {
-                                        setState(() {
-                                          _selectedOperatorId = value;
-                                        });
-                                      },
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Lütfen operatör seçin';
+                                        if (value != null) {
+                                          final selectedDoctor =
+                                              doctors.firstWhere(
+                                            (doc) =>
+                                                (doc.data() as Map<String,
+                                                    dynamic>)['name'] ==
+                                                value,
+                                          );
+                                          setState(() {
+                                            _selectedOperatorId =
+                                                selectedDoctor.id;
+                                          });
                                         }
-                                        return null;
                                       },
+                                      selectedItem: _selectedOperatorId != null
+                                          ? doctors
+                                                  .where((doc) =>
+                                                      doc.id ==
+                                                      _selectedOperatorId)
+                                                  .isNotEmpty
+                                              ? (doctors
+                                                      .firstWhere((doc) =>
+                                                          doc.id ==
+                                                          _selectedOperatorId)
+                                                      .data()
+                                                  as Map<String,
+                                                      dynamic>)['name'] as String
+                                              : null
+                                          : null,
+                                      dropdownDecoratorProps:
+                                          DropDownDecoratorProps(
+                                        dropdownSearchDecoration:
+                                            InputDecoration(
+                                          labelText: 'Doktor Seçin',
+                                          hintText: 'Doktor seçin',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                      ),
                                     );
                                   },
                                 ),
@@ -573,4 +828,3 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
     );
   }
 }
- 

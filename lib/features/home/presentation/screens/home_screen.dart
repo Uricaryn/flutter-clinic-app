@@ -16,6 +16,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/shared/widgets/auth_background.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -49,24 +50,53 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: _currentIndex == 0
-          ? CustomAppBar(
-              title: l10n.home,
-              showThemeToggle: true,
-            )
-          : null,
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-        children: [
-          _buildHomePage(),
-          const AppointmentsScreen(),
-          _buildProceduresPage(),
-          const StockManagementScreen(),
-          _buildProfilePage(),
-        ],
+      body: AuthBackground(
+        showMedicalIcons: false,
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Custom App Bar
+              if (_currentIndex == 0)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _getPageTitle(l10n),
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.notifications_outlined),
+                        onPressed: () {
+                          // TODO: Implement notifications
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              // Main Content
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: _onPageChanged,
+                  children: [
+                    _buildHomePage(),
+                    const AppointmentsScreen(),
+                    _buildProceduresPage(),
+                    const StockManagementScreen(),
+                    _buildProfilePage(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: CustomBottomNav(
         currentIndex: _currentIndex,
@@ -127,8 +157,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   backgroundColor: Colors.blue,
                   child: Icon(Icons.local_hospital, color: Colors.white),
                 ),
-                title: Text('Klinik Yönetimi'),
-                subtitle: Text('Klinik bilgilerini ve operatörleri yönetin'),
+                title: Text(l10n.clinicManagement),
+                subtitle:
+                    const Text('Klinik bilgilerini ve operatörleri yönetin'),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () {
                   Navigator.push(
@@ -148,6 +179,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildQuickActions() {
     final l10n = AppLocalizations.of(context)!;
+    final user = ref.watch(currentUserProvider);
+    final userDataAsync = ref.watch(currentUserDataProvider);
+    bool isClinicAdmin = false;
+    if (userDataAsync.asData != null) {
+      final data = userDataAsync.asData!.value?.data() as Map<String, dynamic>?;
+      isClinicAdmin = data != null && data['role'] == 'clinic_admin';
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,10 +316,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   data: (snapshot) {
                     final count = snapshot.docs.length;
                     return _buildActivityItem(
-                  icon: Icons.calendar_today,
-                  title: l10n.upcomingAppointments,
+                      icon: Icons.calendar_today,
+                      title: l10n.upcomingAppointments,
                       subtitle: l10n.youHaveAppointmentsToday(count),
-                  onTap: () => _onNavItemTapped(1),
+                      onTap: () => _onNavItemTapped(1),
                     );
                   },
                   loading: () => const ListTile(title: Text('Yükleniyor...')),
@@ -292,10 +330,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   data: (snapshot) {
                     final count = snapshot.docs.length;
                     return _buildActivityItem(
-                  icon: Icons.inventory,
-                  title: l10n.lowStockAlert,
+                      icon: Icons.inventory,
+                      title: l10n.lowStockAlert,
                       subtitle: l10n.itemsNeedRestock(count),
-                  onTap: () => _onNavItemTapped(3),
+                      onTap: () => _onNavItemTapped(3),
                     );
                   },
                   loading: () => const ListTile(title: Text('Yükleniyor...')),

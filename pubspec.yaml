@@ -64,6 +64,8 @@ dependencies:
 
   # New dependency
   dropdown_search: ^5.0.6
+  animated_text_kit: ^4.2.3
+  intl_utils: ^2.8.10
 
 dev_dependencies:
   flutter_test:

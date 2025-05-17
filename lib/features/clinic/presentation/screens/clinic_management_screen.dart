@@ -8,6 +8,7 @@ import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:clinic_app/core/services/logger_service.dart';
+import 'package:clinic_app/features/operator/presentation/widgets/operator_list.dart';
 
 class ClinicManagementScreen extends ConsumerStatefulWidget {
   const ClinicManagementScreen({super.key});

@@ -8,6 +8,7 @@ import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:clinic_app/features/home/presentation/screens/home_screen.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
+import 'package:clinic_app/shared/widgets/auth_background.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -127,199 +128,142 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background with gradient
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-                ],
-              ),
-            ),
-          ),
-          // Oval shape divider
-          Positioned(
-            top: size.height * 0.3,
-            left: -size.width * 0.2,
-            right: -size.width * 0.2,
-            child: Container(
-              height: size.height * 0.7,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(size.width * 0.5),
-                  topRight: Radius.circular(size.width * 0.5),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color:
-                        Theme.of(context).colorScheme.shadow.withOpacity(0.1),
-                    blurRadius: 20,
-                    offset: const Offset(0, -5),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // Decorative medical icons
-          Positioned(
-            top: size.height * 0.05,
-            left: size.width * 0.1,
-            child: Icon(
-              Icons.medical_services_outlined,
-              size: 40,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-            ).animate().fadeIn().scale(),
-          ),
-          Positioned(
-            top: size.height * 0.15,
-            right: size.width * 0.1,
-            child: Icon(
-              Icons.favorite_outline,
-              size: 40,
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-            ).animate().fadeIn().scale(),
-          ),
-          // Login form
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Language Switcher
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        icon: const Icon(Icons.language),
-                        onPressed: () {
-                          ref.read(localeProvider.notifier).toggleLocale();
-                        },
-                        tooltip: l10n.language,
-                      ),
+      body: AuthBackground(
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Language Switcher
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: const Icon(Icons.language),
+                      onPressed: () {
+                        ref.read(localeProvider.notifier).toggleLocale();
+                      },
                     ),
-                    const SizedBox(height: 48),
-                    Image.asset(
+                  ),
+                  const SizedBox(height: 48),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
                       'assets/images/ordana_login_logo.png',
                       width: 100,
                       height: 100,
                     ).animate().fadeIn().scale(),
-                    const SizedBox(height: 24),
-                    Text(
-                      l10n.welcomeBack,
-                      style: Theme.of(context).textTheme.headlineMedium,
-                      textAlign: TextAlign.center,
-                    ).animate().fadeIn().moveY(begin: 10, end: 0),
-                    const SizedBox(height: 8),
-                    Text(
-                      l10n.signInToContinue,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                      textAlign: TextAlign.center,
-                    ).animate().fadeIn().moveY(begin: 10, end: 0),
-                    const SizedBox(height: 48),
-                    CustomTextField(
-                      controller: _emailController,
-                      label: l10n.email,
-                      keyboardType: TextInputType.emailAddress,
-                      prefixIcon: Icon(Icons.email_outlined),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return l10n.pleaseEnterEmail;
-                        }
-                        if (!value.contains('@')) {
-                          return l10n.pleaseEnterValidEmail;
-                        }
-                        return null;
-                      },
-                    ).animate().fadeIn().moveX(begin: -10, end: 0),
-                    const SizedBox(height: 16),
-                    CustomTextField(
-                      controller: _passwordController,
-                      label: l10n.password,
-                      obscureText: _obscurePassword,
-                      prefixIcon: Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    l10n.welcomeBack,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn().moveY(begin: 10, end: 0),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.signInToContinue,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn().moveY(begin: 10, end: 0),
+                  const SizedBox(height: 48),
+                  CustomTextField(
+                    controller: _emailController,
+                    label: l10n.email,
+                    keyboardType: TextInputType.emailAddress,
+                    prefixIcon: Icon(Icons.email_outlined),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return l10n.pleaseEnterEmail;
+                      }
+                      if (!value.contains('@')) {
+                        return l10n.pleaseEnterValidEmail;
+                      }
+                      return null;
+                    },
+                  ).animate().fadeIn().moveX(begin: -10, end: 0),
+                  const SizedBox(height: 16),
+                  CustomTextField(
+                    controller: _passwordController,
+                    label: l10n.password,
+                    obscureText: _obscurePassword,
+                    prefixIcon: Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return l10n.pleaseEnterPassword;
-                        }
-                        if (value.length < 6) {
-                          return l10n.passwordMustBeAtLeast6Characters;
-                        }
-                        return null;
-                      },
-                    ).animate().fadeIn().moveX(begin: 10, end: 0),
-                    if (error != null) ...[
-                      const SizedBox(height: 16),
-                      Text(
-                        error,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                        textAlign: TextAlign.center,
-                      ).animate().fadeIn(),
-                    ],
-                    const SizedBox(height: 24),
-                    CustomButton(
-                      text: l10n.signIn,
-                      onPressed: _handleLogin,
-                      isLoading: isLoading,
-                    ).animate().fadeIn().moveY(begin: 10, end: 0),
-                    const SizedBox(height: 16),
-                    TextButton(
                       onPressed: () {
-                        ref.read(authServiceProvider).sendPasswordResetEmail(
-                              _emailController.text.trim(),
-                            );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(l10n.passwordResetEmailSent),
-                          ),
-                        );
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
                       },
-                      child: Text(l10n.forgotPassword),
-                    ).animate().fadeIn(),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(l10n.dontHaveAccount),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const RegisterScreen(),
-                              ),
-                            );
-                          },
-                          child: Text(l10n.signUp),
-                        ),
-                      ],
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return l10n.pleaseEnterPassword;
+                      }
+                      if (value.length < 6) {
+                        return l10n.passwordMustBeAtLeast6Characters;
+                      }
+                      return null;
+                    },
+                  ).animate().fadeIn().moveX(begin: 10, end: 0),
+                  if (error != null) ...[
+                    const SizedBox(height: 16),
+                    Text(
+                      error,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                      textAlign: TextAlign.center,
                     ).animate().fadeIn(),
                   ],
-                ),
+                  const SizedBox(height: 24),
+                  CustomButton(
+                    text: l10n.signIn,
+                    onPressed: _handleLogin,
+                    isLoading: isLoading,
+                  ).animate().fadeIn().moveY(begin: 10, end: 0),
+                  const SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      ref.read(authServiceProvider).sendPasswordResetEmail(
+                            _emailController.text.trim(),
+                          );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(l10n.passwordResetEmailSent),
+                        ),
+                      );
+                    },
+                    child: Text(l10n.forgotPassword),
+                  ).animate().fadeIn(),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(l10n.dontHaveAccount),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(l10n.signUp),
+                      ),
+                    ],
+                  ).animate().fadeIn(),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

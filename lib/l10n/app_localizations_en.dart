@@ -355,6 +355,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clinicManagement => 'Clinic Management';
 
   @override
+  String get manageClinicInfoAndOperators => 'Manage clinic information and operators';
+
+  @override
   String get noClinicsFound => 'No Clinics Found';
 
   @override
@@ -367,5 +370,112 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noAppointmentsFound => 'No appointments found';
 
   @override
-  String get splashSlogan => 'Smart Clinic Management, Easy Appointment Tracking';
+  String get splashSlogan => 'Smart Healthcare, Easy Management';
+
+  @override
+  String get registerTitle => 'Create Your Account';
+
+  @override
+  String get registerSubtitle => 'Join our healthcare community';
+
+  @override
+  String get nameHint => 'Enter your full name';
+
+  @override
+  String get emailHint => 'Enter your email address';
+
+  @override
+  String get passwordHint => 'Create a password';
+
+  @override
+  String get confirmPasswordHint => 'Confirm your password';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get registerButton => 'Create Account';
+
+  @override
+  String get alreadyHaveAccountText => 'Already have an account?';
+
+  @override
+  String get loginLink => 'Sign In';
+
+  @override
+  String get procedureName => 'Procedure Name';
+
+  @override
+  String get enterProcedureName => 'Enter procedure name';
+
+  @override
+  String get pleaseEnterProcedureName => 'Please enter procedure name';
+
+  @override
+  String get enterProcedureDescription => 'Enter procedure description';
+
+  @override
+  String get pleaseEnterDescription => 'Please enter description';
+
+  @override
+  String get enterProcedurePrice => 'Enter procedure price';
+
+  @override
+  String get pleaseEnterPrice => 'Please enter price';
+
+  @override
+  String get pleaseEnterValidPrice => 'Please enter a valid price';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get enterProcedureDuration => 'Enter procedure duration';
+
+  @override
+  String get minutes => 'minutes';
+
+  @override
+  String get pleaseEnterDuration => 'Please enter duration';
+
+  @override
+  String get pleaseEnterValidDuration => 'Please enter a valid duration';
+
+  @override
+  String get materials => 'Materials';
+
+  @override
+  String get addMaterial => 'Add Material';
+
+  @override
+  String get selectStockItem => 'Select Stock Item';
+
+  @override
+  String get enterQuantity => 'Enter quantity';
+
+  @override
+  String get pleaseEnterQuantity => 'Please enter quantity';
+
+  @override
+  String get pleaseEnterValidQuantity => 'Please enter a valid quantity';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get editProcedure => 'Edit Procedure';
+
+  @override
+  String get deleteProcedure => 'Delete Procedure';
+
+  @override
+  String deleteProcedureConfirmation(String procedureName) {
+    return 'Are you sure you want to delete $procedureName?';
+  }
+
+  @override
+  String get pleaseEnterUnit => 'Please enter unit';
+
+  @override
+  String get pleaseEnterMinimumQuantity => 'Please enter minimum quantity';
 }

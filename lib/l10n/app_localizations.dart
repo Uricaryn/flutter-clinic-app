@@ -761,11 +761,17 @@ abstract class AppLocalizations {
   /// **'Back to Login'**
   String get backToLogin;
 
-  /// Title for clinic management screen
+  /// Clinic management section title
   ///
   /// In en, this message translates to:
   /// **'Clinic Management'**
   String get clinicManagement;
+
+  /// Clinic management section subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Manage clinic information and operators'**
+  String get manageClinicInfoAndOperators;
 
   /// Message shown when no clinics are found
   ///
@@ -791,11 +797,221 @@ abstract class AppLocalizations {
   /// **'No appointments found'**
   String get noAppointmentsFound;
 
-  /// No description provided for @splashSlogan.
+  /// Splash screen slogan
   ///
   /// In en, this message translates to:
-  /// **'Smart Clinic Management, Easy Appointment Tracking'**
+  /// **'Smart Healthcare, Easy Management'**
   String get splashSlogan;
+
+  /// Register screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Create Your Account'**
+  String get registerTitle;
+
+  /// Register screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Join our healthcare community'**
+  String get registerSubtitle;
+
+  /// Name field hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your full name'**
+  String get nameHint;
+
+  /// Email field hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address'**
+  String get emailHint;
+
+  /// Password field hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Create a password'**
+  String get passwordHint;
+
+  /// Confirm password field hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your password'**
+  String get confirmPasswordHint;
+
+  /// Password match validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
+
+  /// Register button text
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get registerButton;
+
+  /// Text for login prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get alreadyHaveAccountText;
+
+  /// Login link text
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get loginLink;
+
+  /// Procedure name field label
+  ///
+  /// In en, this message translates to:
+  /// **'Procedure Name'**
+  String get procedureName;
+
+  /// Procedure name field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter procedure name'**
+  String get enterProcedureName;
+
+  /// Procedure name validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter procedure name'**
+  String get pleaseEnterProcedureName;
+
+  /// Procedure description field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter procedure description'**
+  String get enterProcedureDescription;
+
+  /// Description validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter description'**
+  String get pleaseEnterDescription;
+
+  /// Procedure price field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter procedure price'**
+  String get enterProcedurePrice;
+
+  /// Price validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter price'**
+  String get pleaseEnterPrice;
+
+  /// Price format validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid price'**
+  String get pleaseEnterValidPrice;
+
+  /// Duration field label
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// Procedure duration field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter procedure duration'**
+  String get enterProcedureDuration;
+
+  /// Minutes unit text
+  ///
+  /// In en, this message translates to:
+  /// **'minutes'**
+  String get minutes;
+
+  /// Duration validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter duration'**
+  String get pleaseEnterDuration;
+
+  /// Duration format validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid duration'**
+  String get pleaseEnterValidDuration;
+
+  /// Materials section title
+  ///
+  /// In en, this message translates to:
+  /// **'Materials'**
+  String get materials;
+
+  /// Add material dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Add Material'**
+  String get addMaterial;
+
+  /// Stock item selection field label
+  ///
+  /// In en, this message translates to:
+  /// **'Select Stock Item'**
+  String get selectStockItem;
+
+  /// Quantity field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter quantity'**
+  String get enterQuantity;
+
+  /// Quantity validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter quantity'**
+  String get pleaseEnterQuantity;
+
+  /// Quantity format validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid quantity'**
+  String get pleaseEnterValidQuantity;
+
+  /// Add button text
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// Edit procedure dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Procedure'**
+  String get editProcedure;
+
+  /// Delete procedure dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Procedure'**
+  String get deleteProcedure;
+
+  /// Delete procedure confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {procedureName}?'**
+  String deleteProcedureConfirmation(String procedureName);
+
+  /// Unit validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter unit'**
+  String get pleaseEnterUnit;
+
+  /// Minimum quantity validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter minimum quantity'**
+  String get pleaseEnterMinimumQuantity;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

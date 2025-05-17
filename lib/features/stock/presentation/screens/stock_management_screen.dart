@@ -7,6 +7,10 @@ import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/shared/widgets/auth_background.dart';
+import 'package:clinic_app/features/stock/presentation/widgets/edit_stock_item_dialog.dart';
+import 'package:clinic_app/features/stock/presentation/widgets/delete_stock_item_dialog.dart';
+import 'package:clinic_app/features/stock/presentation/widgets/add_stock_item_dialog.dart';
 
 class StockManagementScreen extends ConsumerWidget {
   const StockManagementScreen({super.key});
@@ -18,82 +22,122 @@ class StockManagementScreen extends ConsumerWidget {
     final asyncStock = ref.watch(stockItemsStreamProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.stockManagement),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // TODO: Stok ekleme dialogu
-            },
-          ),
-        ],
-      ),
-      body: asyncStock.when(
-        data: (snapshot) {
-          final docs = snapshot.docs;
-          if (docs.isEmpty) {
-            return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.inventory_2_outlined,
-                        size: 64,
-                        color: theme.colorScheme.primary.withOpacity(0.5),
+      body: AuthBackground(
+        showMedicalIcons: false,
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Custom App Bar
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      l10n.stockManagement,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        l10n.noStockItemsFound,
-                        style: theme.textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        l10n.addStockItemToStart,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.7),
+                    ),
+                  ],
+                ),
+              ),
+              // Main Content
+              Expanded(
+                child: asyncStock.when(
+                  data: (snapshot) {
+                    final docs = snapshot.docs;
+                    if (docs.isEmpty) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.inventory_2_outlined,
+                              size: 64,
+                              color: theme.colorScheme.primary.withOpacity(0.5),
+                            ).animate().fadeIn().scale(),
+                            const SizedBox(height: 16),
+                            Text(
+                              l10n.noStockItemsFound,
+                              style: theme.textTheme.titleLarge,
+                            ).animate().fadeIn().slideY(),
+                            const SizedBox(height: 8),
+                            Text(
+                              l10n.addStockItemToStart,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurface
+                                    .withOpacity(0.7),
+                              ),
+                            ).animate().fadeIn().slideY(),
+                            const SizedBox(height: 24),
+                            CustomButton(
+                              text: l10n.addStockItem,
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      const AddStockItemDialog(),
+                                );
+                              },
+                            ).animate().fadeIn().scale(),
+                          ],
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      CustomButton(
-                        text: l10n.addStockItem,
-                    onPressed: () {
-                      // TODO: Stok ekleme dialogu
-                    },
-                      ),
-                    ],
-                  ),
-            );
-          }
-          return ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-            itemCount: docs.length,
-                  itemBuilder: (context, index) {
-              final data = docs[index].data() as Map<String, dynamic>;
-              final item = StockItemModel.fromJson(data);
-                    return StockItemCard(
-                      item: item,
-                      onTap: () {
-                        // TODO: Navigate to stock item details
+                      );
+                    }
+                    return ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 16),
+                      itemCount: docs.length,
+                      itemBuilder: (context, index) {
+                        final data = docs[index].data() as Map<String, dynamic>;
+                        final item = StockItemModel.fromJson(data);
+                        return StockItemCard(
+                          item: item,
+                          onTap: () {
+                            // TODO: Navigate to stock item details
+                          },
+                          onEdit: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  EditStockItemDialog(stockItem: item),
+                            );
+                          },
+                          onDelete: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  DeleteStockItemDialog(stockItem: item),
+                            );
+                          },
+                          onRestock: item.needsRestock
+                              ? () {
+                                  // TODO: Stok yenileme dialogu
+                                }
+                              : null,
+                        ).animate().fadeIn().slideX();
                       },
-                onEdit: () {
-                  // TODO: Stok düzenleme dialogu
-                },
-                onDelete: () {
-                  // TODO: Stok silme dialogu
-                },
-                      onRestock: item.needsRestock
-                    ? () {
-                        // TODO: Stok yenileme dialogu
-                      }
-                          : null,
                     );
                   },
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (e, _) => Center(child: Text('Hata: $e')),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => const AddStockItemDialog(),
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Hata: $e')),
-                ),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

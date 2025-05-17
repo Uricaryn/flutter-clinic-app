@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 enum AppointmentStatus {
   scheduled,
   confirmed,
@@ -21,6 +23,11 @@ class AppointmentModel {
   final String clinicId;
   final DateTime createdAt;
   final DateTime? updatedAt;
+  final double? paymentAmount;
+  final DateTime? paymentDate;
+  final String? paymentMethod;
+  final String? paymentNote;
+  final List<Map<String, dynamic>>? usedStockItems;
 
   AppointmentModel({
     required this.id,
@@ -37,6 +44,11 @@ class AppointmentModel {
     required this.clinicId,
     required this.createdAt,
     this.updatedAt,
+    this.paymentAmount,
+    this.paymentDate,
+    this.paymentMethod,
+    this.paymentNote,
+    this.usedStockItems,
   });
 
   // Mock data generator
@@ -107,6 +119,11 @@ class AppointmentModel {
       'clinicId': clinicId,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      'paymentAmount': paymentAmount,
+      'paymentDate': paymentDate,
+      'paymentMethod': paymentMethod,
+      'paymentNote': paymentNote,
+      'usedStockItems': usedStockItems,
     };
   }
 
@@ -117,15 +134,28 @@ class AppointmentModel {
       patientName: json['patientName'] as String,
       patientPhone: json['patientPhone'] as String,
       procedureId: json['procedureId'] as String,
-      procedureName: json['procedureName'] as String,
+      procedureName: json['procedureName'] as String? ?? 'İşlem',
       operatorId: json['operatorId'] as String,
-      operatorName: json['operatorName'] as String,
-      dateTime: (json['dateTime'] as DateTime),
-      status: json['status'] as String,
+      operatorName: json['operatorName'] as String? ?? 'Doktor',
+      dateTime: (json['dateTime'] as Timestamp).toDate(),
+      status: json['status'] as String? ?? 'scheduled',
       notes: json['notes'] as String?,
       clinicId: json['clinicId'] as String,
-      createdAt: (json['createdAt'] as DateTime),
-      updatedAt: json['updatedAt'] as DateTime?,
+      createdAt: (json['createdAt'] as Timestamp).toDate(),
+      updatedAt: json['updatedAt'] != null
+          ? (json['updatedAt'] as Timestamp).toDate()
+          : null,
+      paymentAmount: json['paymentAmount'] != null
+          ? (json['paymentAmount'] as num).toDouble()
+          : null,
+      paymentDate: json['paymentDate'] != null
+          ? (json['paymentDate'] as Timestamp).toDate()
+          : null,
+      paymentMethod: json['paymentMethod'] as String?,
+      paymentNote: json['paymentNote'] as String?,
+      usedStockItems: json['usedStockItems'] != null
+          ? List<Map<String, dynamic>>.from(json['usedStockItems'])
+          : null,
     );
   }
 

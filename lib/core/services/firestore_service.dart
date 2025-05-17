@@ -165,6 +165,34 @@ class FirestoreService {
     String? notes,
   }) async {
     try {
+      // İşlem detaylarını al
+      final procedureDoc = await proceduresCollection.doc(procedureId).get();
+      if (!procedureDoc.exists) {
+        throw Exception('İşlem bulunamadı');
+      }
+
+      final procedureData = procedureDoc.data() as Map<String, dynamic>;
+      final materials = procedureData['materials'] as List<dynamic>? ?? [];
+
+      // Stok ürünlerinin maliyetlerini al
+      final usedStockItems = await Future.wait(materials.map((material) async {
+        final stockItemDoc =
+            await stockItemsCollection.doc(material['stockItemId']).get();
+        if (!stockItemDoc.exists) {
+          throw Exception(
+              'Stok ürünü bulunamadı: ${material['stockItemName']}');
+        }
+
+        final stockData = stockItemDoc.data() as Map<String, dynamic>;
+        return {
+          'id': material['stockItemId'],
+          'name': material['stockItemName'],
+          'quantity': material['quantity'],
+          'unit': material['unit'],
+          'cost': stockData['cost'] ?? 0.0,
+        };
+      }));
+
       final appointmentData = {
         'clinicId': clinicId,
         'patientId': patientId,
@@ -177,9 +205,11 @@ class FirestoreService {
         'status': 'scheduled',
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
+        'usedStockItems': usedStockItems,
       };
 
-      await _firestore.collection('appointments').add(appointmentData);
+      final docRef = await appointmentsCollection.add(appointmentData);
+      await docRef.update({'id': docRef.id});
     } catch (e) {
       throw Exception('Failed to add appointment: $e');
     }
@@ -259,6 +289,105 @@ class FirestoreService {
       }).toList();
     } catch (e) {
       throw Exception('Failed to search patients: $e');
+    }
+  }
+
+  Future<void> updateAppointment({
+    required String appointmentId,
+    required String patientId,
+    required String patientName,
+    required String patientPhone,
+    required String procedureId,
+    required String operatorId,
+    required DateTime dateTime,
+    String? notes,
+    String? status,
+    double? paymentAmount,
+    String? paymentMethod,
+    String? paymentNote,
+  }) async {
+    try {
+      // İşlem detaylarını al
+      final procedureDoc = await proceduresCollection.doc(procedureId).get();
+      if (!procedureDoc.exists) {
+        throw Exception('İşlem bulunamadı');
+      }
+
+      final procedureData = procedureDoc.data() as Map<String, dynamic>;
+      final materials = procedureData['materials'] as List<dynamic>? ?? [];
+
+      // Stok ürünlerinin maliyetlerini al
+      final usedStockItems = await Future.wait(materials.map((material) async {
+        final stockItemDoc =
+            await stockItemsCollection.doc(material['stockItemId']).get();
+        if (!stockItemDoc.exists) {
+          throw Exception(
+              'Stok ürünü bulunamadı: ${material['stockItemName']}');
+        }
+
+        final stockData = stockItemDoc.data() as Map<String, dynamic>;
+        return {
+          'id': material['stockItemId'],
+          'name': material['stockItemName'],
+          'quantity': material['quantity'],
+          'unit': material['unit'],
+          'cost': stockData['cost'] ?? 0.0,
+        };
+      }));
+
+      final appointmentData = {
+        'patientId': patientId,
+        'patientName': patientName,
+        'patientPhone': patientPhone,
+        'procedureId': procedureId,
+        'operatorId': operatorId,
+        'dateTime': Timestamp.fromDate(dateTime),
+        'notes': notes,
+        'status': status ?? 'scheduled',
+        'updatedAt': FieldValue.serverTimestamp(),
+        'paymentAmount': paymentAmount,
+        'paymentMethod': paymentMethod,
+        'paymentNote': paymentNote,
+        'paymentDate':
+            paymentAmount != null ? FieldValue.serverTimestamp() : null,
+        'usedStockItems': usedStockItems,
+      };
+
+      // Eğer stok ürünleri kullanıldıysa, stok miktarlarını güncelle
+      if (usedStockItems.isNotEmpty) {
+        final batch = _firestore.batch();
+
+        for (var item in usedStockItems) {
+          final stockItemRef = stockItemsCollection.doc(item['id']);
+          final stockItem = await stockItemRef.get();
+
+          if (stockItem.exists) {
+            final currentQuantity = stockItem.get('quantity') as num;
+            final usedQuantity = item['quantity'] as num;
+
+            batch.update(stockItemRef, {
+              'quantity': currentQuantity - usedQuantity,
+              'updatedAt': FieldValue.serverTimestamp(),
+            });
+          }
+        }
+
+        // Önce stok güncellemelerini yap
+        await batch.commit();
+      }
+
+      // Sonra randevuyu güncelle
+      await appointmentsCollection.doc(appointmentId).update(appointmentData);
+    } catch (e) {
+      throw Exception('Failed to update appointment: $e');
+    }
+  }
+
+  Future<void> deleteAppointment(String appointmentId) async {
+    try {
+      await appointmentsCollection.doc(appointmentId).delete();
+    } catch (e) {
+      throw Exception('Failed to delete appointment: $e');
     }
   }
 }
