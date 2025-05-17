@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #2563eb;
+            border-radius: 12px 12px 0 0;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 14px 28px;
+            background-color: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 25px 0;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .button:hover {
+            background-color: #1d4ed8;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid #e2e8f0;
+        }
+        p {
+            margin: 0 0 16px 0;
+        }
+        .link {
+            word-break: break-all;
+            color: #2563eb;
+            text-decoration: none;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>OrdanApp</h1>
+        </div>
+        <div class="content">
+            <p>Hello {{name}},</p>
+            <p>Thank you for registering with OrdanApp. To complete your registration and access all features, please verify your email address by clicking the button below:</p>
+            
+            <div style="text-align: center;">
+                <a href="{{action_url}}" class="button">Verify Email Address</a>
+            </div>
+
+            <p>If the button above doesn't work, you can also copy and paste this link into your browser:</p>
+            <p><a href="{{action_url}}" class="link">{{action_url}}</a></p>
+
+            <p>This verification link will expire in 24 hours.</p>
+
+            <p>If you didn't create an account with OrdanApp, you can safely ignore this email.</p>
+
+            <p>Best regards,<br>The OrdanApp Team</p>
+        </div>
+        <div class="footer">
+            <p>This is an automated message, please do not reply to this email.</p>
+            <p>&copy; 2024 OrdanApp. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html> 
