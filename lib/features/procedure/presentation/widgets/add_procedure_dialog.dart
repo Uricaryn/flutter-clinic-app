@@ -380,3 +380,4 @@ class _AddMaterialDialogState extends ConsumerState<_AddMaterialDialog> {
     );
   }
 }
+ 

@@ -7,6 +7,8 @@ import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
+    as picker;
 
 class EditAppointmentScreen extends ConsumerStatefulWidget {
   final AppointmentModel appointment;
@@ -63,6 +65,12 @@ class _EditAppointmentScreenState extends ConsumerState<EditAppointmentScreen> {
     super.dispose();
   }
 
+  String _formatTimeOfDay(TimeOfDay time) {
+    final hour = time.hour.toString().padLeft(2, '0');
+    final minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -91,28 +99,46 @@ class _EditAppointmentScreenState extends ConsumerState<EditAppointmentScreen> {
   }
 
   Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: _selectedTime ?? TimeOfDay.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Theme.of(context).colorScheme.primary,
-              onPrimary: Colors.white,
-              surface: Theme.of(context).colorScheme.surface,
-              onSurface: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
-          child: child!,
-        );
+    final now = DateTime.now();
+    final initialTime = _selectedTime != null
+        ? DateTime(
+            now.year,
+            now.month,
+            now.day,
+            _selectedTime!.hour,
+            _selectedTime!.minute,
+          )
+        : now;
+
+    picker.DatePicker.showTimePicker(
+      context,
+      showTitleActions: true,
+      showSecondsColumn: false,
+      onChanged: (date) {},
+      onConfirm: (date) {
+        setState(() {
+          _selectedTime = TimeOfDay(hour: date.hour, minute: date.minute);
+        });
       },
+      currentTime: initialTime,
+      locale: picker.LocaleType.tr,
+      theme: picker.DatePickerTheme(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        itemStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
+        doneStyle: TextStyle(
+          color: Theme.of(context).colorScheme.primary,
+          fontSize: 16,
+        ),
+        cancelStyle: TextStyle(
+          color: Theme.of(context).colorScheme.error,
+          fontSize: 16,
+        ),
+      ),
     );
-    if (picked != null && picked != _selectedTime) {
-      setState(() {
-        _selectedTime = picked;
-      });
-    }
   }
 
   @override
@@ -252,7 +278,7 @@ class _EditAppointmentScreenState extends ConsumerState<EditAppointmentScreen> {
                                         icon: const Icon(Icons.access_time),
                                         label: Text(_selectedTime == null
                                             ? 'Saat Seçin'
-                                            : _selectedTime!.format(context)),
+                                            : _formatTimeOfDay(_selectedTime!)),
                                         style: OutlinedButton.styleFrom(
                                           padding: const EdgeInsets.all(16),
                                           shape: RoundedRectangleBorder(

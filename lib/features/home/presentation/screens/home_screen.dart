@@ -17,6 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:clinic_app/shared/widgets/auth_background.dart';
+import 'package:clinic_app/core/providers/theme_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -28,6 +29,16 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _currentIndex = 0;
   final PageController _pageController = PageController();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Refresh all providers when screen is shown
+    ref.refresh(currentUserProvider);
+    ref.refresh(currentUserDataProvider);
+    ref.refresh(upcomingAppointmentsStreamProvider);
+    ref.refresh(lowStockItemsStreamProvider);
+  }
 
   @override
   void dispose() {
@@ -52,55 +63,65 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return Scaffold(
-      body: AuthBackground(
-        showMedicalIcons: false,
-        child: SafeArea(
-          child: Column(
-            children: [
-              // Custom App Bar
-              if (_currentIndex == 0)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        _getPageTitle(l10n),
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
+    return WillPopScope(
+      onWillPop: () async {
+        // Geri tuşuna basıldığında uygulamadan çıkış yapılmasını engelle
+        return false;
+      },
+      child: Scaffold(
+        body: AuthBackground(
+          showMedicalIcons: false,
+          child: SafeArea(
+            child: Column(
+              children: [
+                // Custom App Bar
+                if (_currentIndex == 0)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _getPageTitle(l10n),
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.notifications_outlined),
-                        onPressed: () {
-                          // TODO: Implement notifications
-                        },
-                      ),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.notifications_outlined),
+                              onPressed: () {
+                                // TODO: Implement notifications
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                // Main Content
+                Expanded(
+                  child: PageView(
+                    controller: _pageController,
+                    onPageChanged: _onPageChanged,
+                    children: [
+                      _buildHomePage(),
+                      const AppointmentsScreen(),
+                      _buildProceduresPage(),
+                      const StockManagementScreen(),
+                      _buildProfilePage(),
                     ],
                   ),
                 ),
-              // Main Content
-              Expanded(
-                child: PageView(
-                  controller: _pageController,
-                  onPageChanged: _onPageChanged,
-                  children: [
-                    _buildHomePage(),
-                    const AppointmentsScreen(),
-                    _buildProceduresPage(),
-                    const StockManagementScreen(),
-                    _buildProfilePage(),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomNav(
-        currentIndex: _currentIndex,
-        onTap: _onNavItemTapped,
+        bottomNavigationBar: CustomBottomNav(
+          currentIndex: _currentIndex,
+          onTap: _onNavItemTapped,
+        ),
       ),
     );
   }
@@ -137,9 +158,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            l10n.welcomeBack,
-            style: Theme.of(context).textTheme.headlineMedium,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                l10n.welcomeBack,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ],
           ).animate().fadeIn().slideX(),
           const SizedBox(height: 24),
           _buildQuickActions(),
@@ -158,8 +184,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: Icon(Icons.local_hospital, color: Colors.white),
                 ),
                 title: Text(l10n.clinicManagement),
-                subtitle:
-                    const Text('Klinik bilgilerini ve operatörleri yönetin'),
+                subtitle: Text(l10n.manageClinicInfoAndOperators),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () {
                   Navigator.push(
@@ -318,7 +343,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     return _buildActivityItem(
                       icon: Icons.calendar_today,
                       title: l10n.upcomingAppointments,
-                      subtitle: l10n.youHaveAppointmentsToday(count),
+                      subtitle: count > 0
+                          ? l10n.youHaveAppointmentsToday(count)
+                          : l10n.noAppointmentsToday,
                       onTap: () => _onNavItemTapped(1),
                     );
                   },

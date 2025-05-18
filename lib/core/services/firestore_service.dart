@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:clinic_app/features/patient/domain/models/patient_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
+import 'package:rxdart/rxdart.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -56,25 +59,138 @@ class FirestoreService {
   }
 
   Stream<QuerySnapshot> getCollectionStream(CollectionReference collection) {
-    return collection.orderBy('createdAt', descending: true).snapshots();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not authenticated');
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()
+        .asStream()
+        .switchMap((userDoc) {
+      final clinicId = userDoc.data()?['clinicId'] as String?;
+      if (clinicId == null)
+        throw Exception('User not associated with any clinic');
+
+      return collection
+          .where('clinicId', isEqualTo: clinicId)
+          .orderBy('createdAt', descending: true)
+          .snapshots();
+    });
+  }
+
+  // Procedures için özel sorgu
+  Stream<QuerySnapshot> getProceduresStream() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not authenticated');
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()
+        .asStream()
+        .switchMap((userDoc) {
+      final clinicId = userDoc.data()?['clinicId'] as String?;
+      if (clinicId == null)
+        throw Exception('User not associated with any clinic');
+
+      return proceduresCollection
+          .where('clinicId', isEqualTo: clinicId)
+          .orderBy('createdAt', descending: true)
+          .snapshots();
+    });
+  }
+
+  // Stock items için özel sorgu
+  Stream<QuerySnapshot> getStockItemsStream() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not authenticated');
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()
+        .asStream()
+        .switchMap((userDoc) {
+      final clinicId = userDoc.data()?['clinicId'] as String?;
+      if (clinicId == null)
+        throw Exception('User not associated with any clinic');
+
+      return stockItemsCollection
+          .where('clinicId', isEqualTo: clinicId)
+          .orderBy('createdAt', descending: true)
+          .snapshots();
+    });
   }
 
   // Specific queries
   Stream<QuerySnapshot> getActiveClinicStream() {
-    return clinicsCollection.where('isActive', isEqualTo: true).snapshots();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not authenticated');
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()
+        .asStream()
+        .switchMap((userDoc) {
+      final clinicId = userDoc.data()?['clinicId'] as String?;
+      if (clinicId == null)
+        throw Exception('User not associated with any clinic');
+
+      return clinicsCollection
+          .where('isActive', isEqualTo: true)
+          .where('clinicId', isEqualTo: clinicId)
+          .snapshots();
+    });
   }
 
   Stream<QuerySnapshot> getUpcomingAppointmentsStream() {
-    return appointmentsCollection
-        .where('dateTime', isGreaterThanOrEqualTo: DateTime.now())
-        .orderBy('dateTime')
-        .snapshots();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not authenticated');
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final tomorrow = today.add(const Duration(days: 1));
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()
+        .asStream()
+        .switchMap((userDoc) {
+      final clinicId = userDoc.data()?['clinicId'] as String?;
+      if (clinicId == null)
+        throw Exception('User not associated with any clinic');
+
+      return appointmentsCollection
+          .where('clinicId', isEqualTo: clinicId)
+          .where('dateTime', isGreaterThanOrEqualTo: today)
+          .where('dateTime', isLessThan: tomorrow)
+          .orderBy('dateTime')
+          .snapshots();
+    });
   }
 
   Stream<QuerySnapshot> getLowStockItemsStream() {
-    return stockItemsCollection
-        .where('quantity', isLessThanOrEqualTo: 10)
-        .snapshots();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not authenticated');
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()
+        .asStream()
+        .switchMap((userDoc) {
+      final clinicId = userDoc.data()?['clinicId'] as String?;
+      if (clinicId == null)
+        throw Exception('User not associated with any clinic');
+
+      return stockItemsCollection
+          .where('clinicId', isEqualTo: clinicId)
+          .where('quantity', isLessThanOrEqualTo: 10)
+          .snapshots();
+    });
   }
 
   Stream<QuerySnapshot> getUserAppointmentsStream(String userId) {
@@ -165,6 +281,20 @@ class FirestoreService {
     String? notes,
   }) async {
     try {
+      // Kullanıcı kontrolü
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) throw Exception('User not authenticated');
+
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      final userClinicId = userDoc.data()?['clinicId'] as String?;
+      if (userClinicId == null || userClinicId != clinicId) {
+        throw Exception('Unauthorized access to clinic data');
+      }
+
       // İşlem detaylarını al
       final procedureDoc = await proceduresCollection.doc(procedureId).get();
       if (!procedureDoc.exists) {
@@ -172,6 +302,10 @@ class FirestoreService {
       }
 
       final procedureData = procedureDoc.data() as Map<String, dynamic>;
+      if (procedureData['clinicId'] != clinicId) {
+        throw Exception('Unauthorized access to procedure');
+      }
+
       final materials = procedureData['materials'] as List<dynamic>? ?? [];
 
       // Stok ürünlerinin maliyetlerini al
@@ -184,6 +318,10 @@ class FirestoreService {
         }
 
         final stockData = stockItemDoc.data() as Map<String, dynamic>;
+        if (stockData['clinicId'] != clinicId) {
+          throw Exception('Unauthorized access to stock item');
+        }
+
         return {
           'id': material['stockItemId'],
           'name': material['stockItemName'],

@@ -96,7 +96,7 @@ class MyApp extends ConsumerWidget {
       title: AppConfig.appName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: ref.watch(themeProvider),
       navigatorKey: NavigationService.navigatorKey,
       scaffoldMessengerKey: NavigationService.scaffoldMessengerKey,
       onGenerateRoute: AppRouter.generateRoute,
@@ -109,31 +109,22 @@ class MyApp extends ConsumerWidget {
           child: child!,
         );
       },
-      home: FutureBuilder(
-        future: Future.delayed(const Duration(seconds: 4)),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const SplashScreen();
+      home: authState.when(
+        data: (user) {
+          _logger.info(
+              'Auth state changed: ${user != null ? 'User logged in' : 'No user'}');
+          if (user == null) {
+            return const LoginScreen();
           }
-
-          return authState.when(
-            data: (user) {
-              _logger.info(
-                  'Auth state changed: ${user != null ? 'User logged in' : 'No user'}');
-              if (user == null) {
-                return const LoginScreen();
-              }
-              return const HomeScreen();
-            },
-            loading: () {
-              _logger.info('Auth state is loading, showing splash screen');
-              return const SplashScreen();
-            },
-            error: (error, stack) {
-              _logger.error('Auth state error', error, stack);
-              return ErrorScreen(error: error.toString());
-            },
-          );
+          return const HomeScreen();
+        },
+        loading: () {
+          _logger.info('Auth state is loading, showing splash screen');
+          return const SplashScreen();
+        },
+        error: (error, stack) {
+          _logger.error('Auth state error', error, stack);
+          return ErrorScreen(error: error.toString());
         },
       ),
     );

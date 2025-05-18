@@ -85,6 +85,10 @@
             }
         }
     },
+    "noAppointmentsToday": "No appointments for today",
+    "@noAppointmentsToday": {
+        "description": "Message when there are no appointments today"
+    },
     "lowStockAlert": "Low Stock Alert",
     "@lowStockAlert": {
         "description": "Low stock alert title"
@@ -422,7 +426,7 @@
     },
     "clinicManagement": "Clinic Management",
     "@clinicManagement": {
-        "description": "Clinic management section title"
+        "description": "Clinic management screen title"
     },
     "manageClinicInfoAndOperators": "Manage clinic information and operators",
     "@manageClinicInfoAndOperators": {
@@ -590,5 +594,289 @@
     "pleaseEnterMinimumQuantity": "Please enter minimum quantity",
     "@pleaseEnterMinimumQuantity": {
         "description": "Minimum quantity validation message"
+    },
+    "monthlyIncome": "Monthly Income",
+    "@monthlyIncome": {
+        "description": "Monthly income card title"
+    },
+    "stockValue": "Stock Value",
+    "@stockValue": {
+        "description": "Stock value card title"
+    },
+    "profitMargin": "Profit Margin",
+    "@profitMargin": {
+        "description": "Profit margin card title"
+    },
+    "expenses": "Expenses",
+    "@expenses": {
+        "description": "Expenses section title"
+    },
+    "addExpense": "Add Expense",
+    "@addExpense": {
+        "description": "Add expense button text"
+    },
+    "noExpensesFound": "No Expenses Found",
+    "@noExpensesFound": {
+        "description": "Message when no expenses are found"
+    },
+    "invoiceNumber": "Invoice No: {number}",
+    "@invoiceNumber": {
+        "description": "Invoice number text",
+        "placeholders": {
+            "number": {
+                "type": "String",
+                "example": "INV-001"
+            }
+        }
+    },
+    "deleteExpense": "Delete Expense",
+    "@deleteExpense": {
+        "description": "Delete expense dialog title"
+    },
+    "deleteExpenseConfirmation": "Are you sure you want to delete this expense?",
+    "@deleteExpenseConfirmation": {
+        "description": "Delete expense confirmation message"
+    },
+    "operators": "Operators",
+    "@operators": {
+        "description": "Operators section title"
+    },
+    "addOperator": "Add Operator",
+    "@addOperator": {
+        "description": "Add operator button text"
+    },
+    "noOperatorsFound": "No Operators Found",
+    "@noOperatorsFound": {
+        "description": "Message when no operators are found"
+    },
+    "deleteOperator": "Delete Operator",
+    "@deleteOperator": {
+        "description": "Delete operator dialog title"
+    },
+    "deleteOperatorConfirmation": "Are you sure you want to delete this operator?",
+    "@deleteOperatorConfirmation": {
+        "description": "Delete operator confirmation message"
+    },
+    "doctors": "Doctors",
+    "@doctors": {
+        "description": "Doctors section title"
+    },
+    "addDoctor": "Add Doctor",
+    "@addDoctor": {
+        "description": "Add doctor button text"
+    },
+    "noDoctorsFound": "No Doctors Found",
+    "@noDoctorsFound": {
+        "description": "Message when no doctors are found"
+    },
+    "deleteDoctor": "Delete Doctor",
+    "@deleteDoctor": {
+        "description": "Delete doctor dialog title"
+    },
+    "deleteDoctorConfirmation": "Are you sure you want to delete this doctor?",
+    "@deleteDoctorConfirmation": {
+        "description": "Delete doctor confirmation message"
+    },
+    "thisMonth": "This Month",
+    "@thisMonth": {
+        "description": "This month text for charts"
+    },
+    "criticalStock": "Critical Stock",
+    "@criticalStock": {
+        "description": "Critical stock text for charts"
+    },
+    "todayProfit": "Today",
+    "@todayProfit": {
+        "description": "Today text for profit margin chart"
+    },
+    "newAppointment": "New Appointment",
+    "@newAppointment": {
+        "description": "New appointment screen title"
+    },
+    "pleaseSelectDateAndTime": "Please select date and time",
+    "@pleaseSelectDateAndTime": {
+        "description": "Validation message for date and time selection"
+    },
+    "pleaseSelectProcedure": "Please select a procedure",
+    "@pleaseSelectProcedure": {
+        "description": "Validation message for procedure selection"
+    },
+    "pleaseSelectDoctor": "Please select a doctor",
+    "@pleaseSelectDoctor": {
+        "description": "Validation message for doctor selection"
+    },
+    "pleaseSelectPatient": "Please select a patient",
+    "@pleaseSelectPatient": {
+        "description": "Validation message for patient selection"
+    },
+    "appointmentCreatedSuccessfully": "Appointment created successfully",
+    "@appointmentCreatedSuccessfully": {
+        "description": "Success message when appointment is created"
+    },
+    "error": "Error",
+    "@error": {
+        "description": "Error message prefix"
+    },
+    "userNotFound": "User not found",
+    "@userNotFound": {
+        "description": "Message when user is not found"
+    },
+    "clinicNotFound": "Clinic not found",
+    "@clinicNotFound": {
+        "description": "Message when clinic is not found"
+    },
+    "patientInformation": "Patient Information",
+    "@patientInformation": {
+        "description": "Patient information section title"
+    },
+    "selectPatient": "Select Patient",
+    "@selectPatient": {
+        "description": "Patient selection dropdown label"
+    },
+    "selectPatientHint": "Select a patient",
+    "@selectPatientHint": {
+        "description": "Patient selection dropdown hint"
+    },
+    "searchPatientByNameOrPhone": "Search by name or phone",
+    "@searchPatientByNameOrPhone": {
+        "description": "Patient search field hint"
+    },
+    "noPatientsFound": "No patients found",
+    "@noPatientsFound": {
+        "description": "Message when no patients are found"
+    },
+    "addNewPatient": "Add New Patient",
+    "@addNewPatient": {
+        "description": "Add new patient button text"
+    },
+    "editPatient": "Edit Patient",
+    "@editPatient": {
+        "description": "Edit patient button text"
+    },
+    "appointmentDetails": "Appointment Details",
+    "@appointmentDetails": {
+        "description": "Appointment details section title"
+    },
+    "selectDate": "Select Date",
+    "@selectDate": {
+        "description": "Date selection button text"
+    },
+    "selectTime": "Select Time",
+    "@selectTime": {
+        "description": "Time selection button text"
+    },
+    "procedure": "Procedure",
+    "@procedure": {
+        "description": "Procedure selection field label"
+    },
+    "selectDoctor": "Select Doctor",
+    "@selectDoctor": {
+        "description": "Doctor selection field label"
+    },
+    "selectDoctorHint": "Select a doctor",
+    "@selectDoctorHint": {
+        "description": "Doctor selection field hint"
+    },
+    "searchDoctor": "Search Doctor",
+    "@searchDoctor": {
+        "description": "Doctor search field label"
+    },
+    "searchDoctorByName": "Search by doctor name",
+    "@searchDoctorByName": {
+        "description": "Doctor search field hint"
+    },
+    "noDoctorsYet": "No doctors available yet",
+    "@noDoctorsYet": {
+        "description": "Message when no doctors are available"
+    },
+    "notes": "Notes",
+    "@notes": {
+        "description": "Notes field label"
+    },
+    "createAppointment": "Create Appointment",
+    "@createAppointment": {
+        "description": "Create appointment button text"
+    },
+    "patientNotes": "Patient Notes",
+    "@patientNotes": {
+        "description": "Patient notes dialog title"
+    },
+    "editNotes": "Edit notes...",
+    "@editNotes": {
+        "description": "Notes field hint"
+    },
+    "notesUpdated": "Notes updated",
+    "@notesUpdated": {
+        "description": "Success message when notes are updated"
+    },
+    "save": "Save",
+    "@save": {
+        "description": "Save button text"
+    },
+    "editPatientTitle": "Edit Patient",
+    "@editPatientTitle": {
+        "description": "Edit patient screen title"
+    },
+    "deletePatient": "Delete Patient",
+    "@deletePatient": {
+        "description": "Delete patient dialog title"
+    },
+    "deletePatientConfirmation": "Are you sure you want to delete this patient? This action cannot be undone.",
+    "@deletePatientConfirmation": {
+        "description": "Delete patient confirmation message"
+    },
+    "patientDeletedSuccessfully": "Patient deleted successfully",
+    "@patientDeletedSuccessfully": {
+        "description": "Success message when patient is deleted"
+    },
+    "patientUpdatedSuccessfully": "Patient updated successfully",
+    "@patientUpdatedSuccessfully": {
+        "description": "Success message when patient is updated"
+    },
+    "errorLoadingPatientData": "Error loading patient data: {error}",
+    "@errorLoadingPatientData": {
+        "description": "Error message when loading patient data fails",
+        "placeholders": {
+            "error": {
+                "type": "String",
+                "example": "Network error"
+            }
+        }
+    },
+    "pleaseSelectDateOfBirth": "Please select date of birth",
+    "@pleaseSelectDateOfBirth": {
+        "description": "Validation message for date of birth selection"
+    },
+    "pleaseEnterPhone": "Please enter phone number",
+    "@pleaseEnterPhone": {
+        "description": "Phone validation message"
+    },
+    "selectDateOfBirth": "Select Date of Birth",
+    "@selectDateOfBirth": {
+        "description": "Date of birth selection text"
+    },
+    "gender": "Gender",
+    "@gender": {
+        "description": "Gender field label"
+    },
+    "notSpecified": "Not Specified",
+    "@notSpecified": {
+        "description": "Not specified option for gender"
+    },
+    "male": "Male",
+    "@male": {
+        "description": "Male option for gender"
+    },
+    "female": "Female",
+    "@female": {
+        "description": "Female option for gender"
+    },
+    "useSystemTheme": "Use System Theme",
+    "@useSystemTheme": {
+        "description": "Text for system theme option"
+    },
+    "theme": "Theme",
+    "@theme": {
+        "description": "Text for theme option"
     }
 } 

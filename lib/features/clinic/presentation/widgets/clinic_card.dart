@@ -22,6 +22,8 @@ class ClinicCard extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: theme.colorScheme.surface,
+      elevation: 6,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -38,7 +40,7 @@ class ClinicCard extends StatelessWidget {
                       clinic.name,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.primary,
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -46,7 +48,7 @@ class ClinicCard extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.edit_outlined),
                       onPressed: onEdit,
-                      color: theme.colorScheme.primary,
+                      color: theme.colorScheme.onSurface,
                     ),
                   if (onDelete != null)
                     IconButton(
@@ -63,7 +65,7 @@ class ClinicCard extends StatelessWidget {
                   Icon(
                     Icons.medical_services_outlined,
                     size: 16,
-                    color: theme.colorScheme.primary,
+                    color: theme.colorScheme.onSurface,
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -81,14 +83,14 @@ class ClinicCard extends StatelessWidget {
                   Icon(
                     Icons.location_on_outlined,
                     size: 16,
-                    color: theme.colorScheme.primary,
+                    color: theme.colorScheme.onSurface,
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       clinic.address,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurface.withOpacity(0.7),
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -101,13 +103,13 @@ class ClinicCard extends StatelessWidget {
                   Icon(
                     Icons.phone_outlined,
                     size: 16,
-                    color: theme.colorScheme.primary,
+                    color: theme.colorScheme.onSurface,
                   ),
                   const SizedBox(width: 8),
                   Text(
                     clinic.phone,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withOpacity(0.7),
+                      color: theme.colorScheme.onSurface,
                     ),
                   ),
                 ],
@@ -119,14 +121,14 @@ class ClinicCard extends StatelessWidget {
                   Icon(
                     Icons.email_outlined,
                     size: 16,
-                    color: theme.colorScheme.primary,
+                    color: theme.colorScheme.onSurface,
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       clinic.email,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurface.withOpacity(0.7),
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -138,8 +140,8 @@ class ClinicCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: clinic.isActive
-                      ? theme.colorScheme.primary.withOpacity(0.1)
-                      : theme.colorScheme.error.withOpacity(0.1),
+                      ? theme.colorScheme.primary.withOpacity(0.15)
+                      : theme.colorScheme.error.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(

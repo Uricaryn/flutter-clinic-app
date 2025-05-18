@@ -8,12 +8,37 @@ final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService();
 });
 
-final authStateProvider = StreamProvider<User?>((ref) {
-  return ref.watch(authServiceProvider).authStateChanges;
+// Add a delay to ensure splash screen is shown and animations complete
+final authStateProvider = StreamProvider<User?>((ref) async* {
+  // Add initial delay to show splash screen and complete animations
+  await Future.delayed(const Duration(seconds: 2));
+
+  // Get initial auth state
+  final initialUser = FirebaseAuth.instance.currentUser;
+  if (initialUser != null) {
+    // Check if session is expired
+    final authService = ref.read(authServiceProvider);
+    if (authService.isSessionExpired()) {
+      await authService.signOut();
+      yield null;
+    } else {
+      yield initialUser;
+    }
+  } else {
+    yield null;
+  }
+
+  // Listen to subsequent changes
+  yield* FirebaseAuth.instance.authStateChanges();
 });
 
 final currentUserProvider = Provider<User?>((ref) {
-  return ref.watch(authServiceProvider).currentUser;
+  final authState = ref.watch(authStateProvider);
+  return authState.when(
+    data: (user) => user,
+    loading: () => null,
+    error: (_, __) => null,
+  );
 });
 
 // Loading state provider for auth operations

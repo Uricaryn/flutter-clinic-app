@@ -71,6 +71,12 @@ class AdminPanelScreen extends ConsumerWidget {
     final clinics = ref.watch(clinicListProvider);
     final users = ref.watch(userListProvider);
     final l10n = AppLocalizations.of(context)!;
+    final size = MediaQuery.of(context).size;
+
+    // Responsive sizes
+    final padding = size.width * 0.04; // 4% of screen width
+    final spacing = size.height * 0.02; // 2% of screen height
+    final titleSize = size.height * 0.03; // 3% of screen height
 
     return Scaffold(
       appBar: AppBar(
@@ -78,7 +84,7 @@ class AdminPanelScreen extends ConsumerWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(padding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -86,9 +92,10 @@ class AdminPanelScreen extends ConsumerWidget {
                 l10n.statistics,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
+                      fontSize: titleSize,
                     ),
               ).animate().fadeIn().slideX(),
-              const SizedBox(height: 16),
+              SizedBox(height: spacing),
               stats.when(
                 data: (data) => _buildStatsGrid(context, data),
                 loading: () => const Center(child: CircularProgressIndicator()),
@@ -96,19 +103,20 @@ class AdminPanelScreen extends ConsumerWidget {
                   child: Text(l10n.errorWithMessage(error.toString())),
                 ),
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: spacing * 1.5),
               Text(
                 l10n.quickActions,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
+                      fontSize: titleSize,
                     ),
               ).animate().fadeIn().slideX(),
-              const SizedBox(height: 16),
+              SizedBox(height: spacing),
               _buildQuickActions(context),
-              const SizedBox(height: 16),
-              ElevatedButton(
+              SizedBox(height: spacing),
+              CustomButton(
+                text: 'Test Data Oluştur',
                 onPressed: () => _createTestData(context),
-                child: const Text('Test Data Oluştur'),
               ),
             ],
           ),
@@ -119,11 +127,15 @@ class AdminPanelScreen extends ConsumerWidget {
 
   Widget _buildStatsGrid(BuildContext context, AdminStats stats) {
     final l10n = AppLocalizations.of(context)!;
+    final size = MediaQuery.of(context).size;
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        final cardWidth =
-            (constraints.maxWidth - 32) / 2; // 32 = padding + spacing
-        final cardHeight = cardWidth * 0.8; // Kart yüksekliği genişliğin %80'i
+        final isTablet = size.width > 600;
+        final crossAxisCount = isTablet ? 4 : 2;
+        final cardWidth = (constraints.maxWidth - (16 * (crossAxisCount - 1))) /
+            crossAxisCount;
+        final cardHeight = cardWidth * 0.8;
 
         return Wrap(
           spacing: 16,
@@ -186,26 +198,32 @@ class AdminPanelScreen extends ConsumerWidget {
     IconData icon,
     Color color,
   ) {
+    final size = MediaQuery.of(context).size;
+    final iconSize = size.width * 0.06; // 6% of screen width
+    final valueSize = size.width * 0.04; // 4% of screen width
+    final titleSize = size.width * 0.03; // 3% of screen width
+
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(size.width * 0.02), // 2% of screen width
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: color, size: 24),
-            const SizedBox(height: 4),
+            Icon(icon, color: color, size: iconSize),
+            SizedBox(height: size.height * 0.01), // 1% of screen height
             Text(
               value,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: color,
+                    fontSize: valueSize,
                   ),
             ),
-            const SizedBox(height: 2),
+            SizedBox(height: size.height * 0.005), // 0.5% of screen height
             Text(
               title,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -213,9 +231,10 @@ class AdminPanelScreen extends ConsumerWidget {
                         .colorScheme
                         .onSurface
                         .withOpacity(0.7),
+                    fontSize: titleSize,
                   ),
               textAlign: TextAlign.center,
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ],
@@ -226,17 +245,36 @@ class AdminPanelScreen extends ConsumerWidget {
 
   Widget _buildQuickActions(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final size = MediaQuery.of(context).size;
+    final spacing = size.height * 0.01; // 1% of screen height
+
     return Column(
       children: [
         Card(
           child: ListTile(
-            leading: const CircleAvatar(
+            leading: CircleAvatar(
               backgroundColor: Colors.blue,
-              child: Icon(Icons.local_hospital, color: Colors.white),
+              radius: size.width * 0.03, // 3% of screen width
+              child: Icon(
+                Icons.local_hospital,
+                color: Colors.white,
+                size: size.width * 0.04, // 4% of screen width
+              ),
             ),
-            title: Text(l10n.manageClinics),
-            subtitle: Text(l10n.addEditRemoveClinics),
-            trailing: const Icon(Icons.arrow_forward_ios),
+            title: Text(
+              l10n.manageClinics,
+              style: TextStyle(
+                  fontSize: size.width * 0.035), // 3.5% of screen width
+            ),
+            subtitle: Text(
+              l10n.addEditRemoveClinics,
+              style:
+                  TextStyle(fontSize: size.width * 0.03), // 3% of screen width
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              size: size.width * 0.04, // 4% of screen width
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -247,7 +285,7 @@ class AdminPanelScreen extends ConsumerWidget {
             },
           ),
         ).animate().fadeIn().slideX(),
-        const SizedBox(height: 8),
+        SizedBox(height: spacing),
         Card(
           child: ListTile(
             leading: const CircleAvatar(

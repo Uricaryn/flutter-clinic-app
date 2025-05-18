@@ -215,6 +215,12 @@ abstract class AppLocalizations {
   /// **'You have {count} appointments today'**
   String youHaveAppointmentsToday(int count);
 
+  /// Message when there are no appointments today
+  ///
+  /// In en, this message translates to:
+  /// **'No appointments for today'**
+  String get noAppointmentsToday;
+
   /// Low stock alert title
   ///
   /// In en, this message translates to:
@@ -761,7 +767,7 @@ abstract class AppLocalizations {
   /// **'Back to Login'**
   String get backToLogin;
 
-  /// Clinic management section title
+  /// Clinic management screen title
   ///
   /// In en, this message translates to:
   /// **'Clinic Management'**
@@ -1012,6 +1018,414 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter minimum quantity'**
   String get pleaseEnterMinimumQuantity;
+
+  /// Monthly income card title
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Income'**
+  String get monthlyIncome;
+
+  /// Stock value card title
+  ///
+  /// In en, this message translates to:
+  /// **'Stock Value'**
+  String get stockValue;
+
+  /// Profit margin card title
+  ///
+  /// In en, this message translates to:
+  /// **'Profit Margin'**
+  String get profitMargin;
+
+  /// Expenses section title
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get expenses;
+
+  /// Add expense button text
+  ///
+  /// In en, this message translates to:
+  /// **'Add Expense'**
+  String get addExpense;
+
+  /// Message when no expenses are found
+  ///
+  /// In en, this message translates to:
+  /// **'No Expenses Found'**
+  String get noExpensesFound;
+
+  /// Invoice number text
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice No: {number}'**
+  String invoiceNumber(String number);
+
+  /// Delete expense dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Expense'**
+  String get deleteExpense;
+
+  /// Delete expense confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this expense?'**
+  String get deleteExpenseConfirmation;
+
+  /// Operators section title
+  ///
+  /// In en, this message translates to:
+  /// **'Operators'**
+  String get operators;
+
+  /// Add operator button text
+  ///
+  /// In en, this message translates to:
+  /// **'Add Operator'**
+  String get addOperator;
+
+  /// Message when no operators are found
+  ///
+  /// In en, this message translates to:
+  /// **'No Operators Found'**
+  String get noOperatorsFound;
+
+  /// Delete operator dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Operator'**
+  String get deleteOperator;
+
+  /// Delete operator confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this operator?'**
+  String get deleteOperatorConfirmation;
+
+  /// Doctors section title
+  ///
+  /// In en, this message translates to:
+  /// **'Doctors'**
+  String get doctors;
+
+  /// Add doctor button text
+  ///
+  /// In en, this message translates to:
+  /// **'Add Doctor'**
+  String get addDoctor;
+
+  /// Message when no doctors are found
+  ///
+  /// In en, this message translates to:
+  /// **'No Doctors Found'**
+  String get noDoctorsFound;
+
+  /// Delete doctor dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Doctor'**
+  String get deleteDoctor;
+
+  /// Delete doctor confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this doctor?'**
+  String get deleteDoctorConfirmation;
+
+  /// This month text for charts
+  ///
+  /// In en, this message translates to:
+  /// **'This Month'**
+  String get thisMonth;
+
+  /// Critical stock text for charts
+  ///
+  /// In en, this message translates to:
+  /// **'Critical Stock'**
+  String get criticalStock;
+
+  /// Today text for profit margin chart
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayProfit;
+
+  /// New appointment screen title
+  ///
+  /// In en, this message translates to:
+  /// **'New Appointment'**
+  String get newAppointment;
+
+  /// Validation message for date and time selection
+  ///
+  /// In en, this message translates to:
+  /// **'Please select date and time'**
+  String get pleaseSelectDateAndTime;
+
+  /// Validation message for procedure selection
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a procedure'**
+  String get pleaseSelectProcedure;
+
+  /// Validation message for doctor selection
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a doctor'**
+  String get pleaseSelectDoctor;
+
+  /// Validation message for patient selection
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a patient'**
+  String get pleaseSelectPatient;
+
+  /// Success message when appointment is created
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment created successfully'**
+  String get appointmentCreatedSuccessfully;
+
+  /// Error message prefix
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// Message when user is not found
+  ///
+  /// In en, this message translates to:
+  /// **'User not found'**
+  String get userNotFound;
+
+  /// Message when clinic is not found
+  ///
+  /// In en, this message translates to:
+  /// **'Clinic not found'**
+  String get clinicNotFound;
+
+  /// Patient information section title
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Information'**
+  String get patientInformation;
+
+  /// Patient selection dropdown label
+  ///
+  /// In en, this message translates to:
+  /// **'Select Patient'**
+  String get selectPatient;
+
+  /// Patient selection dropdown hint
+  ///
+  /// In en, this message translates to:
+  /// **'Select a patient'**
+  String get selectPatientHint;
+
+  /// Patient search field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name or phone'**
+  String get searchPatientByNameOrPhone;
+
+  /// Message when no patients are found
+  ///
+  /// In en, this message translates to:
+  /// **'No patients found'**
+  String get noPatientsFound;
+
+  /// Add new patient button text
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Patient'**
+  String get addNewPatient;
+
+  /// Edit patient button text
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Patient'**
+  String get editPatient;
+
+  /// Appointment details section title
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment Details'**
+  String get appointmentDetails;
+
+  /// Date selection button text
+  ///
+  /// In en, this message translates to:
+  /// **'Select Date'**
+  String get selectDate;
+
+  /// Time selection button text
+  ///
+  /// In en, this message translates to:
+  /// **'Select Time'**
+  String get selectTime;
+
+  /// Procedure selection field label
+  ///
+  /// In en, this message translates to:
+  /// **'Procedure'**
+  String get procedure;
+
+  /// Doctor selection field label
+  ///
+  /// In en, this message translates to:
+  /// **'Select Doctor'**
+  String get selectDoctor;
+
+  /// Doctor selection field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Select a doctor'**
+  String get selectDoctorHint;
+
+  /// Doctor search field label
+  ///
+  /// In en, this message translates to:
+  /// **'Search Doctor'**
+  String get searchDoctor;
+
+  /// Doctor search field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Search by doctor name'**
+  String get searchDoctorByName;
+
+  /// Message when no doctors are available
+  ///
+  /// In en, this message translates to:
+  /// **'No doctors available yet'**
+  String get noDoctorsYet;
+
+  /// Notes field label
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
+
+  /// Create appointment button text
+  ///
+  /// In en, this message translates to:
+  /// **'Create Appointment'**
+  String get createAppointment;
+
+  /// Patient notes dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Notes'**
+  String get patientNotes;
+
+  /// Notes field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Edit notes...'**
+  String get editNotes;
+
+  /// Success message when notes are updated
+  ///
+  /// In en, this message translates to:
+  /// **'Notes updated'**
+  String get notesUpdated;
+
+  /// Save button text
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// Edit patient screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Patient'**
+  String get editPatientTitle;
+
+  /// Delete patient dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Patient'**
+  String get deletePatient;
+
+  /// Delete patient confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this patient? This action cannot be undone.'**
+  String get deletePatientConfirmation;
+
+  /// Success message when patient is deleted
+  ///
+  /// In en, this message translates to:
+  /// **'Patient deleted successfully'**
+  String get patientDeletedSuccessfully;
+
+  /// Success message when patient is updated
+  ///
+  /// In en, this message translates to:
+  /// **'Patient updated successfully'**
+  String get patientUpdatedSuccessfully;
+
+  /// Error message when loading patient data fails
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading patient data: {error}'**
+  String errorLoadingPatientData(String error);
+
+  /// Validation message for date of birth selection
+  ///
+  /// In en, this message translates to:
+  /// **'Please select date of birth'**
+  String get pleaseSelectDateOfBirth;
+
+  /// Phone validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter phone number'**
+  String get pleaseEnterPhone;
+
+  /// Date of birth selection text
+  ///
+  /// In en, this message translates to:
+  /// **'Select Date of Birth'**
+  String get selectDateOfBirth;
+
+  /// Gender field label
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// Not specified option for gender
+  ///
+  /// In en, this message translates to:
+  /// **'Not Specified'**
+  String get notSpecified;
+
+  /// Male option for gender
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// Female option for gender
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// Text for system theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Use System Theme'**
+  String get useSystemTheme;
+
+  /// Text for theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

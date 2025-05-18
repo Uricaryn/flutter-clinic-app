@@ -3,7 +3,9 @@ import 'package:clinic_app/shared/widgets/animated_page_route.dart';
 
 class NavigationService {
   static final GlobalKey<NavigatorState> navigatorKey =
-      GlobalKey<NavigatorState>();
+      GlobalKey<NavigatorState>(debugLabel: 'NavigationService');
+  static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>(debugLabel: 'ScaffoldMessenger');
 
   // Named route navigation
   static Future<dynamic> navigateToNamed(String routeName,
@@ -69,5 +71,15 @@ class NavigationService {
 
   static bool canPop() {
     return navigatorKey.currentState!.canPop();
+  }
+
+  // Snackbar
+  static void showSnackBar(String message, {bool isError = false}) {
+    scaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError ? Colors.red : null,
+      ),
+    );
   }
 }

@@ -6,12 +6,58 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _logger = LoggerService();
+  // Session timeout duration (30 minutes)
+  static const Duration sessionTimeout = Duration(minutes: 30);
+  DateTime? _lastActivityTime;
+
+  // Update last activity time
+  void _updateLastActivity() {
+    _lastActivityTime = DateTime.now();
+  }
+
+  // Check if session is expired
+  bool isSessionExpired() {
+    if (_lastActivityTime == null) return true;
+    return DateTime.now().difference(_lastActivityTime!) > sessionTimeout;
+  }
 
   // Get current user
-  User? get currentUser => _auth.currentUser;
+  User? get currentUser {
+    final user = _auth.currentUser;
+    if (user != null) {
+      _logger.info('Current user retrieved: ${user.uid}');
+      _updateLastActivity();
+    } else {
+      _logger.info('No current user found');
+    }
+    return user;
+  }
 
   // Stream of auth state changes
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
+  Stream<User?> get authStateChanges {
+    _logger.info('Auth state changes stream started');
+    return _auth.authStateChanges().asyncMap((user) async {
+      if (user != null) {
+        _logger.info('User session active: ${user.uid}');
+        _updateLastActivity();
+
+        // Check session timeout
+        if (isSessionExpired()) {
+          _logger.info('Session expired for user: ${user.uid}');
+          await signOut();
+          return null;
+        }
+
+        // Force refresh user data
+        await user.reload();
+        // Get fresh user data
+        return _auth.currentUser;
+      } else {
+        _logger.info('No active user session');
+        return null;
+      }
+    });
+  }
 
   // Sign in with email and password
   Future<UserCredential> signInWithEmailAndPassword(
@@ -22,6 +68,38 @@ class AuthService {
         email: email,
         password: password,
       );
+
+      // Update last login time and ensure clinicId is set
+      if (credential.user != null) {
+        final userDoc = await _firestore
+            .collection('users')
+            .doc(credential.user!.uid)
+            .get();
+        if (userDoc.exists) {
+          final userData = userDoc.data() as Map<String, dynamic>?;
+          if (userData != null && userData['clinicId'] == null) {
+            // If clinicId is not set, try to find the user's clinic
+            final clinicsSnapshot = await _firestore
+                .collection('clinics')
+                .where('ownerId', isEqualTo: credential.user!.uid)
+                .limit(1)
+                .get();
+
+            if (clinicsSnapshot.docs.isNotEmpty) {
+              final clinicId = clinicsSnapshot.docs.first.id;
+              await userDoc.reference.update({
+                'clinicId': clinicId,
+                'lastLogin': FieldValue.serverTimestamp(),
+              });
+            }
+          } else {
+            await userDoc.reference.update({
+              'lastLogin': FieldValue.serverTimestamp(),
+            });
+          }
+        }
+      }
+
       _logger.info('User signed in successfully: ${credential.user?.uid}');
       return credential;
     } on FirebaseAuthException catch (e) {
@@ -69,6 +147,7 @@ class AuthService {
           'email': email,
           'role': role,
           'createdAt': FieldValue.serverTimestamp(),
+          'lastLogin': FieldValue.serverTimestamp(),
           'isActive': true,
           'emailVerified': false,
         });
@@ -110,6 +189,17 @@ class AuthService {
   Future<void> signOut() async {
     try {
       _logger.info('Attempting to sign out user: ${_auth.currentUser?.uid}');
+
+      // Get current user before signing out
+      final currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        // Update last logout time in Firestore
+        await _firestore.collection('users').doc(currentUser.uid).update({
+          'lastLogout': FieldValue.serverTimestamp(),
+        });
+      }
+
+      // Sign out from Firebase Auth
       await _auth.signOut();
       _logger.info('User signed out successfully');
     } catch (e) {

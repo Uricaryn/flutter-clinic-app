@@ -8,6 +8,8 @@ import 'package:clinic_app/features/profile/presentation/screens/change_password
 import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:clinic_app/core/providers/locale_provider.dart';
 import 'package:clinic_app/shared/widgets/auth_background.dart';
+import 'package:clinic_app/core/providers/theme_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -19,11 +21,22 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   bool _isLoading = true;
   Map<String, dynamic>? _userData;
+  bool _useSystemTheme = true;
+  Future<void> _loadThemePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final themeIndex = prefs.getInt('theme_mode');
+    if (themeIndex != null) {
+      setState(() {
+        _useSystemTheme = ThemeMode.values[themeIndex] == ThemeMode.system;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadThemePreference();
   }
 
   Future<void> _loadUserData() async {
@@ -152,6 +165,40 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               },
                             ),
                             const Divider(height: 1),
+                            CheckboxListTile(
+                              value: _useSystemTheme,
+                              onChanged: (bool? value) {
+                                if (value != null) {
+                                  setState(() => _useSystemTheme = value);
+                                  ref.read(themeProvider.notifier).setTheme(
+                                        value
+                                            ? ThemeMode.system
+                                            : ThemeMode.light,
+                                      );
+                                }
+                              },
+                              title: Text(l10n.useSystemTheme),
+                              secondary: const Icon(Icons.brightness_auto),
+                            ),
+                            if (!_useSystemTheme) ...[
+                              const Divider(height: 1),
+                              ListTile(
+                                leading: const Icon(Icons.brightness_6),
+                                title: Text(l10n.theme),
+                                trailing: Switch(
+                                  value: ref.watch(themeProvider) ==
+                                      ThemeMode.dark,
+                                  onChanged: (bool value) {
+                                    ref.read(themeProvider.notifier).setTheme(
+                                          value
+                                              ? ThemeMode.dark
+                                              : ThemeMode.light,
+                                        );
+                                  },
+                                ),
+                              ),
+                            ],
+                            const Divider(height: 1),
                             ListTile(
                               leading: const Icon(Icons.email_outlined),
                               title: Text(l10n.changeEmail),
@@ -225,10 +272,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       CustomButton(
                         text: l10n.signOut,
                         onPressed: () async {
-                          await ref.read(authServiceProvider).signOut();
-                          if (context.mounted) {
-                            Navigator.of(context)
-                                .pushReplacementNamed('/login');
+                          try {
+                            await ref.read(authServiceProvider).signOut();
+                            // Reset loading state
+                            ref.read(authLoadingProvider.notifier).state =
+                                false;
+                            if (context.mounted) {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/login');
+                            }
+                          } catch (e) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(e.toString()),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.error,
+                                ),
+                              );
+                            }
                           }
                         },
                         variant: ButtonVariant.secondary,

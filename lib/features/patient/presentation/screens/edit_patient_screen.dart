@@ -5,6 +5,7 @@ import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:clinic_app/features/patient/domain/models/patient_model.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/l10n/app_localizations.dart';
 
 class EditPatientScreen extends ConsumerStatefulWidget {
   final String patientId;
@@ -67,7 +68,8 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Hasta bilgileri yüklenirken hata oluştu: $e'),
+          content: Text(AppLocalizations.of(context)!
+              .errorLoadingPatientData(e.toString())),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
@@ -107,8 +109,8 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
     if (!_formKey.currentState!.validate()) return;
     if (_dateOfBirth == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Lütfen doğum tarihi seçin'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.pleaseSelectDateOfBirth),
           backgroundColor: Colors.red,
         ),
       );
@@ -119,12 +121,14 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
 
     try {
       final user = ref.read(currentUserProvider);
-      if (user == null) throw Exception('User not found');
+      if (user == null)
+        throw Exception(AppLocalizations.of(context)!.userNotFound);
 
       final userData =
           await ref.read(firestoreServiceProvider).getUserData(user.uid);
       final clinicId = userData?['clinicId'] as String?;
-      if (clinicId == null) throw Exception('Clinic not found');
+      if (clinicId == null)
+        throw Exception(AppLocalizations.of(context)!.clinicNotFound);
 
       final patient = PatientModel(
         id: widget.patientId,
@@ -144,8 +148,9 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Hasta başarıyla güncellendi'),
+        SnackBar(
+          content:
+              Text(AppLocalizations.of(context)!.patientUpdatedSuccessfully),
           backgroundColor: Colors.green,
         ),
       );
@@ -169,7 +174,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hastayı Düzenle'),
+        title: Text(AppLocalizations.of(context)!.editPatientTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete),
@@ -178,21 +183,20 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
               final result = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Hastayı Sil'),
-                  content: const Text(
-                    'Bu hastayı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.',
-                  ),
+                  title: Text(AppLocalizations.of(context)!.deletePatient),
+                  content: Text(
+                      AppLocalizations.of(context)!.deletePatientConfirmation),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context, false),
-                      child: const Text('İptal'),
+                      child: Text(AppLocalizations.of(context)!.cancel),
                     ),
                     TextButton(
                       onPressed: () => Navigator.pop(context, true),
                       style: TextButton.styleFrom(
                         foregroundColor: theme.colorScheme.error,
                       ),
-                      child: const Text('Sil'),
+                      child: Text(AppLocalizations.of(context)!.delete),
                     ),
                   ],
                 ),
@@ -201,21 +205,25 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
               if (result == true) {
                 try {
                   final user = ref.read(currentUserProvider);
-                  if (user == null) throw Exception('User not found');
+                  if (user == null)
+                    throw Exception(AppLocalizations.of(context)!.userNotFound);
 
                   final userData = await ref
                       .read(firestoreServiceProvider)
                       .getUserData(user.uid);
                   final clinicId = userData?['clinicId'] as String?;
-                  if (clinicId == null) throw Exception('Clinic not found');
+                  if (clinicId == null)
+                    throw Exception(
+                        AppLocalizations.of(context)!.clinicNotFound);
 
                   await ref
                       .read(firestoreServiceProvider)
                       .deletePatient(widget.patientId, clinicId);
                   if (!mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Hasta başarıyla silindi'),
+                    SnackBar(
+                      content: Text(AppLocalizations.of(context)!
+                          .patientDeletedSuccessfully),
                       backgroundColor: Colors.green,
                     ),
                   );
@@ -257,7 +265,8 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Hasta Bilgileri',
+                                  AppLocalizations.of(context)!
+                                      .patientInformation,
                                   style: theme.textTheme.titleLarge,
                                 ),
                               ],
@@ -266,7 +275,8 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                             TextFormField(
                               controller: _fullNameController,
                               decoration: InputDecoration(
-                                labelText: 'Ad Soyad',
+                                labelText:
+                                    AppLocalizations.of(context)!.fullName,
                                 prefixIcon: const Icon(Icons.person),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -274,7 +284,8 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Lütfen ad soyad girin';
+                                  return AppLocalizations.of(context)!
+                                      .pleaseEnterName;
                                 }
                                 return null;
                               },
@@ -283,7 +294,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                             TextFormField(
                               controller: _emailController,
                               decoration: InputDecoration(
-                                labelText: 'E-posta',
+                                labelText: AppLocalizations.of(context)!.email,
                                 prefixIcon: const Icon(Icons.email),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -291,10 +302,12 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Lütfen e-posta girin';
+                                  return AppLocalizations.of(context)!
+                                      .pleaseEnterEmail;
                                 }
                                 if (!value.contains('@')) {
-                                  return 'Geçerli bir e-posta adresi girin';
+                                  return AppLocalizations.of(context)!
+                                      .pleaseEnterValidEmail;
                                 }
                                 return null;
                               },
@@ -303,7 +316,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                             TextFormField(
                               controller: _phoneController,
                               decoration: InputDecoration(
-                                labelText: 'Telefon',
+                                labelText: AppLocalizations.of(context)!.phone,
                                 prefixIcon: const Icon(Icons.phone),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -311,7 +324,8 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Lütfen telefon numarası girin';
+                                  return AppLocalizations.of(context)!
+                                      .pleaseEnterPhone;
                                 }
                                 return null;
                               },
@@ -320,7 +334,8 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                             TextFormField(
                               controller: _addressController,
                               decoration: InputDecoration(
-                                labelText: 'Adres',
+                                labelText:
+                                    AppLocalizations.of(context)!.address,
                                 prefixIcon: const Icon(Icons.location_on),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -333,7 +348,8 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                               onPressed: () => _selectDate(context),
                               icon: const Icon(Icons.calendar_today),
                               label: Text(_dateOfBirth == null
-                                  ? 'Doğum Tarihi Seçin'
+                                  ? AppLocalizations.of(context)!
+                                      .selectDateOfBirth
                                   : DateFormat('dd/MM/yyyy')
                                       .format(_dateOfBirth!)),
                               style: OutlinedButton.styleFrom(
@@ -347,24 +363,27 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                             DropdownButtonFormField<String>(
                               value: _selectedGender,
                               decoration: InputDecoration(
-                                labelText: 'Cinsiyet',
+                                labelText: AppLocalizations.of(context)!.gender,
                                 prefixIcon: const Icon(Icons.people_outline),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                              items: const [
+                              items: [
                                 DropdownMenuItem(
                                   value: 'Unknown',
-                                  child: Text('Belirtilmedi'),
+                                  child: Text(AppLocalizations.of(context)!
+                                      .notSpecified),
                                 ),
                                 DropdownMenuItem(
                                   value: 'Male',
-                                  child: Text('Erkek'),
+                                  child:
+                                      Text(AppLocalizations.of(context)!.male),
                                 ),
                                 DropdownMenuItem(
                                   value: 'Female',
-                                  child: Text('Kadın'),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.female),
                                 ),
                               ],
                               onChanged: (value) {
@@ -379,7 +398,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                             TextFormField(
                               controller: _notesController,
                               decoration: InputDecoration(
-                                labelText: 'Notlar',
+                                labelText: AppLocalizations.of(context)!.notes,
                                 prefixIcon: const Icon(Icons.note),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -399,7 +418,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                         icon: const Icon(Icons.save),
                         label: _isLoading
                             ? const CircularProgressIndicator()
-                            : const Text('Değişiklikleri Kaydet'),
+                            : Text(AppLocalizations.of(context)!.saveChanges),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(16),
                           shape: RoundedRectangleBorder(

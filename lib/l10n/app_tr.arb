@@ -19,6 +19,19 @@
     "recentActivity": "Son Aktiviteler",
     "upcomingAppointments": "Yaklaşan Randevular",
     "youHaveAppointmentsToday": "Bugün {count} randevunuz var",
+    "@youHaveAppointmentsToday": {
+        "description": "Message showing number of appointments today",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "noAppointmentsToday": "Bugün için randevu yok",
+    "@noAppointmentsToday": {
+        "description": "Message when there are no appointments today"
+    },
     "lowStockAlert": "Düşük Stok Uyarısı",
     "itemsNeedRestock": "{count} ürün yeniden stoklanmalı",
     "searchAppointments": "Randevuları ara...",
@@ -151,5 +164,279 @@
     "deleteProcedure": "İşlemi Sil",
     "deleteProcedureConfirmation": "{procedureName} işlemini silmek istediğinizden emin misiniz?",
     "pleaseEnterUnit": "Lütfen birim girin",
-    "pleaseEnterMinimumQuantity": "Lütfen minimum miktarı girin"
+    "pleaseEnterMinimumQuantity": "Lütfen minimum miktarı girin",
+    "monthlyIncome": "Aylık Gelir",
+    "stockValue": "Stok Değeri",
+    "profitMargin": "Kâr Marjı",
+    "expenses": "Giderler",
+    "addExpense": "Gider Ekle",
+    "noExpensesFound": "Gider Bulunamadı",
+    "invoiceNumber": "Fatura No: {number}",
+    "deleteExpense": "Gideri Sil",
+    "deleteExpenseConfirmation": "Bu gideri silmek istediğinizden emin misiniz?",
+    "operators": "Operatörler",
+    "addOperator": "Operatör Ekle",
+    "noOperatorsFound": "Operatör Bulunamadı",
+    "deleteOperator": "Operatörü Sil",
+    "deleteOperatorConfirmation": "Bu operatörü silmek istediğinizden emin misiniz?",
+    "doctors": "Doktorlar",
+    "addDoctor": "Doktor Ekle",
+    "noDoctorsFound": "Doktor Bulunamadı",
+    "deleteDoctor": "Doktoru Sil",
+    "deleteDoctorConfirmation": "Bu doktoru silmek istediğinizden emin misiniz?",
+    "thisMonth": "Bu Ay",
+    "criticalStock": "Kritik Stok",
+    "todayProfit": "Bugün",
+    "selectPatient": "Hasta Seçin",
+    "@selectPatient": {
+        "description": "Patient selection dropdown label"
+    },
+    "selectPatientHint": "Hasta seçin",
+    "@selectPatientHint": {
+        "description": "Patient selection dropdown hint"
+    },
+    "searchPatientByNameOrPhone": "İsim veya telefon ile arayın",
+    "@searchPatientByNameOrPhone": {
+        "description": "Patient search field hint"
+    },
+    "noPatientsFound": "Hasta bulunamadı",
+    "@noPatientsFound": {
+        "description": "Message when no patients are found"
+    },
+    "addNewPatient": "Yeni Hasta Ekle",
+    "@addNewPatient": {
+        "description": "Add new patient button text"
+    },
+    "editPatient": "Hastayı Düzenle",
+    "@editPatient": {
+        "description": "Edit patient button text"
+    },
+    "appointmentDetails": "Randevu Detayları",
+    "@appointmentDetails": {
+        "description": "Appointment details section title"
+    },
+    "selectDate": "Tarih Seçin",
+    "@selectDate": {
+        "description": "Date selection button text"
+    },
+    "selectTime": "Saat Seçin",
+    "@selectTime": {
+        "description": "Time selection button text"
+    },
+    "procedure": "İşlem",
+    "@procedure": {
+        "description": "Procedure selection field label"
+    },
+    "selectDoctor": "Doktor Seçin",
+    "@selectDoctor": {
+        "description": "Doctor selection field label"
+    },
+    "selectDoctorHint": "Doktor seçin",
+    "@selectDoctorHint": {
+        "description": "Doctor selection field hint"
+    },
+    "searchDoctor": "Doktor Ara",
+    "@searchDoctor": {
+        "description": "Doctor search field label"
+    },
+    "searchDoctorByName": "Doktor adı ile arayın",
+    "@searchDoctorByName": {
+        "description": "Doctor search field hint"
+    },
+    "noDoctorsYet": "Henüz doktor bulunmuyor",
+    "@noDoctorsYet": {
+        "description": "Message when no doctors are available"
+    },
+    "notes": "Notlar",
+    "@notes": {
+        "description": "Notes field label"
+    },
+    "createAppointment": "Randevu Oluştur",
+    "@createAppointment": {
+        "description": "Create appointment button text"
+    },
+    "patientNotes": "Hasta Notları",
+    "@patientNotes": {
+        "description": "Patient notes dialog title"
+    },
+    "editNotes": "Notları düzenleyin...",
+    "@editNotes": {
+        "description": "Notes field hint"
+    },
+    "notesUpdated": "Notlar güncellendi",
+    "@notesUpdated": {
+        "description": "Success message when notes are updated"
+    },
+    "newAppointment": "Yeni Randevu",
+    "@newAppointment": {
+        "description": "New appointment screen title"
+    },
+    "pleaseSelectDateAndTime": "Lütfen tarih ve saat seçin",
+    "@pleaseSelectDateAndTime": {
+        "description": "Validation message for date and time selection"
+    },
+    "pleaseSelectProcedure": "Lütfen işlem seçin",
+    "@pleaseSelectProcedure": {
+        "description": "Validation message for procedure selection"
+    },
+    "pleaseSelectDoctor": "Lütfen doktor seçin",
+    "@pleaseSelectDoctor": {
+        "description": "Validation message for doctor selection"
+    },
+    "pleaseSelectPatient": "Lütfen hasta seçin",
+    "@pleaseSelectPatient": {
+        "description": "Validation message for patient selection"
+    },
+    "appointmentCreatedSuccessfully": "Randevu başarıyla oluşturuldu",
+    "@appointmentCreatedSuccessfully": {
+        "description": "Success message when appointment is created"
+    },
+    "error": "Hata",
+    "@error": {
+        "description": "Error message prefix"
+    },
+    "userNotFound": "Kullanıcı bulunamadı",
+    "@userNotFound": {
+        "description": "Message when user is not found"
+    },
+    "clinicNotFound": "Klinik bulunamadı",
+    "@clinicNotFound": {
+        "description": "Message when clinic is not found"
+    },
+    "patientInformation": "Hasta Bilgileri",
+    "@patientInformation": {
+        "description": "Patient information section title"
+    },
+    "selectPatient": "Hasta Seçin",
+    "@selectPatient": {
+        "description": "Patient selection dropdown label"
+    },
+    "selectPatientHint": "Hasta seçin",
+    "@selectPatientHint": {
+        "description": "Patient selection dropdown hint"
+    },
+    "searchPatientByNameOrPhone": "İsim veya telefon ile arayın",
+    "@searchPatientByNameOrPhone": {
+        "description": "Patient search field hint"
+    },
+    "noPatientsFound": "Hasta bulunamadı",
+    "@noPatientsFound": {
+        "description": "Message when no patients are found"
+    },
+    "addNewPatient": "Yeni Hasta Ekle",
+    "@addNewPatient": {
+        "description": "Add new patient button text"
+    },
+    "editPatient": "Hastayı Düzenle",
+    "@editPatient": {
+        "description": "Edit patient button text"
+    },
+    "appointmentDetails": "Randevu Detayları",
+    "@appointmentDetails": {
+        "description": "Appointment details section title"
+    },
+    "selectDate": "Tarih Seçin",
+    "@selectDate": {
+        "description": "Date selection button text"
+    },
+    "selectTime": "Saat Seçin",
+    "@selectTime": {
+        "description": "Time selection button text"
+    },
+    "procedure": "İşlem",
+    "@procedure": {
+        "description": "Procedure selection field label"
+    },
+    "selectDoctor": "Doktor Seçin",
+    "@selectDoctor": {
+        "description": "Doctor selection field label"
+    },
+    "selectDoctorHint": "Doktor seçin",
+    "@selectDoctorHint": {
+        "description": "Doctor selection field hint"
+    },
+    "searchDoctor": "Doktor Ara",
+    "@searchDoctor": {
+        "description": "Doctor search field label"
+    },
+    "searchDoctorByName": "Doktor adı ile arayın",
+    "@searchDoctorByName": {
+        "description": "Doctor search field hint"
+    },
+    "noDoctorsYet": "Henüz doktor bulunmuyor",
+    "@noDoctorsYet": {
+        "description": "Message when no doctors are available"
+    },
+    "notes": "Notlar",
+    "@notes": {
+        "description": "Notes field label"
+    },
+    "createAppointment": "Randevu Oluştur",
+    "@createAppointment": {
+        "description": "Create appointment button text"
+    },
+    "patientNotes": "Hasta Notları",
+    "@patientNotes": {
+        "description": "Patient notes dialog title"
+    },
+    "editNotes": "Notları düzenleyin...",
+    "@editNotes": {
+        "description": "Notes field hint"
+    },
+    "notesUpdated": "Notlar güncellendi",
+    "@notesUpdated": {
+        "description": "Success message when notes are updated"
+    },
+    "save": "Kaydet",
+    "@save": {
+        "description": "Save button text"
+    },
+    "editPatientTitle": "Hastayı Düzenle",
+    "@editPatientTitle": {
+        "description": "Edit patient screen title"
+    },
+    "deletePatient": "Hastayı Sil",
+    "@deletePatient": {
+        "description": "Delete patient dialog title"
+    },
+    "deletePatientConfirmation": "Bu hastayı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
+    "@deletePatientConfirmation": {
+        "description": "Delete patient confirmation message"
+    },
+    "patientDeletedSuccessfully": "Hasta başarıyla silindi",
+    "@patientDeletedSuccessfully": {
+        "description": "Success message when patient is deleted"
+    },
+    "patientUpdatedSuccessfully": "Hasta başarıyla güncellendi",
+    "@patientUpdatedSuccessfully": {
+        "description": "Success message when patient is updated"
+    },
+    "errorLoadingPatientData": "Hasta bilgileri yüklenirken hata oluştu: {error}",
+    "@errorLoadingPatientData": {
+        "description": "Error message when loading patient data fails",
+        "placeholders": {
+            "error": {
+                "type": "String",
+                "example": "Ağ hatası"
+            }
+        }
+    },
+    "pleaseSelectDateOfBirth": "Lütfen doğum tarihi seçin",
+    "@pleaseSelectDateOfBirth": {
+        "description": "Validation message for date of birth selection"
+    },
+    "pleaseEnterPhone": "Lütfen telefon numarası girin",
+    "selectDateOfBirth": "Doğum Tarihi Seçin",
+    "gender": "Cinsiyet",
+    "notSpecified": "Belirtilmedi",
+    "male": "Erkek",
+    "female": "Kadın",
+    "useSystemTheme": "Sistem Temasını Kullan",
+    "@useSystemTheme": {
+        "description": "Text for system theme option"
+    },
+    "theme": "Tema",
+    "@theme": {
+        "description": "Text for theme option"
+    }
 } 

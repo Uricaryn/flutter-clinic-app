@@ -236,7 +236,23 @@ final clinicsStreamProvider = StreamProvider<QuerySnapshot>((ref) {
       );
 });
 
+final stockItemsStreamProvider = StreamProvider<QuerySnapshot>((ref) {
+  final user = ref.watch(currentUserProvider);
+  if (user == null) {
+    return Stream.empty();
+  }
+
+  return ref.watch(firestoreServiceProvider).getCollectionStream(
+        ref.watch(firestoreServiceProvider).stockItemsCollection,
+      );
+});
+
 final proceduresStreamProvider = StreamProvider<QuerySnapshot>((ref) {
+  final user = ref.watch(currentUserProvider);
+  if (user == null) {
+    return Stream.empty();
+  }
+
   return ref.watch(firestoreServiceProvider).getCollectionStream(
         ref.watch(firestoreServiceProvider).proceduresCollection,
       );
@@ -245,12 +261,6 @@ final proceduresStreamProvider = StreamProvider<QuerySnapshot>((ref) {
 final appointmentsStreamProvider = StreamProvider<QuerySnapshot>((ref) {
   return ref.watch(firestoreServiceProvider).getCollectionStream(
         ref.watch(firestoreServiceProvider).appointmentsCollection,
-      );
-});
-
-final stockItemsStreamProvider = StreamProvider<QuerySnapshot>((ref) {
-  return ref.watch(firestoreServiceProvider).getCollectionStream(
-        ref.watch(firestoreServiceProvider).stockItemsCollection,
       );
 });
 

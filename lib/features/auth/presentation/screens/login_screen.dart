@@ -9,6 +9,7 @@ import 'package:clinic_app/features/auth/presentation/screens/register_screen.da
 import 'package:clinic_app/features/home/presentation/screens/home_screen.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:clinic_app/shared/widgets/auth_background.dart';
+import 'package:clinic_app/core/services/navigation_service.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -34,9 +35,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
 
-    // Set loading state
+    setState(() => _isLoading = true);
     ref.read(authLoadingProvider.notifier).state = true;
-    // Clear any previous errors
     ref.read(authErrorProvider.notifier).state = null;
 
     try {
@@ -56,14 +56,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
 
       // Navigate to home screen
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+      await NavigationService.navigateToNamedAndClearStack('/home');
     } catch (e) {
       if (!mounted) return;
       ref.read(authErrorProvider.notifier).state = e.toString();
     } finally {
       if (mounted) {
+        setState(() => _isLoading = false);
         ref.read(authLoadingProvider.notifier).state = false;
       }
     }
@@ -127,11 +126,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
+    // Responsive sizes
+    final padding = size.width * 0.06; // 6% of screen width
+    final spacing = size.height * 0.02; // 2% of screen height
+    final logoSize = size.width * 0.25; // 25% of screen width
+    final titleSize = size.height * 0.04; // 4% of screen height
+    final subtitleSize = size.height * 0.02; // 2% of screen height
+
     return Scaffold(
       body: AuthBackground(
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
+            padding: EdgeInsets.symmetric(horizontal: padding),
             child: Form(
               key: _formKey,
               child: Column(
@@ -147,28 +153,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 48),
+                  SizedBox(height: spacing * 2),
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     child: Image.asset(
                       'assets/images/ordana_login_logo.png',
-                      width: 100,
-                      height: 100,
+                      width: logoSize,
+                      height: logoSize,
+                      fit: BoxFit.contain,
                     ).animate().fadeIn().scale(),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: spacing),
                   Text(
                     l10n.welcomeBack,
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          fontSize: titleSize,
+                        ),
                     textAlign: TextAlign.center,
                   ).animate().fadeIn().moveY(begin: 10, end: 0),
-                  const SizedBox(height: 8),
+                  SizedBox(height: spacing * 0.5),
                   Text(
                     l10n.signInToContinue,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontSize: subtitleSize,
+                        ),
                     textAlign: TextAlign.center,
                   ).animate().fadeIn().moveY(begin: 10, end: 0),
-                  const SizedBox(height: 48),
+                  SizedBox(height: spacing * 2),
                   CustomTextField(
                     controller: _emailController,
                     label: l10n.email,
@@ -184,7 +195,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       return null;
                     },
                   ).animate().fadeIn().moveX(begin: -10, end: 0),
-                  const SizedBox(height: 16),
+                  SizedBox(height: spacing),
                   CustomTextField(
                     controller: _passwordController,
                     label: l10n.password,
@@ -213,22 +224,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     },
                   ).animate().fadeIn().moveX(begin: 10, end: 0),
                   if (error != null) ...[
-                    const SizedBox(height: 16),
+                    SizedBox(height: spacing),
                     Text(
                       error,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.error,
+                        fontSize: subtitleSize * 0.9,
                       ),
                       textAlign: TextAlign.center,
                     ).animate().fadeIn(),
                   ],
-                  const SizedBox(height: 24),
+                  SizedBox(height: spacing),
                   CustomButton(
                     text: l10n.signIn,
                     onPressed: _handleLogin,
                     isLoading: isLoading,
                   ).animate().fadeIn().moveY(begin: 10, end: 0),
-                  const SizedBox(height: 16),
+                  SizedBox(height: spacing * 0.5),
                   TextButton(
                     onPressed: () {
                       ref.read(authServiceProvider).sendPasswordResetEmail(
@@ -240,13 +252,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       );
                     },
-                    child: Text(l10n.forgotPassword),
+                    child: Text(
+                      l10n.forgotPassword,
+                      style: TextStyle(fontSize: subtitleSize * 0.9),
+                    ),
                   ).animate().fadeIn(),
-                  const SizedBox(height: 24),
+                  SizedBox(height: spacing),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(l10n.dontHaveAccount),
+                      Text(
+                        l10n.dontHaveAccount,
+                        style: TextStyle(fontSize: subtitleSize * 0.9),
+                      ),
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).push(
@@ -255,7 +273,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           );
                         },
-                        child: Text(l10n.signUp),
+                        child: Text(
+                          l10n.signUp,
+                          style: TextStyle(fontSize: subtitleSize * 0.9),
+                        ),
                       ),
                     ],
                   ).animate().fadeIn(),

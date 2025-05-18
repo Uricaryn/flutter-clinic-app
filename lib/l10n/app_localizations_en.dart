@@ -69,6 +69,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get noAppointmentsToday => 'No appointments for today';
+
+  @override
   String get lowStockAlert => 'Low Stock Alert';
 
   @override
@@ -478,4 +481,212 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseEnterMinimumQuantity => 'Please enter minimum quantity';
+
+  @override
+  String get monthlyIncome => 'Monthly Income';
+
+  @override
+  String get stockValue => 'Stock Value';
+
+  @override
+  String get profitMargin => 'Profit Margin';
+
+  @override
+  String get expenses => 'Expenses';
+
+  @override
+  String get addExpense => 'Add Expense';
+
+  @override
+  String get noExpensesFound => 'No Expenses Found';
+
+  @override
+  String invoiceNumber(String number) {
+    return 'Invoice No: $number';
+  }
+
+  @override
+  String get deleteExpense => 'Delete Expense';
+
+  @override
+  String get deleteExpenseConfirmation => 'Are you sure you want to delete this expense?';
+
+  @override
+  String get operators => 'Operators';
+
+  @override
+  String get addOperator => 'Add Operator';
+
+  @override
+  String get noOperatorsFound => 'No Operators Found';
+
+  @override
+  String get deleteOperator => 'Delete Operator';
+
+  @override
+  String get deleteOperatorConfirmation => 'Are you sure you want to delete this operator?';
+
+  @override
+  String get doctors => 'Doctors';
+
+  @override
+  String get addDoctor => 'Add Doctor';
+
+  @override
+  String get noDoctorsFound => 'No Doctors Found';
+
+  @override
+  String get deleteDoctor => 'Delete Doctor';
+
+  @override
+  String get deleteDoctorConfirmation => 'Are you sure you want to delete this doctor?';
+
+  @override
+  String get thisMonth => 'This Month';
+
+  @override
+  String get criticalStock => 'Critical Stock';
+
+  @override
+  String get todayProfit => 'Today';
+
+  @override
+  String get newAppointment => 'New Appointment';
+
+  @override
+  String get pleaseSelectDateAndTime => 'Please select date and time';
+
+  @override
+  String get pleaseSelectProcedure => 'Please select a procedure';
+
+  @override
+  String get pleaseSelectDoctor => 'Please select a doctor';
+
+  @override
+  String get pleaseSelectPatient => 'Please select a patient';
+
+  @override
+  String get appointmentCreatedSuccessfully => 'Appointment created successfully';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get userNotFound => 'User not found';
+
+  @override
+  String get clinicNotFound => 'Clinic not found';
+
+  @override
+  String get patientInformation => 'Patient Information';
+
+  @override
+  String get selectPatient => 'Select Patient';
+
+  @override
+  String get selectPatientHint => 'Select a patient';
+
+  @override
+  String get searchPatientByNameOrPhone => 'Search by name or phone';
+
+  @override
+  String get noPatientsFound => 'No patients found';
+
+  @override
+  String get addNewPatient => 'Add New Patient';
+
+  @override
+  String get editPatient => 'Edit Patient';
+
+  @override
+  String get appointmentDetails => 'Appointment Details';
+
+  @override
+  String get selectDate => 'Select Date';
+
+  @override
+  String get selectTime => 'Select Time';
+
+  @override
+  String get procedure => 'Procedure';
+
+  @override
+  String get selectDoctor => 'Select Doctor';
+
+  @override
+  String get selectDoctorHint => 'Select a doctor';
+
+  @override
+  String get searchDoctor => 'Search Doctor';
+
+  @override
+  String get searchDoctorByName => 'Search by doctor name';
+
+  @override
+  String get noDoctorsYet => 'No doctors available yet';
+
+  @override
+  String get notes => 'Notes';
+
+  @override
+  String get createAppointment => 'Create Appointment';
+
+  @override
+  String get patientNotes => 'Patient Notes';
+
+  @override
+  String get editNotes => 'Edit notes...';
+
+  @override
+  String get notesUpdated => 'Notes updated';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get editPatientTitle => 'Edit Patient';
+
+  @override
+  String get deletePatient => 'Delete Patient';
+
+  @override
+  String get deletePatientConfirmation => 'Are you sure you want to delete this patient? This action cannot be undone.';
+
+  @override
+  String get patientDeletedSuccessfully => 'Patient deleted successfully';
+
+  @override
+  String get patientUpdatedSuccessfully => 'Patient updated successfully';
+
+  @override
+  String errorLoadingPatientData(String error) {
+    return 'Error loading patient data: $error';
+  }
+
+  @override
+  String get pleaseSelectDateOfBirth => 'Please select date of birth';
+
+  @override
+  String get pleaseEnterPhone => 'Please enter phone number';
+
+  @override
+  String get selectDateOfBirth => 'Select Date of Birth';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get notSpecified => 'Not Specified';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
+
+  @override
+  String get useSystemTheme => 'Use System Theme';
+
+  @override
+  String get theme => 'Theme';
 }

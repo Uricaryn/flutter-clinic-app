@@ -8,6 +8,8 @@ import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
+    as picker;
 
 class NewAppointmentScreen extends ConsumerStatefulWidget {
   const NewAppointmentScreen({super.key});
@@ -39,6 +41,12 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
     super.dispose();
   }
 
+  String _formatTimeOfDay(TimeOfDay time) {
+    final hour = time.hour.toString().padLeft(2, '0');
+    final minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -67,36 +75,54 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
   }
 
   Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: _selectedTime ?? TimeOfDay.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Theme.of(context).colorScheme.primary,
-              onPrimary: Colors.white,
-              surface: Theme.of(context).colorScheme.surface,
-              onSurface: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
-          child: child!,
-        );
+    final now = DateTime.now();
+    final initialTime = _selectedTime != null
+        ? DateTime(
+            now.year,
+            now.month,
+            now.day,
+            _selectedTime!.hour,
+            _selectedTime!.minute,
+          )
+        : now;
+
+    picker.DatePicker.showTimePicker(
+      context,
+      showTitleActions: true,
+      showSecondsColumn: false,
+      onChanged: (date) {},
+      onConfirm: (date) {
+        setState(() {
+          _selectedTime = TimeOfDay(hour: date.hour, minute: date.minute);
+        });
       },
+      currentTime: initialTime,
+      locale: picker.LocaleType.tr,
+      theme: picker.DatePickerTheme(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        itemStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
+        doneStyle: TextStyle(
+          color: Theme.of(context).colorScheme.primary,
+          fontSize: 16,
+        ),
+        cancelStyle: TextStyle(
+          color: Theme.of(context).colorScheme.error,
+          fontSize: 16,
+        ),
+      ),
     );
-    if (picked != null && picked != _selectedTime) {
-      setState(() {
-        _selectedTime = picked;
-      });
-    }
   }
 
   Future<void> _saveAppointment() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedDate == null || _selectedTime == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Lütfen tarih ve saat seçin'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.pleaseSelectDateAndTime),
           backgroundColor: Colors.red,
         ),
       );
@@ -104,8 +130,8 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
     }
     if (_selectedProcedureId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Lütfen işlem seçin'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.pleaseSelectProcedure),
           backgroundColor: Colors.red,
         ),
       );
@@ -113,8 +139,8 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
     }
     if (_selectedOperatorId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Lütfen doktor seçin'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.pleaseSelectDoctor),
           backgroundColor: Colors.red,
         ),
       );
@@ -122,8 +148,8 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
     }
     if (_selectedPatientId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Lütfen hasta seçin'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.pleaseSelectPatient),
           backgroundColor: Colors.red,
         ),
       );
@@ -162,8 +188,9 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Randevu başarıyla oluşturuldu'),
+        SnackBar(
+          content: Text(
+              AppLocalizations.of(context)!.appointmentCreatedSuccessfully),
           backgroundColor: Colors.green,
         ),
       );
@@ -184,6 +211,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final proceduresAsync = ref.watch(proceduresStreamProvider);
     final operatorsAsync = ref.watch(usersStreamProvider);
     final user = ref.watch(currentUserProvider);
@@ -191,7 +219,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Yeni Randevu'),
+        title: Text(l10n.newAppointment),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -200,12 +228,12 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
               error: (e, _) => Center(child: Text('Hata: $e')),
               data: (userData) {
                 if (userData == null) {
-                  return const Center(child: Text('Kullanıcı bulunamadı'));
+                  return Center(child: Text(l10n.userNotFound));
                 }
 
                 final clinicId = userData.get('clinicId') as String?;
                 if (clinicId == null) {
-                  return const Center(child: Text('Klinik bulunamadı'));
+                  return Center(child: Text(l10n.clinicNotFound));
                 }
 
                 return SingleChildScrollView(
@@ -229,7 +257,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      'Hasta Bilgileri',
+                                      l10n.patientInformation,
                                       style: theme.textTheme.titleLarge,
                                     ),
                                   ],
@@ -271,7 +299,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                     if (patients.isEmpty) {
                                       return Column(
                                         children: [
-                                          const Text('Hasta bulunamadı'),
+                                          Text(l10n.noPatientsFound),
                                           const SizedBox(height: 16),
                                           OutlinedButton.icon(
                                             onPressed: () {
@@ -281,8 +309,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                               );
                                             },
                                             icon: const Icon(Icons.add),
-                                            label:
-                                                const Text('Yeni Hasta Ekle'),
+                                            label: Text(l10n.addNewPatient),
                                           ),
                                         ],
                                       );
@@ -311,26 +338,32 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                               DropDownDecoratorProps(
                                             dropdownSearchDecoration:
                                                 InputDecoration(
-                                              labelText: 'Hasta Seçin',
-                                              hintText: 'Hasta seçin',
+                                              labelText: l10n.selectPatient,
+                                              hintText: l10n.selectPatientHint,
                                               prefixIcon:
                                                   const Icon(Icons.person),
                                               border: OutlineInputBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                               ),
+                                              filled: true,
+                                              fillColor:
+                                                  theme.colorScheme.surface,
                                             ),
                                           ),
                                           popupProps: PopupProps.menu(
                                             showSearchBox: true,
                                             searchFieldProps: TextFieldProps(
                                               decoration: InputDecoration(
-                                                hintText:
-                                                    'İsim veya telefon ile arayın',
+                                                hintText: l10n
+                                                    .searchPatientByNameOrPhone,
                                                 border: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(12),
                                                 ),
+                                                filled: true,
+                                                fillColor:
+                                                    theme.colorScheme.surface,
                                               ),
                                             ),
                                             itemBuilder: (context, patient,
@@ -348,8 +381,9 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                               subtitle: Text(patient.phone),
                                             ),
                                             showSelectedItems: true,
-                                            menuProps: const MenuProps(
-                                              backgroundColor: Colors.white,
+                                            menuProps: MenuProps(
+                                              backgroundColor:
+                                                  theme.colorScheme.surface,
                                               elevation: 2,
                                             ),
                                           ),
@@ -438,7 +472,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                                                         height:
                                                                             4),
                                                                     Text(
-                                                                      'Hasta Notları',
+                                                                      l10n.patientNotes,
                                                                       style: theme
                                                                           .textTheme
                                                                           .bodyMedium
@@ -478,12 +512,13 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                                                   notesController,
                                                               maxLines: 5,
                                                               decoration:
-                                                                  const InputDecoration(
+                                                                  InputDecoration(
                                                                 border:
                                                                     InputBorder
                                                                         .none,
-                                                                hintText:
-                                                                    'Notları düzenleyin...',
+                                                                hintText: AppLocalizations.of(
+                                                                        context)!
+                                                                    .editNotes,
                                                               ),
                                                             ),
                                                           ),
@@ -498,9 +533,8 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                                                 onPressed: () =>
                                                                     Navigator.pop(
                                                                         context),
-                                                                child:
-                                                                    const Text(
-                                                                        'İptal'),
+                                                                child: Text(l10n
+                                                                    .cancel),
                                                               ),
                                                               const SizedBox(
                                                                   width: 8),
@@ -529,9 +563,9 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                                                       ScaffoldMessenger.of(
                                                                               context)
                                                                           .showSnackBar(
-                                                                        const SnackBar(
+                                                                        SnackBar(
                                                                           content:
-                                                                              Text('Notlar güncellendi'),
+                                                                              Text(l10n.notesUpdated),
                                                                           backgroundColor:
                                                                               Colors.green,
                                                                         ),
@@ -553,8 +587,8 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                                                     }
                                                                   }
                                                                 },
-                                                                child: const Text(
-                                                                    'Kaydet'),
+                                                                child: Text(
+                                                                    l10n.save),
                                                               ),
                                                             ],
                                                           ),
@@ -568,9 +602,17 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                           },
                                         ),
                                         const SizedBox(height: 8),
-                                        Row(
+                                        Wrap(
+                                          spacing: 8,
+                                          runSpacing: 8,
                                           children: [
-                                            Expanded(
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                          .size
+                                                          .width >
+                                                      600
+                                                  ? 200
+                                                  : double.infinity,
                                               child: OutlinedButton.icon(
                                                 onPressed: () {
                                                   Navigator.pushNamed(
@@ -579,26 +621,30 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                                   );
                                                 },
                                                 icon: const Icon(Icons.add),
-                                                label: const Text(
-                                                    'Yeni Hasta Ekle'),
+                                                label: Text(l10n.addNewPatient),
                                               ),
                                             ),
-                                            if (_selectedPatientId != null) ...[
-                                              const SizedBox(width: 8),
-                                              OutlinedButton.icon(
-                                                onPressed: () {
-                                                  Navigator.pushNamed(
-                                                    context,
-                                                    '/patient/edit',
-                                                    arguments:
-                                                        _selectedPatientId,
-                                                  );
-                                                },
-                                                icon: const Icon(Icons.edit),
-                                                label: const Text(
-                                                    'Hastayı Düzenle'),
+                                            if (_selectedPatientId != null)
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                            .size
+                                                            .width >
+                                                        600
+                                                    ? 200
+                                                    : double.infinity,
+                                                child: OutlinedButton.icon(
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      '/patient/edit',
+                                                      arguments:
+                                                          _selectedPatientId,
+                                                    );
+                                                  },
+                                                  icon: const Icon(Icons.edit),
+                                                  label: Text(l10n.editPatient),
+                                                ),
                                               ),
-                                            ],
                                           ],
                                         ),
                                       ],
@@ -624,7 +670,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      'Randevu Detayları',
+                                      l10n.appointmentDetails,
                                       style: theme.textTheme.titleLarge,
                                     ),
                                   ],
@@ -637,7 +683,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                         onPressed: () => _selectDate(context),
                                         icon: const Icon(Icons.calendar_today),
                                         label: Text(_selectedDate == null
-                                            ? 'Tarih Seçin'
+                                            ? l10n.selectDate
                                             : DateFormat('dd/MM/yyyy')
                                                 .format(_selectedDate!)),
                                         style: OutlinedButton.styleFrom(
@@ -655,8 +701,8 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                         onPressed: () => _selectTime(context),
                                         icon: const Icon(Icons.access_time),
                                         label: Text(_selectedTime == null
-                                            ? 'Saat Seçin'
-                                            : _selectedTime!.format(context)),
+                                            ? l10n.selectTime
+                                            : _formatTimeOfDay(_selectedTime!)),
                                         style: OutlinedButton.styleFrom(
                                           padding: const EdgeInsets.all(16),
                                           shape: RoundedRectangleBorder(
@@ -677,7 +723,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                     return DropdownButtonFormField<String>(
                                       value: _selectedProcedureId,
                                       decoration: InputDecoration(
-                                        labelText: 'İşlem',
+                                        labelText: l10n.procedure,
                                         prefixIcon:
                                             const Icon(Icons.medical_services),
                                         border: OutlineInputBorder(
@@ -698,7 +744,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                       },
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Lütfen işlem seçin';
+                                          return l10n.pleaseSelectProcedure;
                                         }
                                         return null;
                                       },
@@ -723,18 +769,22 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
 
                                     final doctors = snapshot.data!.docs;
                                     if (doctors.isEmpty) {
-                                      return const Center(
-                                        child: Text('Henüz doktor bulunmuyor'),
+                                      return Center(
+                                        child: Text(l10n.noDoctorsYet),
                                       );
                                     }
 
                                     return DropdownSearch<String>(
-                                      popupProps: const PopupProps.menu(
+                                      popupProps: PopupProps.menu(
                                         showSearchBox: true,
                                         searchFieldProps: TextFieldProps(
                                           decoration: InputDecoration(
-                                            labelText: 'Doktor Ara',
-                                            hintText: 'Doktor adı ile arayın',
+                                            labelText:
+                                                AppLocalizations.of(context)!
+                                                    .searchDoctor,
+                                            hintText:
+                                                AppLocalizations.of(context)!
+                                                    .searchDoctorByName,
                                           ),
                                         ),
                                       ),
@@ -777,8 +827,8 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                           DropDownDecoratorProps(
                                         dropdownSearchDecoration:
                                             InputDecoration(
-                                          labelText: 'Doktor Seçin',
-                                          hintText: 'Doktor seçin',
+                                          labelText: l10n.selectDoctor,
+                                          hintText: l10n.selectDoctorHint,
                                           border: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(8),
@@ -792,7 +842,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                 TextFormField(
                                   controller: _notesController,
                                   decoration: InputDecoration(
-                                    labelText: 'Notlar',
+                                    labelText: l10n.notes,
                                     prefixIcon: const Icon(Icons.note),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
@@ -810,7 +860,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                           child: ElevatedButton.icon(
                             onPressed: _saveAppointment,
                             icon: const Icon(Icons.save),
-                            label: const Text('Randevu Oluştur'),
+                            label: Text(l10n.createAppointment),
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.all(16),
                               shape: RoundedRectangleBorder(

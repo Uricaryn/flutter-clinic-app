@@ -50,8 +50,8 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
                     Text(
                       l10n.appointments,
                       style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                                fontWeight: FontWeight.bold,
+                              ),
                     ),
                   ],
                 ),
@@ -70,18 +70,18 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
                       color: theme.colorScheme.shadow.withOpacity(0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText: l10n.searchAppointments,
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+          ),
+        ],
+      ),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: l10n.searchAppointments,
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
                             color: theme.colorScheme.outline.withOpacity(0.5),
                           ),
@@ -102,26 +102,26 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
                         fillColor: theme.colorScheme.surface,
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                      onChanged: (value) => setState(() {}),
-                    ),
-                    const SizedBox(height: 16),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
+                  ),
+                  onChanged: (value) => setState(() {}),
+                ),
+                const SizedBox(height: 16),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
                         children: [
                           _buildFilterChip(l10n.all, 'all'),
                           _buildFilterChip(l10n.today, 'today'),
                           _buildFilterChip(l10n.upcoming, 'upcoming'),
                           _buildFilterChip(l10n.past, 'past'),
                         ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              // Appointments List
-              Expanded(
+              ],
+            ),
+          ),
+          // Appointments List
+          Expanded(
                 child: userDataAsync.when(
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
@@ -186,17 +186,17 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
 
                             if (appointments.isEmpty) {
                               return Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.event_busy,
-                                      size: 64,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.event_busy,
+                              size: 64,
                                       color: theme.colorScheme.primary
-                                          .withOpacity(0.5),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Text(
+                                  .withOpacity(0.5),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
                                       l10n.noAppointmentsFound,
                                       style: theme.textTheme.titleLarge,
                                     ),
@@ -206,9 +206,9 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
                                       style:
                                           theme.textTheme.bodyMedium?.copyWith(
                                         color: theme.colorScheme.onSurface
-                                            .withOpacity(0.7),
-                                      ),
-                                    ),
+                                        .withOpacity(0.7),
+                                  ),
+                            ),
                                     const SizedBox(height: 24),
                                     CustomButton(
                                       text: 'Yeni Randevu',
@@ -216,16 +216,16 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
                                         Navigator.pushNamed(
                                             context, '/appointment/new');
                                       },
-                                    ),
-                                  ],
-                                ),
+                            ),
+                          ],
+                        ),
                               );
                             }
 
                             return ListView.builder(
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               itemCount: appointments.length,
-                              itemBuilder: (context, index) {
+                        itemBuilder: (context, index) {
                                 try {
                                   final doc = appointments[index];
                                   final data = doc.data();
@@ -238,8 +238,8 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
                                     'id': doc.id,
                                   });
 
-                                  return AppointmentCard(
-                                    appointment: appointment,
+                          return AppointmentCard(
+                            appointment: appointment,
                                     onTap: () {
                                       Navigator.pushNamed(
                                         context,
@@ -354,10 +354,10 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
                           child:
                               Text('Klinik bilgisi alınırken hata oluştu: $e'));
                     }
-                  },
-                ),
-              ),
-            ],
+                        },
+                      ),
+          ),
+        ],
           ),
         ),
       ),

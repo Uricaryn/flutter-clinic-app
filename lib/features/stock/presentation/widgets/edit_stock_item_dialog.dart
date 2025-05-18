@@ -238,3 +238,4 @@ class _EditStockItemDialogState extends ConsumerState<EditStockItemDialog> {
     );
   }
 }
+ 

@@ -69,6 +69,9 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get noAppointmentsToday => 'Bugün için randevu yok';
+
+  @override
   String get lowStockAlert => 'Düşük Stok Uyarısı';
 
   @override
@@ -478,4 +481,212 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get pleaseEnterMinimumQuantity => 'Lütfen minimum miktarı girin';
+
+  @override
+  String get monthlyIncome => 'Aylık Gelir';
+
+  @override
+  String get stockValue => 'Stok Değeri';
+
+  @override
+  String get profitMargin => 'Kâr Marjı';
+
+  @override
+  String get expenses => 'Giderler';
+
+  @override
+  String get addExpense => 'Gider Ekle';
+
+  @override
+  String get noExpensesFound => 'Gider Bulunamadı';
+
+  @override
+  String invoiceNumber(String number) {
+    return 'Fatura No: $number';
+  }
+
+  @override
+  String get deleteExpense => 'Gideri Sil';
+
+  @override
+  String get deleteExpenseConfirmation => 'Bu gideri silmek istediğinizden emin misiniz?';
+
+  @override
+  String get operators => 'Operatörler';
+
+  @override
+  String get addOperator => 'Operatör Ekle';
+
+  @override
+  String get noOperatorsFound => 'Operatör Bulunamadı';
+
+  @override
+  String get deleteOperator => 'Operatörü Sil';
+
+  @override
+  String get deleteOperatorConfirmation => 'Bu operatörü silmek istediğinizden emin misiniz?';
+
+  @override
+  String get doctors => 'Doktorlar';
+
+  @override
+  String get addDoctor => 'Doktor Ekle';
+
+  @override
+  String get noDoctorsFound => 'Doktor Bulunamadı';
+
+  @override
+  String get deleteDoctor => 'Doktoru Sil';
+
+  @override
+  String get deleteDoctorConfirmation => 'Bu doktoru silmek istediğinizden emin misiniz?';
+
+  @override
+  String get thisMonth => 'Bu Ay';
+
+  @override
+  String get criticalStock => 'Kritik Stok';
+
+  @override
+  String get todayProfit => 'Bugün';
+
+  @override
+  String get newAppointment => 'Yeni Randevu';
+
+  @override
+  String get pleaseSelectDateAndTime => 'Lütfen tarih ve saat seçin';
+
+  @override
+  String get pleaseSelectProcedure => 'Lütfen işlem seçin';
+
+  @override
+  String get pleaseSelectDoctor => 'Lütfen doktor seçin';
+
+  @override
+  String get pleaseSelectPatient => 'Lütfen hasta seçin';
+
+  @override
+  String get appointmentCreatedSuccessfully => 'Randevu başarıyla oluşturuldu';
+
+  @override
+  String get error => 'Hata';
+
+  @override
+  String get userNotFound => 'Kullanıcı bulunamadı';
+
+  @override
+  String get clinicNotFound => 'Klinik bulunamadı';
+
+  @override
+  String get patientInformation => 'Hasta Bilgileri';
+
+  @override
+  String get selectPatient => 'Hasta Seçin';
+
+  @override
+  String get selectPatientHint => 'Hasta seçin';
+
+  @override
+  String get searchPatientByNameOrPhone => 'İsim veya telefon ile arayın';
+
+  @override
+  String get noPatientsFound => 'Hasta bulunamadı';
+
+  @override
+  String get addNewPatient => 'Yeni Hasta Ekle';
+
+  @override
+  String get editPatient => 'Hastayı Düzenle';
+
+  @override
+  String get appointmentDetails => 'Randevu Detayları';
+
+  @override
+  String get selectDate => 'Tarih Seçin';
+
+  @override
+  String get selectTime => 'Saat Seçin';
+
+  @override
+  String get procedure => 'İşlem';
+
+  @override
+  String get selectDoctor => 'Doktor Seçin';
+
+  @override
+  String get selectDoctorHint => 'Doktor seçin';
+
+  @override
+  String get searchDoctor => 'Doktor Ara';
+
+  @override
+  String get searchDoctorByName => 'Doktor adı ile arayın';
+
+  @override
+  String get noDoctorsYet => 'Henüz doktor bulunmuyor';
+
+  @override
+  String get notes => 'Notlar';
+
+  @override
+  String get createAppointment => 'Randevu Oluştur';
+
+  @override
+  String get patientNotes => 'Hasta Notları';
+
+  @override
+  String get editNotes => 'Notları düzenleyin...';
+
+  @override
+  String get notesUpdated => 'Notlar güncellendi';
+
+  @override
+  String get save => 'Kaydet';
+
+  @override
+  String get editPatientTitle => 'Hastayı Düzenle';
+
+  @override
+  String get deletePatient => 'Hastayı Sil';
+
+  @override
+  String get deletePatientConfirmation => 'Bu hastayı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.';
+
+  @override
+  String get patientDeletedSuccessfully => 'Hasta başarıyla silindi';
+
+  @override
+  String get patientUpdatedSuccessfully => 'Hasta başarıyla güncellendi';
+
+  @override
+  String errorLoadingPatientData(String error) {
+    return 'Hasta bilgileri yüklenirken hata oluştu: $error';
+  }
+
+  @override
+  String get pleaseSelectDateOfBirth => 'Lütfen doğum tarihi seçin';
+
+  @override
+  String get pleaseEnterPhone => 'Lütfen telefon numarası girin';
+
+  @override
+  String get selectDateOfBirth => 'Doğum Tarihi Seçin';
+
+  @override
+  String get gender => 'Cinsiyet';
+
+  @override
+  String get notSpecified => 'Belirtilmedi';
+
+  @override
+  String get male => 'Erkek';
+
+  @override
+  String get female => 'Kadın';
+
+  @override
+  String get useSystemTheme => 'Sistem Temasını Kullan';
+
+  @override
+  String get theme => 'Tema';
 }

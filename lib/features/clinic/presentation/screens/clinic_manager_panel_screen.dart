@@ -157,9 +157,11 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Klinik Yönetimi'),
+        title: Text(l10n.clinicManagement),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -167,126 +169,119 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Card(
-              elevation: 4,
+              elevation: 8,
+              color: Theme.of(context).colorScheme.surface,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Theme.of(context).primaryColor.withOpacity(0.1),
-                      Theme.of(context).primaryColor.withOpacity(0.05),
-                    ],
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .primaryColor
-                                  .withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Icon(
-                              Icons.local_hospital,
-                              size: 32,
-                              color: Theme.of(context).primaryColor,
-                            ),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  clinic.name,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  clinic.address,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(
-                                        color: Colors.grey[600],
-                                      ),
-                                ),
-                              ],
-                            ),
+                          child: Icon(
+                            Icons.local_hospital,
+                            size: 32,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                clinic.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                clinic.address,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withOpacity(0.7),
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            _InfoRow(
-                              icon: Icons.phone,
-                              text:
-                                  '${clinic.clinicPhoneCountryCode}${clinic.clinicPhoneNumber}',
-                            ),
-                            const Divider(height: 24),
-                            _InfoRow(
-                              icon: Icons.email,
-                              text: clinic.email,
-                            ),
-                          ],
-                        ),
+                      child: Column(
+                        children: [
+                          _InfoRow(
+                            icon: Icons.phone,
+                            text:
+                                '${clinic.clinicPhoneCountryCode}${clinic.clinicPhoneNumber}',
+                          ),
+                          const Divider(height: 24),
+                          _InfoRow(
+                            icon: Icons.email,
+                            text: clinic.email,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
             const SizedBox(height: 16),
             _StatCard(
-              title: 'Aylık Gelir',
+              title: l10n.monthlyIncome,
               value:
-                  '₺${_calculateMonthlyIncome(ref, appointments).toStringAsFixed(2)}',
-              chart: _buildMonthlyIncomeChart(ref, appointments),
+                  '₺${_calculateMonthlyIncome(context, ref, appointments).toStringAsFixed(2)}',
+              chart: _buildMonthlyIncomeChart(context, ref, appointments),
             ),
             const SizedBox(height: 16),
             _StatCard(
-              title: 'Stok Değeri',
-              value: '₺${_calculateStockValue(ref).toStringAsFixed(2)}',
-              chart: _buildStockChart(ref),
+              title: l10n.stockValue,
+              value:
+                  '₺${_calculateStockValue(context, ref).toStringAsFixed(2)}',
+              chart: _buildStockChart(context, ref),
             ),
             const SizedBox(height: 16),
             _StatCard(
-              title: 'Kâr Marjı',
+              title: l10n.profitMargin,
               value:
-                  '${_calculateProfitMargin(ref, appointments).toStringAsFixed(1)}%',
-              chart: _buildProfitMarginChart(ref, appointments),
+                  '${_calculateProfitMargin(context, ref, appointments).toStringAsFixed(1)}%',
+              chart: _buildProfitMarginChart(context, ref, appointments),
             ),
             const SizedBox(height: 16),
             Card(
@@ -303,7 +298,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                             const Icon(Icons.money_off, size: 24),
                             const SizedBox(width: 8),
                             Text(
-                              'Giderler',
+                              l10n.expenses,
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                           ],
@@ -318,7 +313,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                             );
                           },
                           icon: const Icon(Icons.add),
-                          label: const Text('Gider Ekle'),
+                          label: Text(l10n.addExpense),
                         ),
                       ],
                     ),
@@ -354,9 +349,9 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                   color: Colors.grey,
                                 ),
                                 const SizedBox(height: 8),
-                                const Text(
-                                  'Henüz gider bulunmuyor',
-                                  style: TextStyle(
+                                Text(
+                                  l10n.noExpensesFound,
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -386,35 +381,54 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
-                                title: Text(data['title'] ?? ''),
+                                title: Text(
+                                  data['title'] ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(data['description'] ?? ''),
+                                    Text(
+                                      data['description'] ?? '',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                     if (data['category'] == 'Fatura' &&
                                         data['invoiceNumber'] != null)
                                       Text(
-                                        'Fatura No: ${data['invoiceNumber']}',
+                                        l10n.invoiceNumber(
+                                            data['invoiceNumber']),
                                         style: const TextStyle(
                                           color: Colors.blue,
                                           fontWeight: FontWeight.bold,
                                         ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     Text(
                                       '${date.day}/${date.month}/${date.year}',
                                       style: const TextStyle(
                                         color: Colors.grey,
                                       ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ],
                                 ),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(
-                                      '₺${(data['amount'] as num).toStringAsFixed(2)}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                    SizedBox(
+                                      width: 80,
+                                      child: Text(
+                                        '₺${(data['amount'] as num).toStringAsFixed(2)}',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.end,
                                       ),
                                     ),
                                     const SizedBox(width: 8),
@@ -440,15 +454,15 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                         showDialog(
                                           context: context,
                                           builder: (context) => AlertDialog(
-                                            title: const Text('Gideri Sil'),
-                                            content: const Text(
-                                              'Bu gideri silmek istediğinizden emin misiniz?',
+                                            title: Text(l10n.deleteExpense),
+                                            content: Text(
+                                              l10n.deleteExpenseConfirmation,
                                             ),
                                             actions: [
                                               TextButton(
                                                 onPressed: () =>
                                                     Navigator.pop(context),
-                                                child: const Text('İptal'),
+                                                child: Text(l10n.cancel),
                                               ),
                                               TextButton(
                                                 onPressed: () async {
@@ -474,7 +488,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                                     }
                                                   }
                                                 },
-                                                child: const Text('Sil'),
+                                                child: Text(l10n.delete),
                                               ),
                                             ],
                                           ),
@@ -508,7 +522,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                             const Icon(Icons.people, size: 24),
                             const SizedBox(width: 8),
                             Text(
-                              'Operatörler',
+                              l10n.operators,
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                           ],
@@ -523,7 +537,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                             );
                           },
                           icon: const Icon(Icons.add),
-                          label: const Text('Operatör Ekle'),
+                          label: Text(l10n.addOperator),
                         ),
                       ],
                     ),
@@ -559,9 +573,9 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                   color: Colors.grey,
                                 ),
                                 const SizedBox(height: 8),
-                                const Text(
-                                  'Henüz operatör bulunmuyor',
-                                  style: TextStyle(
+                                Text(
+                                  l10n.noOperatorsFound,
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -646,15 +660,15 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                         showDialog(
                                           context: context,
                                           builder: (context) => AlertDialog(
-                                            title: const Text('Operatörü Sil'),
-                                            content: const Text(
-                                              'Bu operatörü silmek istediğinizden emin misiniz?',
+                                            title: Text(l10n.deleteOperator),
+                                            content: Text(
+                                              l10n.deleteOperatorConfirmation,
                                             ),
                                             actions: [
                                               TextButton(
                                                 onPressed: () =>
                                                     Navigator.pop(context),
-                                                child: const Text('İptal'),
+                                                child: Text(l10n.cancel),
                                               ),
                                               TextButton(
                                                 onPressed: () async {
@@ -680,7 +694,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                                     }
                                                   }
                                                 },
-                                                child: const Text('Sil'),
+                                                child: Text(l10n.delete),
                                               ),
                                             ],
                                           ),
@@ -714,7 +728,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                             const Icon(Icons.medical_services, size: 24),
                             const SizedBox(width: 8),
                             Text(
-                              'Doktorlar',
+                              l10n.doctors,
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                           ],
@@ -729,7 +743,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                             );
                           },
                           icon: const Icon(Icons.add),
-                          label: const Text('Doktor Ekle'),
+                          label: Text(l10n.addDoctor),
                         ),
                       ],
                     ),
@@ -764,9 +778,9 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                   color: Colors.grey,
                                 ),
                                 const SizedBox(height: 8),
-                                const Text(
-                                  'Henüz doktor bulunmuyor',
-                                  style: TextStyle(
+                                Text(
+                                  l10n.noDoctorsFound,
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -851,15 +865,15 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                         showDialog(
                                           context: context,
                                           builder: (context) => AlertDialog(
-                                            title: const Text('Doktoru Sil'),
-                                            content: const Text(
-                                              'Bu doktoru silmek istediğinizden emin misiniz?',
+                                            title: Text(l10n.deleteDoctor),
+                                            content: Text(
+                                              l10n.deleteDoctorConfirmation,
                                             ),
                                             actions: [
                                               TextButton(
                                                 onPressed: () =>
                                                     Navigator.pop(context),
-                                                child: const Text('İptal'),
+                                                child: Text(l10n.cancel),
                                               ),
                                               TextButton(
                                                 onPressed: () async {
@@ -885,7 +899,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                                     }
                                                   }
                                                 },
-                                                child: const Text('Sil'),
+                                                child: Text(l10n.delete),
                                               ),
                                             ],
                                           ),
@@ -910,8 +924,8 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
     );
   }
 
-  double _calculateMonthlyIncome(
-      WidgetRef ref, List<QueryDocumentSnapshot> procedures) {
+  double _calculateMonthlyIncome(BuildContext context, WidgetRef ref,
+      List<QueryDocumentSnapshot> procedures) {
     final now = DateTime.now();
     final firstDayOfMonth = DateTime(now.year, now.month, 1);
     final lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
@@ -950,7 +964,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
     );
   }
 
-  double _calculateStockValue(WidgetRef ref) {
+  double _calculateStockValue(BuildContext context, WidgetRef ref) {
     final stockAsync = ref.watch(clinicStockStreamProvider(clinicId));
     return stockAsync.when(
       loading: () => 0.0,
@@ -1052,10 +1066,10 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
     );
   }
 
-  double _calculateProfitMargin(
-      WidgetRef ref, List<QueryDocumentSnapshot> appointments) {
+  double _calculateProfitMargin(BuildContext context, WidgetRef ref,
+      List<QueryDocumentSnapshot> appointments) {
     try {
-      final monthlyIncome = _calculateMonthlyIncome(ref, appointments);
+      final monthlyIncome = _calculateMonthlyIncome(context, ref, appointments);
       final monthlyExpenses = _calculateMonthlyExpenses(ref);
       final monthlyStockCosts = _calculateMonthlyStockCosts(ref, appointments);
 
@@ -1104,8 +1118,8 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
     });
   }
 
-  Widget _buildMonthlyIncomeChart(
-      WidgetRef ref, List<QueryDocumentSnapshot> procedures) {
+  Widget _buildMonthlyIncomeChart(BuildContext context, WidgetRef ref,
+      List<QueryDocumentSnapshot> procedures) {
     final now = DateTime.now();
     final appointmentsAsync =
         ref.watch(clinicAppointmentsStreamProvider(clinicId));
@@ -1114,6 +1128,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (_, __) => const Center(child: Text('Hata')),
       data: (appointments) {
+        final l10n = AppLocalizations.of(context)!;
         // Sadece ödeme yapılmış randevuları filtrele
         final paidAppointments = appointments.docs.where((doc) {
           final data = doc.data() as Map<String, dynamic>;
@@ -1170,9 +1185,9 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text(
-                    'Bu Ay',
-                    style: TextStyle(
+                  Text(
+                    l10n.thisMonth,
+                    style: const TextStyle(
                       fontSize: 12,
                       color: Colors.grey,
                     ),
@@ -1186,12 +1201,13 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
     );
   }
 
-  Widget _buildStockChart(WidgetRef ref) {
+  Widget _buildStockChart(BuildContext context, WidgetRef ref) {
     final stockAsync = ref.watch(clinicStockStreamProvider(clinicId));
     return stockAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (_, __) => const Center(child: Text('Hata')),
       data: (stock) {
+        final l10n = AppLocalizations.of(context)!;
         final totalValue = stock.docs.fold(0.0, (sum, doc) {
           final data = doc.data() as Map<String, dynamic>;
           final quantity = data['quantity'] != null
@@ -1242,9 +1258,9 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text(
-                    'Kritik Stok',
-                    style: TextStyle(
+                  Text(
+                    l10n.criticalStock,
+                    style: const TextStyle(
                       fontSize: 12,
                       color: Colors.grey,
                     ),
@@ -1258,9 +1274,10 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
     );
   }
 
-  Widget _buildProfitMarginChart(
-      WidgetRef ref, List<QueryDocumentSnapshot> appointments) {
+  Widget _buildProfitMarginChart(BuildContext context, WidgetRef ref,
+      List<QueryDocumentSnapshot> appointments) {
     final now = DateTime.now();
+    final l10n = AppLocalizations.of(context)!;
     final dailyProfitMargin = List.generate(7, (index) {
       final date = now.subtract(Duration(days: 6 - index));
 
@@ -1338,9 +1355,9 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Text(
-                'Bugün',
-                style: TextStyle(
+              Text(
+                l10n.todayProfit,
+                style: const TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
                 ),

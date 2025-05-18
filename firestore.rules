@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Kullanıcı kimlik doğrulaması kontrolü
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Kullanıcının kendi verilerine erişim kontrolü
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    // Klinik yöneticisi kontrolü
+    function isClinicAdmin(clinicId) {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.clinicId == clinicId;
+    }
+
+    // Users koleksiyonu kuralları
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (isOwner(userId) || isClinicAdmin(resource.data.clinicId));
+      allow write: if isAuthenticated() && isOwner(userId);
+    }
+
+    // Clinics koleksiyonu kuralları
+    match /clinics/{clinicId} {
+      allow read: if isAuthenticated() && isClinicAdmin(clinicId);
+      allow write: if isAuthenticated() && isClinicAdmin(clinicId);
+    }
+
+    // Appointments koleksiyonu kuralları
+    match /appointments/{appointmentId} {
+      allow read: if isAuthenticated() && 
+        (isClinicAdmin(resource.data.clinicId) || isOwner(resource.data.patientId));
+      allow write: if isAuthenticated() && isClinicAdmin(resource.data.clinicId);
+    }
+
+    // Procedures koleksiyonu kuralları
+    match /procedures/{procedureId} {
+      allow read: if isAuthenticated() && isClinicAdmin(resource.data.clinicId);
+      allow write: if isAuthenticated() && isClinicAdmin(resource.data.clinicId);
+    }
+
+    // Stock items koleksiyonu kuralları
+    match /stock_items/{itemId} {
+      allow read: if isAuthenticated() && isClinicAdmin(resource.data.clinicId);
+      allow write: if isAuthenticated() && isClinicAdmin(resource.data.clinicId);
+    }
+  }
+} 
