@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -152,7 +154,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pleaseEnterValidEmail => 'Please enter a valid email';
 
   @override
-  String get passwordMustBeAtLeast6Characters => 'Password must be at least 6 characters';
+  String get passwordMustBeAtLeast6Characters =>
+      'Password must be at least 6 characters';
 
   @override
   String get alreadyHaveAccount => 'Already have an account?';
@@ -319,19 +322,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get superAdminPanel => 'Super Admin Panel';
 
   @override
-  String get manageClinicsUsersStats => 'Manage clinics, users, and view statistics';
+  String get manageClinicsUsersStats =>
+      'Manage clinics, users, and view statistics';
 
   @override
   String get emailVerificationRequired => 'Verify Email';
 
   @override
-  String get pleaseVerifyEmail => 'Please check your email and click the verification link to continue.';
+  String get pleaseVerifyEmail =>
+      'Please check your email and click the verification link to continue.';
 
   @override
   String get resendVerificationEmail => 'Resend Email';
 
   @override
-  String get verificationEmailSent => 'Verification email sent. Please check your inbox.';
+  String get verificationEmailSent =>
+      'Verification email sent. Please check your inbox.';
 
   @override
   String get ok => 'OK';
@@ -346,7 +352,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailVerifiedSuccess => 'Email verified successfully!';
 
   @override
-  String get emailNotVerifiedYet => 'Email not verified yet. Please check your inbox.';
+  String get emailNotVerifiedYet =>
+      'Email not verified yet. Please check your inbox.';
 
   @override
   String get checkStatus => 'Check Status';
@@ -358,7 +365,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clinicManagement => 'Clinic Management';
 
   @override
-  String get manageClinicInfoAndOperators => 'Manage clinic information and operators';
+  String get manageClinicInfoAndOperators =>
+      'Manage clinic information and operators';
 
   @override
   String get noClinicsFound => 'No Clinics Found';
@@ -509,7 +517,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteExpense => 'Delete Expense';
 
   @override
-  String get deleteExpenseConfirmation => 'Are you sure you want to delete this expense?';
+  String get deleteExpenseConfirmation =>
+      'Are you sure you want to delete this expense?';
 
   @override
   String get operators => 'Operators';
@@ -524,7 +533,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteOperator => 'Delete Operator';
 
   @override
-  String get deleteOperatorConfirmation => 'Are you sure you want to delete this operator?';
+  String get deleteOperatorConfirmation =>
+      'Are you sure you want to delete this operator?';
 
   @override
   String get doctors => 'Doctors';
@@ -539,7 +549,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteDoctor => 'Delete Doctor';
 
   @override
-  String get deleteDoctorConfirmation => 'Are you sure you want to delete this doctor?';
+  String get deleteDoctorConfirmation =>
+      'Are you sure you want to delete this doctor?';
 
   @override
   String get thisMonth => 'This Month';
@@ -566,7 +577,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pleaseSelectPatient => 'Please select a patient';
 
   @override
-  String get appointmentCreatedSuccessfully => 'Appointment created successfully';
+  String get appointmentCreatedSuccessfully =>
+      'Appointment created successfully';
 
   @override
   String get error => 'Error';
@@ -650,7 +662,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deletePatient => 'Delete Patient';
 
   @override
-  String get deletePatientConfirmation => 'Are you sure you want to delete this patient? This action cannot be undone.';
+  String get deletePatientConfirmation =>
+      'Are you sure you want to delete this patient? This action cannot be undone.';
 
   @override
   String get patientDeletedSuccessfully => 'Patient deleted successfully';

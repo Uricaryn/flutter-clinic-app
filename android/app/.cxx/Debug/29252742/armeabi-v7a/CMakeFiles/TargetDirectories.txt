@@ -1,0 +1,2 @@
+C:/AndroidProjects/FlutterClinicApp/clinic_app/android/app/.cxx/Debug/29252742/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/AndroidProjects/FlutterClinicApp/clinic_app/android/app/.cxx/Debug/29252742/armeabi-v7a/CMakeFiles/rebuild_cache.dir

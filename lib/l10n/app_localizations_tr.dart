@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -152,7 +154,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pleaseEnterValidEmail => 'Lütfen geçerli bir e-posta adresi girin';
 
   @override
-  String get passwordMustBeAtLeast6Characters => 'Şifre en az 6 karakter olmalıdır';
+  String get passwordMustBeAtLeast6Characters =>
+      'Şifre en az 6 karakter olmalıdır';
 
   @override
   String get alreadyHaveAccount => 'Zaten hesabınız var mı?';
@@ -319,19 +322,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get superAdminPanel => 'Süper Yönetici Paneli';
 
   @override
-  String get manageClinicsUsersStats => 'Klinikleri ve kullanıcıları yönet, istatistikleri görüntüle';
+  String get manageClinicsUsersStats =>
+      'Klinikleri ve kullanıcıları yönet, istatistikleri görüntüle';
 
   @override
   String get emailVerificationRequired => 'E-posta Doğrulama';
 
   @override
-  String get pleaseVerifyEmail => 'Devam etmek için lütfen e-postanızı kontrol edin ve doğrulama bağlantısına tıklayın.';
+  String get pleaseVerifyEmail =>
+      'Devam etmek için lütfen e-postanızı kontrol edin ve doğrulama bağlantısına tıklayın.';
 
   @override
   String get resendVerificationEmail => 'E-postayı Tekrar Gönder';
 
   @override
-  String get verificationEmailSent => 'Doğrulama e-postası gönderildi. Lütfen gelen kutunuzu kontrol edin.';
+  String get verificationEmailSent =>
+      'Doğrulama e-postası gönderildi. Lütfen gelen kutunuzu kontrol edin.';
 
   @override
   String get ok => 'Tamam';
@@ -346,7 +352,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get emailVerifiedSuccess => 'E-posta başarıyla doğrulandı!';
 
   @override
-  String get emailNotVerifiedYet => 'E-posta henüz doğrulanmadı. Lütfen gelen kutunuzu kontrol edin.';
+  String get emailNotVerifiedYet =>
+      'E-posta henüz doğrulanmadı. Lütfen gelen kutunuzu kontrol edin.';
 
   @override
   String get checkStatus => 'Durumu Kontrol Et';
@@ -358,7 +365,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get clinicManagement => 'Klinik Yönetimi';
 
   @override
-  String get manageClinicInfoAndOperators => 'Klinik bilgilerini ve operatörleri yönet';
+  String get manageClinicInfoAndOperators =>
+      'Klinik bilgilerini ve operatörleri yönet';
 
   @override
   String get noClinicsFound => 'Klinik Bulunamadı';
@@ -509,7 +517,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deleteExpense => 'Gideri Sil';
 
   @override
-  String get deleteExpenseConfirmation => 'Bu gideri silmek istediğinizden emin misiniz?';
+  String get deleteExpenseConfirmation =>
+      'Bu gideri silmek istediğinizden emin misiniz?';
 
   @override
   String get operators => 'Operatörler';
@@ -524,7 +533,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deleteOperator => 'Operatörü Sil';
 
   @override
-  String get deleteOperatorConfirmation => 'Bu operatörü silmek istediğinizden emin misiniz?';
+  String get deleteOperatorConfirmation =>
+      'Bu operatörü silmek istediğinizden emin misiniz?';
 
   @override
   String get doctors => 'Doktorlar';
@@ -539,7 +549,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deleteDoctor => 'Doktoru Sil';
 
   @override
-  String get deleteDoctorConfirmation => 'Bu doktoru silmek istediğinizden emin misiniz?';
+  String get deleteDoctorConfirmation =>
+      'Bu doktoru silmek istediğinizden emin misiniz?';
 
   @override
   String get thisMonth => 'Bu Ay';
@@ -650,7 +661,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deletePatient => 'Hastayı Sil';
 
   @override
-  String get deletePatientConfirmation => 'Bu hastayı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.';
+  String get deletePatientConfirmation =>
+      'Bu hastayı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.';
 
   @override
   String get patientDeletedSuccessfully => 'Hasta başarıyla silindi';

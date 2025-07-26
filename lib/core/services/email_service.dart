@@ -10,7 +10,7 @@ class EmailService {
       if (user != null && !user.emailVerified) {
         await user.sendEmailVerification(
           ActionCodeSettings(
-            url: 'https://your-clinic-app.web.app/verify-email',
+            url: 'https://ordanaapp.com/verify-email',
             handleCodeInApp: true,
             androidPackageName: 'com.example.clinic_app',
             androidInstallApp: true,
@@ -30,7 +30,7 @@ class EmailService {
       await _auth.sendPasswordResetEmail(
         email: email,
         actionCodeSettings: ActionCodeSettings(
-          url: 'https://your-clinic-app.web.app/reset-password',
+          url: 'https://ordanaapp.com/reset-password',
           handleCodeInApp: true,
           androidPackageName: 'com.example.clinic_app',
           androidInstallApp: true,

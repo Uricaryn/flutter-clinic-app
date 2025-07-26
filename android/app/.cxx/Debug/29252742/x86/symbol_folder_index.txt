@@ -1,0 +1,1 @@
+C:\AndroidProjects\FlutterClinicApp\clinic_app\build\app\intermediates\cxx\Debug\29252742\obj\x86

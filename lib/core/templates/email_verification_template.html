@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Verification</title>
+    <title>Email Verification - OrdanApp</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -68,6 +68,31 @@
         .link:hover {
             text-decoration: underline;
         }
+        .steps {
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .steps li {
+            margin-bottom: 10px;
+        }
+        .security-note {
+            background-color: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -76,25 +101,39 @@
             <h1>OrdanApp</h1>
         </div>
         <div class="content">
-            <p>Hello {{name}},</p>
-            <p>Thank you for registering with OrdanApp. To complete your registration and access all features, please verify your email address by clicking the button below:</p>
+            <p>Merhaba {{name}},</p>
+            
+            <p>OrdanApp'e hoş geldiniz! Hesabınızı aktifleştirmek için e-posta adresinizi doğrulamanız gerekiyor. Bu işlem, hesabınızın güvenliğini sağlamak ve tüm özelliklere erişiminizi etkinleştirmek için önemlidir.</p>
+
+            <div class="steps">
+                <p><strong>Hesabınızı doğrulamak için:</strong></p>
+                <ol>
+                    <li>Aşağıdaki "E-posta Adresini Doğrula" butonuna tıklayın</li>
+                    <li>Doğrulama sayfasında gerekli bilgileri kontrol edin</li>
+                    <li>Doğrulama işlemi tamamlandığında otomatik olarak uygulamaya yönlendirileceksiniz</li>
+                </ol>
+            </div>
             
             <div style="text-align: center;">
-                <a href="{{action_url}}" class="button">Verify Email Address</a>
+                <a href="https://ordanaapp.com/verify-email?token={{action_url}}" class="button">E-posta Adresini Doğrula</a>
             </div>
 
-            <p>If the button above doesn't work, you can also copy and paste this link into your browser:</p>
-            <p><a href="{{action_url}}" class="link">{{action_url}}</a></p>
+            <p>Eğer buton çalışmazsa, aşağıdaki bağlantıyı tarayıcınıza kopyalayıp yapıştırabilirsiniz:</p>
+            <p><a href="https://ordanaapp.com/verify-email?token={{action_url}}" class="link">https://ordanaapp.com/verify-email?token={{action_url}}</a></p>
 
-            <p>This verification link will expire in 24 hours.</p>
+            <div class="security-note">
+                <p><strong>Güvenlik Notu:</strong></p>
+                <p>Bu doğrulama bağlantısı 24 saat içinde geçerliliğini yitirecektir. Güvenliğiniz için, bağlantıyı başkalarıyla paylaşmayın.</p>
+            </div>
 
-            <p>If you didn't create an account with OrdanApp, you can safely ignore this email.</p>
+            <p>Eğer bu hesabı siz oluşturmadıysanız, bu e-postayı görmezden gelebilirsiniz.</p>
 
-            <p>Best regards,<br>The OrdanApp Team</p>
+            <p>Saygılarımızla,<br>OrdanApp Ekibi</p>
         </div>
         <div class="footer">
-            <p>This is an automated message, please do not reply to this email.</p>
-            <p>&copy; 2024 OrdanApp. All rights reserved.</p>
+            <p>Bu otomatik bir mesajdır, lütfen yanıtlamayınız.</p>
+            <p>&copy; 2024 OrdanApp. Tüm hakları saklıdır.</p>
+            <p>OrdanApp - Sağlık Hizmetleriniz İçin Güvenilir Çözüm</p>
         </div>
     </div>
 </body>
