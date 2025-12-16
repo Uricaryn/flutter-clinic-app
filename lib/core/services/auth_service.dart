@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:clinic_app/core/services/logger_service.dart';
+import 'package:clinic_app/core/services/base_auth_service.dart';
 
-class AuthService {
+class AuthService implements BaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _logger = LoggerService();

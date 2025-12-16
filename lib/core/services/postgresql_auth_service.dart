@@ -2,9 +2,10 @@ import 'dart:async';
 import 'package:clinic_app/core/services/api_service.dart';
 import 'package:clinic_app/core/config/api_config.dart';
 import 'package:clinic_app/core/services/logger_service.dart';
+import 'package:clinic_app/core/services/base_auth_service.dart';
 
 /// Authentication service for PostgreSQL backend with JWT
-class PostgresqlAuthService {
+class PostgresqlAuthService implements BaseAuthService {
   final ApiService _apiService = ApiService();
   final _logger = LoggerService();
 
@@ -215,6 +216,37 @@ class PostgresqlAuthService {
   /// Dispose resources
   void dispose() {
     _authStateController.close();
+  }
+
+  // ============================================================================
+  // BaseAuthService implementation (adapter methods for compatibility)
+  // ============================================================================
+
+  /// Adapter for signIn - matches BaseAuthService interface
+  @override
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
+    await signIn(email, password);
+  }
+
+  // Note: signOut() and sendPasswordResetEmail() already exist and match the interface
+
+  @override
+  Future<void> verifyEmail() async {
+    // Email verification - resend verification email
+    if (_currentUser == null) {
+      throw 'No user signed in';
+    }
+    
+    try {
+      await _apiService.post(
+        '/auth/resend-verification',
+        data: {'email': _currentUser!.email},
+      );
+      _logger.info('Verification email resent');
+    } catch (e) {
+      _logger.error('Resend verification email error', e, StackTrace.current);
+      rethrow;
+    }
   }
 }
 

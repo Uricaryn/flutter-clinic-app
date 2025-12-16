@@ -34,7 +34,7 @@ class ErrorScreen extends StatelessWidget {
 
 Future<void> initializeApp() async {
   final logger = LoggerService();
-  
+
   // Log current database mode
   logger.info('🚀 Starting app in ${AppMode.modeName} mode');
   debugPrint('═══════════════════════════════════════');
@@ -128,11 +128,13 @@ class MyApp extends ConsumerWidget {
           return const HomeScreen();
         },
         loading: () {
-          _logger.info('Auth state is loading (${AppMode.modeName} mode), showing splash screen');
+          _logger.info(
+              'Auth state is loading (${AppMode.modeName} mode), showing splash screen');
           return const SplashScreen();
         },
         error: (error, stack) {
-          _logger.error('Auth state error (${AppMode.modeName} mode)', error, stack);
+          _logger.error(
+              'Auth state error (${AppMode.modeName} mode)', error, stack);
           return ErrorScreen(error: error.toString());
         },
       ),

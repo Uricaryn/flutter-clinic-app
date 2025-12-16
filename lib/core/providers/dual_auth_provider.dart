@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:clinic_app/core/config/app_mode.dart';
 import 'package:clinic_app/core/services/auth_service.dart';
 import 'package:clinic_app/core/services/postgresql_auth_service.dart';
+import 'package:clinic_app/core/services/base_auth_service.dart';
 import 'package:clinic_app/core/enums/user_role.dart';
 import 'package:clinic_app/core/services/database_service.dart';
 import 'package:clinic_app/core/providers/database_provider.dart';
@@ -50,7 +51,7 @@ class UnifiedUser {
 }
 
 /// Dual-mode auth service provider
-final dualAuthServiceProvider = Provider((ref) {
+final dualAuthServiceProvider = Provider<BaseAuthService>((ref) {
   if (AppMode.isFirebase) {
     return AuthService(); // Firebase auth service
   } else {
