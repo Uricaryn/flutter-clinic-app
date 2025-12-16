@@ -5,6 +5,7 @@ import 'package:clinic_app/features/stock/presentation/widgets/stock_item_card.d
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:clinic_app/core/providers/stub_providers.dart';
 import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:clinic_app/shared/widgets/auth_background.dart';
 import 'package:clinic_app/features/stock/presentation/widgets/edit_stock_item_dialog.dart';

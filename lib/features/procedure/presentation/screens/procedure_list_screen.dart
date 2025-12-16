@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:clinic_app/core/providers/stub_providers.dart';
 import 'package:clinic_app/features/procedure/domain/models/procedure_model.dart';
 import 'package:clinic_app/features/procedure/presentation/widgets/add_procedure_dialog.dart';
 import 'package:clinic_app/features/procedure/presentation/widgets/edit_procedure_dialog.dart';

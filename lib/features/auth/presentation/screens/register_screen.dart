@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:clinic_app/core/providers/stub_providers.dart';
 import 'package:clinic_app/shared/widgets/custom_text_field.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';

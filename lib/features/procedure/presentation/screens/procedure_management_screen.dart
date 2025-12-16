@@ -5,6 +5,7 @@ import 'package:clinic_app/features/procedure/presentation/widgets/procedure_car
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:clinic_app/core/providers/stub_providers.dart';
 import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:clinic_app/shared/widgets/auth_background.dart';

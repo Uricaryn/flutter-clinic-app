@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:clinic_app/core/providers/stub_providers.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
 import 'package:clinic_app/core/services/postgresql_auth_service.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';

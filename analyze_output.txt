@@ -1,0 +1,322 @@
+Analyzing flutter-clinic-app...                                 
+
+   info - The imported package 'firebase_core' isn't a dependency of the importing package - lib\core\scripts\run_test_data_creator.dart:2:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:firebase_core/firebase_core.dart' - lib\core\scripts\run_test_data_creator.dart:2:8 - uri_does_not_exist
+  error - Undefined name 'Firebase' - lib\core\scripts\run_test_data_creator.dart:12:11 - undefined_identifier
+   info - The imported package 'firebase_auth' isn't a dependency of the importing package - lib\core\scripts\test_data_creator.dart:1:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:firebase_auth/firebase_auth.dart' - lib\core\scripts\test_data_creator.dart:1:8 - uri_does_not_exist
+   info - The imported package 'cloud_firestore' isn't a dependency of the importing package - lib\core\scripts\test_data_creator.dart:2:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:cloud_firestore/cloud_firestore.dart' - lib\core\scripts\test_data_creator.dart:2:8 - uri_does_not_exist
+  error - Undefined name 'FirebaseAuth' - lib\core\scripts\test_data_creator.dart:6:17 - undefined_identifier
+  error - Undefined class 'User' - lib\core\scripts\test_data_creator.dart:15:7 - undefined_class
+  error - The name 'FirebaseAuthException' isn't defined, so it can't be used in an 'is' expression - lib\core\scripts\test_data_creator.dart:24:18 - type_test_with_undefined_name
+  error - Undefined name 'FieldValue' - lib\core\scripts\test_data_creator.dart:55:22 - undefined_identifier
+  error - Undefined name 'FieldValue' - lib\core\scripts\test_data_creator.dart:94:24 - undefined_identifier
+  error - Undefined name 'FieldValue' - lib\core\scripts\test_data_creator.dart:100:24 - undefined_identifier
+  error - Undefined name 'FieldValue' - lib\core\scripts\test_data_creator.dart:106:24 - undefined_identifier
+  error - Undefined name 'FieldValue' - lib\core\scripts\test_data_creator.dart:148:24 - undefined_identifier
+  error - Undefined name 'FieldValue' - lib\core\scripts\test_data_creator.dart:156:24 - undefined_identifier
+  error - Undefined name 'FieldValue' - lib\core\scripts\test_data_creator.dart:164:24 - undefined_identifier
+  error - Undefined name 'FieldValue' - lib\core\scripts\test_data_creator.dart:207:24 - undefined_identifier
+  error - Undefined name 'FieldValue' - lib\core\scripts\test_data_creator.dart:216:24 - undefined_identifier
+  error - Undefined name 'FieldValue' - lib\core\scripts\test_data_creator.dart:225:24 - undefined_identifier
+   info - Don't invoke 'print' in production code - lib\core\services\api_service.dart:43:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\api_service.dart:47:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\api_service.dart:51:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\api_service.dart:123:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\crashlytics_service.dart:22:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\crashlytics_service.dart:23:24 - avoid_print
+   info - 'printTime' is deprecated and shouldn't be used. Use `dateTimeFormat` with `DateTimeFormat.onlyTimeAndSinceStart` or `DateTimeFormat.none` instead - lib\core\services\logger_service.dart:24:9 - deprecated_member_use
+   info - The member 'signOut' overrides an inherited member but isn't annotated with '@override' - lib\core\services\postgresql_auth_service.dart:135:16 - annotate_overrides
+   info - The member 'sendPasswordResetEmail' overrides an inherited member but isn't annotated with '@override' - lib\core\services\postgresql_auth_service.dart:181:16 - annotate_overrides
+   info - Use a function declaration rather than a variable assignment to bind a function to a name - lib\core\services\postgresql_database_service.dart:133:11 - prefer_function_declarations_over_variables
+   info - Use a function declaration rather than a variable assignment to bind a function to a name - lib\core\services\postgresql_database_service.dart:343:11 - prefer_function_declarations_over_variables
+warning - Unused import: 'package:flutter/material.dart' - lib\core\validators\auth_validators.dart:1:8 - unused_import
+  error - Target of URI doesn't exist: 'package:clinic_app/core/providers/firestore_provider.dart' - lib\features\admin\presentation\screens\admin_panel_screen.dart:4:8 - uri_does_not_exist
+   info - The imported package 'cloud_functions' isn't a dependency of the importing package - lib\features\admin\presentation\screens\admin_panel_screen.dart:11:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:cloud_functions/cloud_functions.dart' - lib\features\admin\presentation\screens\admin_panel_screen.dart:11:8 - uri_does_not_exist
+  error - Undefined name 'FirebaseFunctions' - lib\features\admin\presentation\screens\admin_panel_screen.dart:19:25 - undefined_identifier
+   info - Don't use 'BuildContext's across async gaps - lib\features\admin\presentation\screens\admin_panel_screen.dart:35:21 - use_build_context_synchronously
+  error - Undefined name 'adminStatsProvider' - lib\features\admin\presentation\screens\admin_panel_screen.dart:70:29 - undefined_identifier
+warning - The value of the local variable 'clinics' isn't used - lib\features\admin\presentation\screens\admin_panel_screen.dart:71:11 - unused_local_variable
+  error - Undefined name 'clinicListProvider' - lib\features\admin\presentation\screens\admin_panel_screen.dart:71:31 - undefined_identifier
+warning - The value of the local variable 'users' isn't used - lib\features\admin\presentation\screens\admin_panel_screen.dart:72:11 - unused_local_variable
+  error - Undefined name 'userListProvider' - lib\features\admin\presentation\screens\admin_panel_screen.dart:72:29 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\admin\presentation\screens\admin_panel_screen.dart:233:26 - deprecated_member_use
+warning - The declaration '_showAddClinicDialog' isn't referenced - lib\features\admin\presentation\screens\admin_panel_screen.dart:322:8 - unused_element
+warning - The declaration '_showAddUserDialog' isn't referenced - lib\features\admin\presentation\screens\admin_panel_screen.dart:371:8 - unused_element
+   info - Use 'const' with the constructor to improve performance - lib\features\admin\presentation\screens\admin_panel_screen.dart:379:13 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\admin\presentation\screens\admin_panel_screen.dart:386:13 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\admin\presentation\screens\admin_panel_screen.dart:393:13 - prefer_const_constructors
+warning - The value of the local variable 'l10n' isn't used - lib\features\appointment\presentation\screens\appointment_details_screen.dart:18:11 - unused_local_variable
+  error - Undefined name 'proceduresStreamProvider' - lib\features\appointment\presentation\screens\appointment_details_screen.dart:19:39 - undefined_identifier
+  error - The name 'DocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\appointment\presentation\screens\appointment_details_screen.dart:130:35 - non_type_as_type_argument
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\appointment\presentation\screens\appointment_details_screen.dart:132:28 - invalid_use_of_null_value
+warning - The value of the local variable 'user' isn't used - lib\features\appointment\presentation\screens\appointments_screen.dart:33:11 - unused_local_variable
+  error - Undefined name 'currentUserDataProvider' - lib\features\appointment\presentation\screens\appointments_screen.dart:34:37 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\screens\appointments_screen.dart:61:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\screens\appointments_screen.dart:68:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\screens\appointments_screen.dart:84:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\screens\appointments_screen.dart:90:62 - deprecated_member_use
+  error - The name 'QuerySnapshot' isn't a type, so it can't be used as a type argument - lib\features\appointment\presentation\screens\appointments_screen.dart:138:44 - non_type_as_type_argument
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\appointment\presentation\screens\appointments_screen.dart:140:35 - argument_type_not_assignable
+   info - Don't invoke 'print' in production code - lib\features\appointment\presentation\screens\appointments_screen.dart:144:29 - avoid_print
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\screens\appointments_screen.dart:194:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\screens\appointments_screen.dart:207:46 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\appointment\presentation\screens\appointments_screen.dart:274:43 - use_build_context_synchronously
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\appointment\presentation\screens\appointments_screen.dart:309:53 - argument_type_not_assignable
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\appointment\presentation\screens\appointments_screen.dart:313:64 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\appointment\presentation\screens\appointments_screen.dart:323:64 - use_build_context_synchronously
+   info - Don't invoke 'print' in production code - lib\features\appointment\presentation\screens\appointments_screen.dart:336:35 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\appointment\presentation\screens\appointments_screen.dart:342:29 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\appointment\presentation\screens\appointments_screen.dart:350:23 - avoid_print
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\screens\appointments_screen.dart:381:50 - deprecated_member_use
+warning - The value of the local variable 'l10n' isn't used - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:145:11 - unused_local_variable
+  error - Undefined name 'proceduresStreamProvider' - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:146:39 - undefined_identifier
+  error - Undefined name 'currentUserDataProvider' - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:147:37 - undefined_identifier
+  error - The name 'QuerySnapshot' isn't a type, so it can't be used as a type argument - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:329:47 - non_type_as_type_argument
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:331:40 - invalid_use_of_null_value
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:421:42 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:422:37 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:426:37 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:430:37 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:434:37 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:438:37 - prefer_const_constructors
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\appointment\presentation\screens\edit_appointment_screen.dart:594:22 - argument_type_not_assignable
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\appointment\presentation\screens\new_appointment_screen.dart:164:26 - argument_type_not_assignable
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\appointment\presentation\screens\new_appointment_screen.dart:176:22 - argument_type_not_assignable
+  error - Undefined name 'proceduresStreamProvider' - lib\features\appointment\presentation\screens\new_appointment_screen.dart:213:39 - undefined_identifier
+warning - The value of the local variable 'operatorsAsync' isn't used - lib\features\appointment\presentation\screens\new_appointment_screen.dart:214:11 - unused_local_variable
+  error - Undefined name 'usersStreamProvider' - lib\features\appointment\presentation\screens\new_appointment_screen.dart:214:38 - undefined_identifier
+warning - The value of the local variable 'user' isn't used - lib\features\appointment\presentation\screens\new_appointment_screen.dart:215:11 - unused_local_variable
+  error - Undefined name 'currentUserDataProvider' - lib\features\appointment\presentation\screens\new_appointment_screen.dart:216:37 - undefined_identifier
+  error - The name 'QuerySnapshot' isn't a type, so it can't be used as a type argument - lib\features\appointment\presentation\screens\new_appointment_screen.dart:264:47 - non_type_as_type_argument
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\appointment\presentation\screens\new_appointment_screen.dart:266:45 - argument_type_not_assignable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\screens\new_appointment_screen.dart:373:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\screens\new_appointment_screen.dart:434:72 - deprecated_member_use
+  error - Undefined name 'FirebaseFirestore' - lib\features\appointment\presentation\screens\new_appointment_screen.dart:543:75 - undefined_identifier
+  error - Undefined name 'FieldValue' - lib\features\appointment\presentation\screens\new_appointment_screen.dart:554:75 - undefined_identifier
+  error - The name 'QuerySnapshot' isn't a type, so it can't be used as a type argument - lib\features\appointment\presentation\screens\new_appointment_screen.dart:753:47 - non_type_as_type_argument
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\appointment\presentation\screens\new_appointment_screen.dart:755:40 - invalid_use_of_null_value
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\widgets\appointment_card.dart:73:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\appointment\presentation\widgets\appointment_card.dart:91:58 - deprecated_member_use
+   info - The imported package 'cloud_firestore' isn't a dependency of the importing package - lib\features\appointments\presentation\screens\new_appointment_screen.dart:2:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:cloud_firestore/cloud_firestore.dart' - lib\features\appointments\presentation\screens\new_appointment_screen.dart:2:8 - uri_does_not_exist
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\appointments\presentation\screens\new_appointment_screen.dart:17:8 - non_type_as_type_argument
+  error - Undefined class 'QueryDocumentSnapshot' - lib\features\appointments\presentation\screens\new_appointment_screen.dart:18:3 - undefined_class
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\appointments\presentation\screens\new_appointment_screen.dart:29:12 - invalid_use_of_null_value
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\appointments\presentation\screens\new_appointment_screen.dart:60:35 - non_type_as_type_argument
+  error - The method '[]' can't be unconditionally invoked because the receiver can be 'null' - lib\features\appointments\presentation\screens\new_appointment_screen.dart:69:35 - unchecked_use_of_nullable_value
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\auth\presentation\screens\email_verification_screen.dart:191:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\auth\presentation\screens\email_verification_screen.dart:199:54 - deprecated_member_use
+warning - Unused import: 'package:clinic_app/features/home/presentation/screens/home_screen.dart' - lib\features\auth\presentation\screens\login_screen.dart:9:8 - unused_import
+warning - The value of the field '_isLoading' isn't used - lib\features\auth\presentation\screens\login_screen.dart:25:8 - unused_field
+  error - The getter 'notifier' isn't defined for the type 'Provider<bool>' - lib\features\auth\presentation\screens\login_screen.dart:39:34 - undefined_getter
+  error - The getter 'notifier' isn't defined for the type 'Provider<Object?>' - lib\features\auth\presentation\screens\login_screen.dart:40:32 - undefined_getter
+  error - The getter 'notifier' isn't defined for the type 'Provider<Object?>' - lib\features\auth\presentation\screens\login_screen.dart:62:34 - undefined_getter
+  error - The getter 'notifier' isn't defined for the type 'Provider<bool>' - lib\features\auth\presentation\screens\login_screen.dart:66:38 - undefined_getter
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\auth\presentation\screens\login_screen.dart:89:32 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\auth\presentation\screens\login_screen.dart:90:40 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\auth\presentation\screens\login_screen.dart:97:40 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\auth\presentation\screens\login_screen.dart:100:49 - use_build_context_synchronously
+warning - The value of the local variable 'theme' isn't used - lib\features\auth\presentation\screens\login_screen.dart:126:11 - unused_local_variable
+   info - Use 'const' with the constructor to improve performance - lib\features\auth\presentation\screens\login_screen.dart:187:33 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\auth\presentation\screens\login_screen.dart:203:33 - prefer_const_constructors
+  error - The argument type 'Object' can't be assigned to the parameter type 'String'.  - lib\features\auth\presentation\screens\login_screen.dart:229:23 - argument_type_not_assignable
+warning - The value of the field '_selectedRole' isn't used - lib\features\auth\presentation\screens\register_screen.dart:28:13 - unused_field
+   info - 'WillPopScope' is deprecated and shouldn't be used. Use PopScope instead. The Android predictive back feature will not work with WillPopScope. This feature was deprecated after v3.12.0-1.0.pre - lib\features\auth\presentation\screens\register_screen.dart:120:12 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\auth\presentation\screens\register_screen.dart:173:63 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\auth\presentation\screens\register_screen.dart:246:40 - deprecated_member_use
+   info - The local variable '_logger' starts with an underscore - lib\features\auth\presentation\screens\registration_success_screen.dart:16:11 - no_leading_underscores_for_local_identifiers
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\auth\presentation\screens\registration_success_screen.dart:46:54 - deprecated_member_use
+  error - Undefined name 'clinicServiceProvider' - lib\features\clinic\presentation\screens\clinic_management_screen.dart:44:22 - undefined_identifier
+  error - Undefined name 'clinicServiceProvider' - lib\features\clinic\presentation\screens\clinic_management_screen.dart:81:22 - undefined_identifier
+  error - Undefined name 'clinicServiceProvider' - lib\features\clinic\presentation\screens\clinic_management_screen.dart:99:22 - undefined_identifier
+  error - Undefined name 'clinicListProvider' - lib\features\clinic\presentation\screens\clinic_management_screen.dart:119:36 - undefined_identifier
+warning - The value of the local variable 'dialogWidth' isn't used - lib\features\clinic\presentation\screens\clinic_management_screen.dart:126:11 - unused_local_variable
+   info - Use 'const' for final variables initialized to a constant value - lib\features\clinic\presentation\screens\clinic_management_screen.dart:127:5 - prefer_const_declarations
+warning - The value of the local variable 'dialogMaxWidth' isn't used - lib\features\clinic\presentation\screens\clinic_management_screen.dart:127:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\screens\clinic_management_screen.dart:185:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\screens\clinic_management_screen.dart:196:50 - deprecated_member_use
+warning - The value of the local variable 'dialogWidth' isn't used - lib\features\clinic\presentation\screens\clinic_management_screen.dart:250:11 - unused_local_variable
+   info - Use 'const' for final variables initialized to a constant value - lib\features\clinic\presentation\screens\clinic_management_screen.dart:251:5 - prefer_const_declarations
+warning - The '!' will have no effect because the receiver can't be null - lib\features\clinic\presentation\screens\clinic_management_screen.dart:327:29 - unnecessary_non_null_assertion
+warning - The value of the local variable 'dialogWidth' isn't used - lib\features\clinic\presentation\screens\clinic_management_screen.dart:355:11 - unused_local_variable
+   info - Use 'const' for final variables initialized to a constant value - lib\features\clinic\presentation\screens\clinic_management_screen.dart:356:5 - prefer_const_declarations
+warning - The value of the local variable 'l10n' isn't used - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:20:11 - unused_local_variable
+  error - Undefined name 'clinicListProvider' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:29:36 - undefined_identifier
+  error - Undefined name 'clinicListProvider' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:41:46 - undefined_identifier
+  error - The method 'clinicAppointmentsStreamProvider' isn't defined for the type 'ClinicManagerPanelScreen' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:91:23 - undefined_method
+  error - Undefined name 'usersStreamProvider' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:92:42 - undefined_identifier
+warning - The value of the local variable 'totalAppointments' isn't used - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:100:19 - unused_local_variable
+warning - The value of the local variable 'upcomingAppointments' isn't used - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:111:19 - unused_local_variable
+warning - The value of the local variable 'activeOperators' isn't used - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:126:23 - unused_local_variable
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:146:14 - non_type_as_type_argument
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:147:14 - non_type_as_type_argument
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:186:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:222:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:238:49 - deprecated_member_use
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:319:40 - non_type_as_type_argument
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:321:28 - invalid_use_of_null_value
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:376:40 - deprecated_member_use
+  error - Undefined name 'FirebaseFirestore' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:468:59 - undefined_identifier
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:543:40 - non_type_as_type_argument
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:545:28 - invalid_use_of_null_value
+  error - Undefined name 'FirebaseFirestore' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:674:59 - undefined_identifier
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:749:40 - non_type_as_type_argument
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:751:28 - invalid_use_of_null_value
+  error - Undefined name 'FirebaseFirestore' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:879:59 - undefined_identifier
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:926:12 - non_type_as_type_argument
+  error - The method 'clinicAppointmentsStreamProvider' isn't defined for the type '_ClinicManagerPanelContent' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:933:19 - undefined_method
+  error - The method 'clinicStockStreamProvider' isn't defined for the type '_ClinicManagerPanelContent' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:966:34 - undefined_method
+  error - The method 'clinicExpensesStreamProvider' isn't defined for the type '_ClinicManagerPanelContent' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:985:37 - undefined_method
+warning - The '?' is unnecessary because 'dynamic' is nullable without it - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1000:68 - unnecessary_question_mark
+   info - Don't invoke 'print' in production code - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1007:13 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1019:13 - avoid_print
+  error - The method 'clinicExpensesStreamProvider' isn't defined for the type '_ClinicManagerPanelContent' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1028:37 - undefined_method
+warning - The '?' is unnecessary because 'dynamic' is nullable without it - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1039:75 - unnecessary_question_mark
+   info - Don't invoke 'print' in production code - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1047:13 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1059:13 - avoid_print
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1068:12 - non_type_as_type_argument
+   info - Don't invoke 'print' in production code - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1082:7 - avoid_print
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1088:27 - non_type_as_type_argument
+  error - The method 'data' can't be unconditionally invoked because the receiver can be 'null' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1095:24 - unchecked_use_of_nullable_value
+warning - The '?' is unnecessary because 'dynamic' is nullable without it - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1096:76 - unnecessary_question_mark
+  error - The method 'data' can't be unconditionally invoked because the receiver can be 'null' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1105:24 - unchecked_use_of_nullable_value
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1120:12 - non_type_as_type_argument
+  error - The method 'clinicAppointmentsStreamProvider' isn't defined for the type '_ClinicManagerPanelContent' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1123:19 - undefined_method
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1169:49 - deprecated_member_use
+  error - The method 'clinicStockStreamProvider' isn't defined for the type '_ClinicManagerPanelContent' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1203:34 - undefined_method
+warning - The value of the local variable 'totalValue' isn't used - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1209:15 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1242:47 - deprecated_member_use
+  error - The name 'QueryDocumentSnapshot' isn't a type, so it can't be used as a type argument - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1276:12 - non_type_as_type_argument
+  error - The method 'data' can't be unconditionally invoked because the receiver can be 'null' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1284:26 - unchecked_use_of_nullable_value
+warning - The '?' is unnecessary because 'dynamic' is nullable without it - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1285:78 - unnecessary_question_mark
+  error - The method 'data' can't be unconditionally invoked because the receiver can be 'null' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1296:26 - unchecked_use_of_nullable_value
+  error - The method 'data' can't be unconditionally invoked because the receiver can be 'null' - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1302:26 - unchecked_use_of_nullable_value
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\screens\clinic_manager_panel_screen.dart:1339:46 - deprecated_member_use
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\clinic\presentation\widgets\add_expense_dialog.dart:96:14 - invalid_use_of_null_value
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\clinic\presentation\widgets\add_expense_dialog.dart:102:14 - invalid_use_of_null_value
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\widgets\clinic_card.dart:143:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\clinic\presentation\widgets\clinic_card.dart:144:49 - deprecated_member_use
+warning - Unused import: 'package:clinic_app/shared/widgets/custom_button.dart' - lib\features\home\presentation\screens\home_screen.dart:8:8 - unused_import
+warning - Unused import: 'package:clinic_app/shared/widgets/custom_app_bar.dart' - lib\features\home\presentation\screens\home_screen.dart:10:8 - unused_import
+warning - Unused import: 'package:clinic_app/core/enums/user_role.dart' - lib\features\home\presentation\screens\home_screen.dart:13:8 - unused_import
+warning - Unused import: 'package:clinic_app/core/providers/theme_provider.dart' - lib\features\home\presentation\screens\home_screen.dart:17:8 - unused_import
+warning - The value of 'refresh' should be used - lib\features\home\presentation\screens\home_screen.dart:34:9 - unused_result
+   info - 'WillPopScope' is deprecated and shouldn't be used. Use PopScope instead. The Android predictive back feature will not work with WillPopScope. This feature was deprecated after v3.12.0-1.0.pre - lib\features\home\presentation\screens\home_screen.dart:60:12 - deprecated_member_use
+  error - The getter 'displayName' isn't defined for the type 'PostgresqlUser' - lib\features\home\presentation\screens\home_screen.dart:400:17 - undefined_getter
+  error - The getter 'displayName' isn't defined for the type 'PostgresqlUser' - lib\features\home\presentation\screens\home_screen.dart:401:14 - undefined_getter
+   info - The imported package 'firebase_auth' isn't a dependency of the importing package - lib\features\operator\presentation\widgets\add_doctor_dialog.dart:6:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:firebase_auth/firebase_auth.dart' - lib\features\operator\presentation\widgets\add_doctor_dialog.dart:6:8 - uri_does_not_exist
+   info - Use 'const' for final variables initialized to a constant value - lib\features\operator\presentation\widgets\add_doctor_dialog.dart:53:7 - prefer_const_declarations
+warning - The value of the local variable 'auth' isn't used - lib\features\operator\presentation\widgets\add_doctor_dialog.dart:54:13 - unused_local_variable
+  error - Undefined name 'FirebaseAuth' - lib\features\operator\presentation\widgets\add_doctor_dialog.dart:54:20 - undefined_identifier
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\operator\presentation\widgets\add_doctor_dialog.dart:87:57 - invalid_use_of_null_value
+  error - The name 'FirebaseAuthException' isn't a type and can't be used in an on-catch clause - lib\features\operator\presentation\widgets\add_doctor_dialog.dart:113:10 - non_type_in_catch_clause
+warning - The declaration '_generateTemporaryPassword' isn't referenced - lib\features\operator\presentation\widgets\add_doctor_dialog.dart:146:10 - unused_element
+warning - The value of the local variable 'l10n' isn't used - lib\features\operator\presentation\widgets\add_doctor_dialog.dart:159:11 - unused_local_variable
+   info - The imported package 'firebase_auth' isn't a dependency of the importing package - lib\features\operator\presentation\widgets\add_operator_dialog.dart:6:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:firebase_auth/firebase_auth.dart' - lib\features\operator\presentation\widgets\add_operator_dialog.dart:6:8 - uri_does_not_exist
+   info - Use 'const' for final variables initialized to a constant value - lib\features\operator\presentation\widgets\add_operator_dialog.dart:55:7 - prefer_const_declarations
+  error - Undefined name 'FirebaseAuth' - lib\features\operator\presentation\widgets\add_operator_dialog.dart:56:20 - undefined_identifier
+  error - The name 'FirebaseAuthException' isn't a type and can't be used in an on-catch clause - lib\features\operator\presentation\widgets\add_operator_dialog.dart:140:10 - non_type_in_catch_clause
+warning - The value of the local variable 'l10n' isn't used - lib\features\operator\presentation\widgets\add_operator_dialog.dart:187:11 - unused_local_variable
+   info - The imported package 'cloud_firestore' isn't a dependency of the importing package - lib\features\operator\presentation\widgets\operator_list.dart:5:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:cloud_firestore/cloud_firestore.dart' - lib\features\operator\presentation\widgets\operator_list.dart:5:8 - uri_does_not_exist
+  error - The name 'QuerySnapshot' isn't a type, so it can't be used as a type argument - lib\features\operator\presentation\widgets\operator_list.dart:17:26 - non_type_as_type_argument
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\operator\presentation\widgets\operator_list.dart:19:12 - invalid_use_of_null_value
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\operator\presentation\widgets\operator_list.dart:168:46 - invalid_use_of_null_value
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\patient\presentation\screens\edit_patient_screen.dart:51:12 - invalid_use_of_null_value
+   info - Statements in an if should be enclosed in a block - lib\features\patient\presentation\screens\edit_patient_screen.dart:123:9 - curly_braces_in_flow_control_structures
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\patient\presentation\screens\edit_patient_screen.dart:126:26 - argument_type_not_assignable
+   info - Statements in an if should be enclosed in a block - lib\features\patient\presentation\screens\edit_patient_screen.dart:129:9 - curly_braces_in_flow_control_structures
+   info - Don't use 'BuildContext's across async gaps - lib\features\patient\presentation\screens\edit_patient_screen.dart:129:45 - use_build_context_synchronously
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\patient\presentation\screens\edit_patient_screen.dart:145:22 - argument_type_not_assignable
+   info - Statements in an if should be enclosed in a block - lib\features\patient\presentation\screens\edit_patient_screen.dart:207:21 - curly_braces_in_flow_control_structures
+   info - Don't use 'BuildContext's across async gaps - lib\features\patient\presentation\screens\edit_patient_screen.dart:207:57 - use_build_context_synchronously
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\patient\presentation\screens\edit_patient_screen.dart:210:29 - argument_type_not_assignable
+   info - Statements in an if should be enclosed in a block - lib\features\patient\presentation\screens\edit_patient_screen.dart:214:21 - curly_braces_in_flow_control_structures
+   info - Don't use 'BuildContext's across async gaps - lib\features\patient\presentation\screens\edit_patient_screen.dart:215:45 - use_build_context_synchronously
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\patient\presentation\screens\edit_patient_screen.dart:218:29 - argument_type_not_assignable
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\patient\presentation\screens\edit_patient_screen.dart:221:40 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\patient\presentation\screens\edit_patient_screen.dart:223:57 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\patient\presentation\screens\edit_patient_screen.dart:228:33 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\patient\presentation\screens\edit_patient_screen.dart:231:40 - use_build_context_synchronously
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\patient\presentation\screens\new_patient_screen.dart:81:26 - argument_type_not_assignable
+  error - The argument type 'Null' can't be assigned to the parameter type 'ProviderListenable<dynamic>'.  - lib\features\patient\presentation\screens\new_patient_screen.dart:98:22 - argument_type_not_assignable
+   info - The imported package 'cloud_firestore' isn't a dependency of the importing package - lib\features\procedure\presentation\screens\procedure_list_screen.dart:9:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:cloud_firestore/cloud_firestore.dart' - lib\features\procedure\presentation\screens\procedure_list_screen.dart:9:8 - uri_does_not_exist
+  error - The name 'QuerySnapshot' isn't a type, so it can't be used as a type argument - lib\features\procedure\presentation\screens\procedure_list_screen.dart:28:27 - non_type_as_type_argument
+  error - An expression whose value is always 'null' can't be dereferenced - lib\features\procedure\presentation\screens\procedure_list_screen.dart:30:14 - invalid_use_of_null_value
+  error - Target of URI doesn't exist: 'package:clinic_app/core/providers/firestore_provider.dart' - lib\features\procedure\presentation\screens\procedure_management_screen.dart:8:8 - uri_does_not_exist
+   info - The imported package 'cloud_firestore' isn't a dependency of the importing package - lib\features\procedure\presentation\screens\procedure_management_screen.dart:9:8 - depend_on_referenced_packages
+  error - Target of URI doesn't exist: 'package:cloud_firestore/cloud_firestore.dart' - lib\features\procedure\presentation\screens\procedure_management_screen.dart:9:8 - uri_does_not_exist
+  error - Undefined name 'proceduresStreamProvider' - lib\features\procedure\presentation\screens\procedure_management_screen.dart:29:39 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\procedure\presentation\screens\procedure_management_screen.dart:65:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\procedure\presentation\screens\procedure_management_screen.dart:77:38 - deprecated_member_use
+   info - Use 'const' for final variables initialized to a constant value - lib\features\procedure\presentation\widgets\add_procedure_dialog.dart:60:7 - prefer_const_declarations
+  error - Undefined name 'stockItemsStreamProvider' - lib\features\procedure\presentation\widgets\add_procedure_dialog.dart:280:34 - undefined_identifier
+   info - Use 'const' for final variables initialized to a constant value - lib\features\procedure\presentation\widgets\delete_procedure_dialog.dart:26:7 - prefer_const_declarations
+   info - Use 'const' for final variables initialized to a constant value - lib\features\procedure\presentation\widgets\edit_procedure_dialog.dart:75:7 - prefer_const_declarations
+  error - Undefined name 'stockItemsStreamProvider' - lib\features\procedure\presentation\widgets\edit_procedure_dialog.dart:287:34 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\procedure\presentation\widgets\procedure_card.dart:64:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\procedure\presentation\widgets\procedure_card.dart:78:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\procedure\presentation\widgets\procedure_card.dart:99:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\procedure\presentation\widgets\procedure_card.dart:120:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\procedure\presentation\widgets\procedure_card.dart:121:49 - deprecated_member_use
+warning - Unused import: 'package:clinic_app/core/services/postgresql_auth_service.dart' - lib\features\profile\presentation\screens\edit_profile_screen.dart:4:8 - unused_import
+warning - The value of the field '_useSystemTheme' isn't used - lib\features\profile\presentation\screens\profile_screen.dart:22:8 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\profile\presentation\screens\profile_screen.dart:79:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\profile\presentation\screens\profile_screen.dart:97:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\profile\presentation\screens\profile_screen.dart:107:54 - deprecated_member_use
+warning - The receiver can't be 'null' because of short-circuiting, so the null-aware operator '?.' can't be used - lib\features\profile\presentation\screens\profile_screen.dart:111:31 - invalid_null_aware_operator
+  error - The getter 'systemTheme' isn't defined for the type 'AppLocalizations' - lib\features\profile\presentation\screens\profile_screen.dart:180:42 - undefined_getter
+  error - The getter 'lightTheme' isn't defined for the type 'AppLocalizations' - lib\features\profile\presentation\screens\profile_screen.dart:184:42 - undefined_getter
+  error - The getter 'darkTheme' isn't defined for the type 'AppLocalizations' - lib\features\profile\presentation\screens\profile_screen.dart:188:42 - undefined_getter
+  error - The getter 'logout' isn't defined for the type 'AppLocalizations' - lib\features\profile\presentation\screens\profile_screen.dart:202:32 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\profile\presentation\screens\profile_screen.dart:242:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\splash\presentation\screens\splash_screen.dart:102:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\splash\presentation\screens\splash_screen.dart:112:57 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\splash\presentation\screens\splash_screen.dart:133:44 - deprecated_member_use
+  error - Target of URI doesn't exist: 'package:clinic_app/core/providers/firestore_provider.dart' - lib\features\stock\presentation\screens\stock_management_screen.dart:8:8 - uri_does_not_exist
+  error - Undefined name 'stockItemsStreamProvider' - lib\features\stock\presentation\screens\stock_management_screen.dart:22:34 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\screens\stock_management_screen.dart:58:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\screens\stock_management_screen.dart:70:38 - deprecated_member_use
+   info - Use 'const' for final variables initialized to a constant value - lib\features\stock\presentation\widgets\add_stock_item_dialog.dart:41:7 - prefer_const_declarations
+   info - Use 'const' for final variables initialized to a constant value - lib\features\stock\presentation\widgets\delete_stock_item_dialog.dart:25:7 - prefer_const_declarations
+   info - Use 'const' for final variables initialized to a constant value - lib\features\stock\presentation\widgets\edit_stock_item_dialog.dart:59:7 - prefer_const_declarations
+   info - Use 'const' for final variables initialized to a constant value - lib\features\stock\presentation\widgets\restock_item_dialog.dart:35:7 - prefer_const_declarations
+warning - The value of the local variable 'firestore' isn't used - lib\features\stock\presentation\widgets\restock_item_dialog.dart:35:13 - unused_local_variable
+   info - 'surfaceVariant' is deprecated and shouldn't be used. Use surfaceContainerHighest instead. This feature was deprecated after v3.18.0-0.1.pre - lib\features\stock\presentation\widgets\restock_item_dialog.dart:108:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\widgets\restock_item_dialog.dart:108:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\widgets\restock_item_dialog.dart:111:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\widgets\restock_item_dialog.dart:130:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\widgets\restock_item_dialog.dart:151:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\widgets\restock_item_dialog.dart:200:63 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\widgets\stock_item_card.dart:68:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\widgets\stock_item_card.dart:82:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\widgets\stock_item_card.dart:105:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\widgets\stock_item_card.dart:133:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\stock\presentation\widgets\stock_item_card.dart:144:52 - deprecated_member_use
+   info - The local variable '_logger' starts with an underscore - lib\main.dart:67:11 - no_leading_underscores_for_local_identifiers
+   info - 'textScaleFactor' is deprecated and shouldn't be used. Use textScaler instead. Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. This feature was deprecated after v3.12.0-2.0.pre - lib\main.dart:82:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\auth_background.dart:28:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\auth_background.dart:29:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\auth_background.dart:49:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\auth_background.dart:65:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\auth_background.dart:74:50 - deprecated_member_use
+warning - The declaration '_NavItem' isn't referenced - lib\shared\widgets\custom_bottom_nav.dart:54:7 - unused_element
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\custom_bottom_nav.dart:77:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\custom_bottom_nav.dart:88:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\custom_bottom_nav.dart:100:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\custom_button.dart:77:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\custom_button.dart:78:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\shared\widgets\custom_text_field.dart:67:50 - deprecated_member_use
+warning - Unused import: 'package:flutter_animate/flutter_animate.dart' - test\features\splash\presentation\screens\splash_screen_test.dart:3:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - test\features\splash\presentation\screens\splash_screen_test.dart:13:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - test\features\splash\presentation\screens\splash_screen_test.dart:35:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - test\features\splash\presentation\screens\splash_screen_test.dart:54:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - test\features\splash\presentation\screens\splash_screen_test.dart:110:9 - prefer_const_constructors
+
+318 issues found. (ran in 2.3s)

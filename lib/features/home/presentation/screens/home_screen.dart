@@ -10,6 +10,7 @@ import 'package:clinic_app/features/admin/presentation/screens/admin_panel_scree
 import 'package:clinic_app/shared/widgets/custom_app_bar.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
+import 'package:clinic_app/core/providers/stub_providers.dart';
 import 'package:clinic_app/core/enums/user_role.dart';
 import 'package:clinic_app/features/clinic/presentation/screens/clinic_manager_panel_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -396,8 +397,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool get _isAdmin {
     final user = ref.watch(currentUserProvider);
     if (user == null) return false;
-    // Gerçek rol kontrolü
-    return user.displayName != null &&
-        user.displayName!.contains('super_admin');
+    // Check if user has super_admin role
+    return user.role == 'super_admin' || user.role == 'admin';
   }
 }

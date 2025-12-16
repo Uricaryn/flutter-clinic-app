@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:clinic_app/core/providers/stub_providers.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
 import 'package:clinic_app/features/appointment/domain/models/appointment_model.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
