@@ -1,9 +1,8 @@
-
-/// Utility functions for date/time handling across Firebase and PostgreSQL
+/// Utility functions for date/time handling with PostgreSQL
 class DateTimeUtils {
-  /// Parse DateTime from various sources (Timestamp, String, or DateTime)
+  /// Parse DateTime from various sources (String or DateTime)
   ///
-  /// This supports both Firebase Timestamp and PostgreSQL ISO string formats
+  /// Supports PostgreSQL ISO string formats
   static DateTime parseDateTime(dynamic value) {
     if (value == null) {
       throw ArgumentError('DateTime value cannot be null');
@@ -11,10 +10,6 @@ class DateTimeUtils {
 
     if (value is DateTime) {
       return value;
-    }
-
-    if (value is Timestamp) {
-      return value.toDate();
     }
 
     if (value is String) {
@@ -37,21 +32,14 @@ class DateTimeUtils {
     }
   }
 
-  /// Convert DateTime to JSON (supports both backends)
-  /// - For Firebase: converts to Timestamp
-  /// - For PostgreSQL: converts to ISO8601 string
-  static dynamic toJson(DateTime dateTime, {bool useFirestore = false}) {
-    if (useFirestore) {
-      return Timestamp.fromDate(dateTime);
-    }
+  /// Convert DateTime to JSON (ISO8601 string for PostgreSQL)
+  static String toJson(DateTime dateTime) {
     return dateTime.toIso8601String();
   }
 
   /// Convert nullable DateTime to JSON
-  static dynamic toJsonNullable(DateTime? dateTime,
-      {bool useFirestore = false}) {
+  static String? toJsonNullable(DateTime? dateTime) {
     if (dateTime == null) return null;
-    return toJson(dateTime, useFirestore: useFirestore);
+    return toJson(dateTime);
   }
 }
-

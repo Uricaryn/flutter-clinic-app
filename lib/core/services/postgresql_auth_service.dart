@@ -327,6 +327,9 @@ class PostgresqlUser {
     this.lastLogin,
   });
 
+  /// Alias for id (backward compatibility with Firebase User.uid)
+  String get uid => id;
+
   factory PostgresqlUser.fromJson(Map<String, dynamic> json) {
     return PostgresqlUser(
       id: json['id'] as String,
