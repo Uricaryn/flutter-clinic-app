@@ -56,7 +56,7 @@ class _EditStockItemDialogState extends ConsumerState<EditStockItemDialog> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     try {
-      final firestore = FirebaseFirestore.instance;
+      final firestore = null /* TODO: Replace with backend API */;
       final now = DateTime.now();
       final updatedStockItem = StockItemModel(
         id: widget.stockItem.id,

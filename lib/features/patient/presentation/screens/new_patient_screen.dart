@@ -78,7 +78,7 @@ class _NewPatientScreenState extends ConsumerState<NewPatientScreen> {
       if (user == null) throw Exception('User not found');
 
       final userData =
-          await ref.read(firestoreServiceProvider).getUserData(user.uid);
+          await ref.read(null /* TODO: Implement backend service */).getUserData(user.uid);
       final clinicId = userData?['clinicId'] as String?;
       if (clinicId == null) throw Exception('Clinic not found');
 
@@ -95,7 +95,7 @@ class _NewPatientScreenState extends ConsumerState<NewPatientScreen> {
         createdAt: DateTime.now(),
       );
 
-      await ref.read(firestoreServiceProvider).addPatient(patient);
+      await ref.read(null /* TODO: Implement backend service */).addPatient(patient);
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

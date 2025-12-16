@@ -92,13 +92,13 @@ class _AddExpenseDialogState extends ConsumerState<AddExpenseDialog> {
 
       if (widget.expense == null) {
         // Yeni gider ekle
-        final docRef = await FirebaseFirestore.instance
+        final docRef = await null /* TODO: Replace with backend API */
             .collection('expenses')
             .add(expense.toJson());
         await docRef.update({'id': docRef.id});
       } else {
         // Mevcut gideri güncelle
-        await FirebaseFirestore.instance
+        await null /* TODO: Replace with backend API */
             .collection('expenses')
             .doc(widget.expense!.id)
             .update(expense.toJson());

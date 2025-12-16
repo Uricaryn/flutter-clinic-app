@@ -327,7 +327,7 @@ class _EditAppointmentScreenState extends ConsumerState<EditAppointmentScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 StreamBuilder<QuerySnapshot>(
-                                  stream: FirebaseFirestore.instance
+                                  stream: null /* TODO: Replace with backend API */
                                       .collection('doctors')
                                       .where('clinicId', isEqualTo: clinicId)
                                       .snapshots(),
@@ -591,7 +591,7 @@ class _EditAppointmentScreenState extends ConsumerState<EditAppointmentScreen> {
         paymentAmount = double.parse(_paymentAmountController.text);
       }
 
-      await ref.read(firestoreServiceProvider).updateAppointment(
+      await ref.read(null /* TODO: Implement backend service */).updateAppointment(
             appointmentId: widget.appointment.id,
             patientId: widget.appointment.patientId,
             patientName: _patientNameController.text.trim(),

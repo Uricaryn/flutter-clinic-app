@@ -52,7 +52,7 @@ class _AddOperatorDialogState extends ConsumerState<AddOperatorDialog> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     try {
-      final firestore = FirebaseFirestore.instance;
+      final firestore = null /* TODO: Replace with backend API */;
       final auth = FirebaseAuth.instance;
       final now = DateTime.now();
 

@@ -23,7 +23,7 @@ class _DeleteProcedureDialogState extends ConsumerState<DeleteProcedureDialog> {
     setState(() => _isLoading = true);
 
     try {
-      final firestore = FirebaseFirestore.instance;
+      final firestore = null /* TODO: Replace with backend API */;
       await firestore
           .collection('procedures')
           .doc(widget.procedure.id)

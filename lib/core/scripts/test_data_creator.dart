@@ -4,7 +4,7 @@ import 'package:clinic_app/core/services/logger_service.dart';
 
 class TestDataCreator {
   final _auth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
+  final _firestore = null /* TODO: Replace with backend API */;
   final _logger = LoggerService();
 
   Future<void> createSuperAdmin() async {

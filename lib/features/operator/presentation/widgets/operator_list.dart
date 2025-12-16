@@ -15,7 +15,7 @@ class OperatorList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
+      stream: null /* TODO: Replace with backend API */
           .collection('operators')
           .where('clinicId', isEqualTo: clinicId)
           .snapshots(),
@@ -164,7 +164,7 @@ class OperatorList extends ConsumerWidget {
                                   TextButton(
                                     onPressed: () async {
                                       try {
-                                        await FirebaseFirestore.instance
+                                        await null /* TODO: Replace with backend API */
                                             .collection('operators')
                                             .doc(operator.id)
                                             .delete();

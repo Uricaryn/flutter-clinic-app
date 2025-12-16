@@ -50,7 +50,7 @@ class _AddDoctorDialogState extends ConsumerState<AddDoctorDialog> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     try {
-      final firestore = FirebaseFirestore.instance;
+      final firestore = null /* TODO: Replace with backend API */;
       final auth = FirebaseAuth.instance;
       final now = DateTime.now();
 
@@ -84,7 +84,7 @@ class _AddDoctorDialogState extends ConsumerState<AddDoctorDialog> {
       } else {
         // Yeni doktor ekleme işlemi
         final doctor = OperatorModel(
-          id: FirebaseFirestore.instance.collection('doctors').doc().id,
+          id: null /* TODO: Replace with backend API */.collection('doctors').doc().id,
           clinicId: widget.clinicId,
           name: _nameController.text,
           email: _emailController.text,

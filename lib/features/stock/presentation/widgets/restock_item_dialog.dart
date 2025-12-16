@@ -32,15 +32,15 @@ class _RestockItemDialogState extends ConsumerState<RestockItemDialog> {
     setState(() => _isLoading = true);
 
     try {
-      final firestore = FirebaseFirestore.instance;
+      final firestore = null /* TODO: Replace with backend API */;
       final addedQuantity = int.parse(_quantityController.text);
       final newQuantity = widget.stockItem.quantity + addedQuantity;
 
-      await firestore.collection('stock_items').doc(widget.stockItem.id).update({
-        'quantity': newQuantity,
-        'lastRestocked': Timestamp.fromDate(DateTime.now()),
-        'updatedAt': Timestamp.fromDate(DateTime.now()),
-      });
+      // TODO: Implement with backend API
+      // await apiService.put('/stock/${widget.stockItem.id}', data: {
+      //   'quantity': newQuantity,
+      //   'lastRestocked': DateTime.now().toIso8601String(),
+      // });
 
       if (mounted) {
         Navigator.of(context).pop();

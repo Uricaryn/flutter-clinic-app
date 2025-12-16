@@ -103,13 +103,13 @@ class ClinicManagerPanelScreen extends ConsumerWidget {
             // Randevuları tarihe göre sırala ve filtrele
             final sortedAppointments = allAppointments.toList()
               ..sort((a, b) {
-                final dateA = (a['dateTime'] as Timestamp).toDate();
-                final dateB = (b['dateTime'] as Timestamp).toDate();
+                final dateA = (a['dateTime'] /* as Timestamp */ as dynamic).toDate();
+                final dateB = (b['dateTime'] /* as Timestamp */ as dynamic).toDate();
                 return dateB.compareTo(dateA); // En yeni randevular önce
               });
 
             final upcomingAppointments = sortedAppointments.where((doc) {
-              final date = (doc['dateTime'] as Timestamp).toDate();
+              final date = (doc['dateTime'] /* as Timestamp */ as dynamic).toDate();
               return date.isAfter(now);
             }).length;
 
@@ -317,7 +317,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     StreamBuilder<List<QueryDocumentSnapshot>>(
-                      stream: FirebaseFirestore.instance
+                      stream: null /* TODO: Replace with backend API */
                           .collection('expenses')
                           .where('clinicId', isEqualTo: clinicId)
                           .orderBy('date', descending: true)
@@ -365,7 +365,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                           itemBuilder: (context, index) {
                             final expense = expenses[index];
                             final data = expense.data() as Map<String, dynamic>;
-                            final date = (data['date'] as Timestamp).toDate();
+                            final date = (data['date'] /* as Timestamp */ as dynamic).toDate();
 
                             return Card(
                               margin: const EdgeInsets.only(bottom: 8),
@@ -541,7 +541,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     StreamBuilder<List<QueryDocumentSnapshot>>(
-                      stream: FirebaseFirestore.instance
+                      stream: null /* TODO: Replace with backend API */
                           .collection('users')
                           .where('clinicId', isEqualTo: clinicId)
                           .where('role', isEqualTo: 'Sekreter')
@@ -634,11 +634,11 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                               role: op['role'] ?? '',
                                               isActive: op['isActive'] ?? true,
                                               createdAt:
-                                                  (op['createdAt'] as Timestamp)
+                                                  (op['createdAt'] /* as Timestamp */ as dynamic)
                                                       .toDate(),
                                               updatedAt: op['updatedAt'] != null
                                                   ? (op['updatedAt']
-                                                          as Timestamp)
+                                                          /* as Timestamp */ as dynamic)
                                                       .toDate()
                                                   : null,
                                               isEmailVerified:
@@ -747,7 +747,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     StreamBuilder<List<QueryDocumentSnapshot>>(
-                      stream: FirebaseFirestore.instance
+                      stream: null /* TODO: Replace with backend API */
                           .collection('doctors')
                           .where('clinicId', isEqualTo: clinicId)
                           .snapshots()
@@ -838,12 +838,12 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
                                               role: doc['role'] ?? '',
                                               isActive: doc['isActive'] ?? true,
                                               createdAt: (doc['createdAt']
-                                                      as Timestamp)
+                                                      /* as Timestamp */ as dynamic)
                                                   .toDate(),
                                               updatedAt:
                                                   doc['updatedAt'] != null
                                                       ? (doc['updatedAt']
-                                                              as Timestamp)
+                                                              /* as Timestamp */ as dynamic)
                                                           .toDate()
                                                       : null,
                                               isEmailVerified:
@@ -945,7 +945,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
         // Bu ayki ödemeleri filtrele
         final monthlyPaidAppointments = paidAppointments.where((doc) {
           final data = doc.data() as Map<String, dynamic>;
-          final paymentDate = (data['paymentDate'] as Timestamp).toDate();
+          final paymentDate = (data['paymentDate'] /* as Timestamp */ as dynamic).toDate();
           return paymentDate.isAfter(firstDayOfMonth) &&
               paymentDate.isBefore(lastDayOfMonth);
         });
@@ -997,7 +997,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
         final monthlyExpenses = expenses.where((doc) {
           try {
             final data = doc.data() as Map<String, dynamic>;
-            final date = data['date'] as Timestamp?;
+            final date = data['date'] /* as Timestamp */ as dynamic?;
             if (date == null) return false;
 
             final expenseDate = date.toDate();
@@ -1036,7 +1036,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
         final dailyExpenses = expenses.where((doc) {
           try {
             final data = doc.data() as Map<String, dynamic>;
-            final expenseDate = data['date'] as Timestamp?;
+            final expenseDate = data['date'] /* as Timestamp */ as dynamic?;
             if (expenseDate == null) return false;
 
             final expenseDateTime = expenseDate.toDate();
@@ -1093,7 +1093,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
     // Bu ayki ödeme yapılmış randevuları filtrele
     final monthlyAppointments = appointments.where((doc) {
       final data = doc.data() as Map<String, dynamic>;
-      final paymentDate = data['paymentDate'] as Timestamp?;
+      final paymentDate = data['paymentDate'] /* as Timestamp */ as dynamic?;
       if (paymentDate == null) return false;
 
       final date = paymentDate.toDate();
@@ -1141,7 +1141,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
 
           return paidAppointments.where((doc) {
             final data = doc.data() as Map<String, dynamic>;
-            final paymentDate = (data['paymentDate'] as Timestamp).toDate();
+            final paymentDate = (data['paymentDate'] /* as Timestamp */ as dynamic).toDate();
             return paymentDate.isAfter(firstDayOfMonth) &&
                 paymentDate.isBefore(lastDayOfMonth);
           }).fold(0.0, (sum, doc) {
@@ -1282,7 +1282,7 @@ class _ClinicManagerPanelContent extends ConsumerWidget {
       // O günkü ödeme yapılmış randevuları filtrele
       final dayAppointments = appointments.where((doc) {
         final data = doc.data() as Map<String, dynamic>;
-        final paymentDate = data['paymentDate'] as Timestamp?;
+        final paymentDate = data['paymentDate'] /* as Timestamp */ as dynamic?;
         if (paymentDate == null) return false;
 
         final appointmentDate = paymentDate.toDate();

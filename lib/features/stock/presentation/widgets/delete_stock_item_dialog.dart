@@ -22,7 +22,7 @@ class _DeleteStockItemDialogState extends ConsumerState<DeleteStockItemDialog> {
   Future<void> _deleteStockItem() async {
     setState(() => _isLoading = true);
     try {
-      final firestore = FirebaseFirestore.instance;
+      final firestore = null /* TODO: Replace with backend API */;
       await firestore
           .collection('stock_items')
           .doc(widget.stockItem.id)

@@ -128,7 +128,7 @@ class AppointmentDetailsScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 8),
                     StreamBuilder<DocumentSnapshot>(
-                      stream: FirebaseFirestore.instance
+                      stream: null /* TODO: Replace with backend API */
                           .collection('doctors')
                           .doc(appointment.operatorId)
                           .snapshots(),

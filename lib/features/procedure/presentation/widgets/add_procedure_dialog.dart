@@ -57,7 +57,7 @@ class _AddProcedureDialogState extends ConsumerState<AddProcedureDialog> {
       final user = ref.read(currentUserProvider);
       if (user == null) throw Exception('Kullanıcı bulunamadı');
 
-      final firestore = FirebaseFirestore.instance;
+      final firestore = null /* TODO: Replace with backend API */;
       final clinicDoc = await firestore
           .collection('clinics')
           .where('ownerId', isEqualTo: user.uid)

@@ -137,7 +137,7 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
 
                       return StreamBuilder<QuerySnapshot>(
                         stream: ref
-                            .read(firestoreServiceProvider)
+                            .read(null /* TODO: Implement backend service */)
                             .getClinicAppointmentsStream(clinicId),
                         builder: (context, snapshot) {
                           if (snapshot.hasError) {
@@ -156,7 +156,7 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
                                 snapshot.data!.docs.where((doc) {
                               final data = doc.data() as Map<String, dynamic>;
                               final dateTime =
-                                  (data['dateTime'] as Timestamp).toDate();
+                                  (data['dateTime'] /* as Timestamp */ as dynamic).toDate();
                               final now = DateTime.now();
                               final today =
                                   DateTime(now.year, now.month, now.day);
@@ -306,7 +306,7 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> {
                                       if (result == true) {
                                         try {
                                           await ref
-                                              .read(firestoreServiceProvider)
+                                              .read(null /* TODO: Implement backend service */)
                                               .deleteAppointment(
                                                   appointment.id);
                                           if (!mounted) return;

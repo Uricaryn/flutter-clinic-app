@@ -72,7 +72,7 @@ class _EditProcedureDialogState extends ConsumerState<EditProcedureDialog> {
     setState(() => _isLoading = true);
 
     try {
-      final firestore = FirebaseFirestore.instance;
+      final firestore = null /* TODO: Replace with backend API */;
       final updatedProcedure = ProcedureModel(
         id: widget.procedure.id,
         name: _nameController.text,

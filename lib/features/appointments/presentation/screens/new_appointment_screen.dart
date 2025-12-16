@@ -25,7 +25,7 @@ class _NewAppointmentScreenState extends State<NewAppointmentScreen> {
 
   Future<void> _loadDoctors() async {
     try {
-      final doctorsSnapshot = await FirebaseFirestore.instance
+      final doctorsSnapshot = await null /* TODO: Replace with backend API */
           .collection('users')
           .where('clinicId', isEqualTo: widget.clinicId)
           .where('role', isEqualTo: 'Doktor')

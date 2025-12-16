@@ -161,7 +161,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
       if (user == null) throw Exception('User not found');
 
       final userData =
-          await ref.read(firestoreServiceProvider).getUserData(user.uid);
+          await ref.read(null /* TODO: Implement backend service */).getUserData(user.uid);
       final clinicId = userData?['clinicId'] as String?;
       if (clinicId == null) throw Exception('Clinic not found');
 
@@ -173,7 +173,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
         _selectedTime!.minute,
       );
 
-      await ref.read(firestoreServiceProvider).addAppointment(
+      await ref.read(null /* TODO: Implement backend service */).addAppointment(
             clinicId: clinicId,
             patientId: _selectedPatientId!,
             patientName: _patientNameController.text.trim(),
@@ -263,7 +263,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                 const SizedBox(height: 16),
                                 StreamBuilder<QuerySnapshot>(
                                   stream: ref
-                                      .read(firestoreServiceProvider)
+                                      .read(null /* TODO: Implement backend service */)
                                       .getClinicPatientsStream(clinicId),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasError) {
@@ -751,7 +751,7 @@ class _NewAppointmentScreenState extends ConsumerState<NewAppointmentScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 StreamBuilder<QuerySnapshot>(
-                                  stream: FirebaseFirestore.instance
+                                  stream: null /* TODO: Replace with backend API */
                                       .collection('doctors')
                                       .where('clinicId', isEqualTo: clinicId)
                                       .snapshots(),

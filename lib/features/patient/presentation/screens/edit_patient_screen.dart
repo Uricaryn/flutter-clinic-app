@@ -47,7 +47,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
   Future<void> _loadPatientData() async {
     setState(() => _isLoading = true);
     try {
-      final doc = await FirebaseFirestore.instance
+      final doc = await null /* TODO: Replace with backend API */
           .collection('patients')
           .doc(widget.patientId)
           .get();
@@ -59,7 +59,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
         _phoneController.text = data['phone'] as String;
         _addressController.text = data['address'] as String;
         _notesController.text = data['notes'] as String;
-        _dateOfBirth = (data['dateOfBirth'] as Timestamp).toDate();
+        _dateOfBirth = (data['dateOfBirth'] /* as Timestamp */ as dynamic).toDate();
         _selectedGender = data['gender'] as String;
       }
     } catch (e) {
@@ -123,7 +123,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
         throw Exception(AppLocalizations.of(context)!.userNotFound);
 
       final userData =
-          await ref.read(firestoreServiceProvider).getUserData(user.uid);
+          await ref.read(null /* TODO: Implement backend service */).getUserData(user.uid);
       final clinicId = userData?['clinicId'] as String?;
       if (clinicId == null)
         throw Exception(AppLocalizations.of(context)!.clinicNotFound);
@@ -142,7 +142,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
         updatedAt: DateTime.now(),
       );
 
-      await ref.read(firestoreServiceProvider).updatePatient(patient);
+      await ref.read(null /* TODO: Implement backend service */).updatePatient(patient);
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -207,7 +207,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                     throw Exception(AppLocalizations.of(context)!.userNotFound);
 
                   final userData = await ref
-                      .read(firestoreServiceProvider)
+                      .read(null /* TODO: Implement backend service */)
                       .getUserData(user.uid);
                   final clinicId = userData?['clinicId'] as String?;
                   if (clinicId == null)
@@ -215,7 +215,7 @@ class _EditPatientScreenState extends ConsumerState<EditPatientScreen> {
                         AppLocalizations.of(context)!.clinicNotFound);
 
                   await ref
-                      .read(firestoreServiceProvider)
+                      .read(null /* TODO: Implement backend service */)
                       .deletePatient(widget.patientId, clinicId);
                   if (!mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(

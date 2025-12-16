@@ -26,7 +26,7 @@ class ProcedureListScreen extends ConsumerWidget {
         title: Text(l10n.procedureManagement),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
+        stream: null /* TODO: Replace with backend API */
             .collection('procedures')
             .where('clinicId', isEqualTo: user.uid)
             .snapshots(),
