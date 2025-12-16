@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:clinic_app/core/providers/auth_provider.dart';
-import 'package:clinic_app/core/config/app_mode.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/shared/widgets/custom_text_field.dart';
-import 'package:clinic_app/core/services/postgresql_auth_service.dart';
 
 class ChangePasswordScreen extends ConsumerStatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -39,32 +36,12 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final user = ref.read(currentUserProvider);
-      if (user == null) throw Exception('User not found');
-
-      if (AppMode.isFirebase) {
-        // Firebase mode - use native Firebase methods
-        final firebaseUser = firebase.FirebaseAuth.instance.currentUser;
-        if (firebaseUser == null) throw Exception('Firebase user not found');
-
-        // Reauthenticate user
-        final credential = firebase.EmailAuthProvider.credential(
-          email: user.email!,
-          password: _currentPasswordController.text,
-        );
-        await firebaseUser.reauthenticateWithCredential(credential);
-
-        // Change password
-        await firebaseUser.updatePassword(_newPasswordController.text);
-      } else {
-        // PostgreSQL mode - use auth service changePassword method
-        final authService =
-            ref.read(authServiceProvider) as PostgresqlAuthService;
-        await authService.changePassword(
-          currentPassword: _currentPasswordController.text,
-          newPassword: _newPasswordController.text,
-        );
-      }
+      final authService = ref.read(authServiceProvider);
+      
+      await authService.changePassword(
+        currentPassword: _currentPasswordController.text,
+        newPassword: _newPasswordController.text,
+      );
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

@@ -10,9 +10,6 @@ import 'package:clinic_app/core/services/navigation_service.dart';
 import 'package:clinic_app/core/utils/validation_utils.dart';
 import 'package:clinic_app/core/enums/user_role.dart';
 import 'package:clinic_app/shared/widgets/auth_background.dart';
-import 'package:clinic_app/core/config/app_mode.dart';
-import 'package:clinic_app/core/services/auth_service.dart';
-import 'package:clinic_app/core/services/postgresql_auth_service.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -67,30 +64,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     try {
       _logger.info('Starting registration process...');
 
-      if (AppMode.isFirebase) {
-        // Firebase mode
-        final authService = ref.read(authServiceProvider) as AuthService;
-        final credential = await authService.registerWithEmailAndPassword(
-          _emailController.text.trim(),
-          _passwordController.text,
-          _nameController.text.trim(),
-          UserRole.clinicAdmin.value,
-        );
-        _logger.info(
-            'Registration successful, user created: ${credential.user?.uid}');
-      } else {
-        // PostgreSQL mode
-        final authService =
-            ref.read(authServiceProvider) as PostgresqlAuthService;
-        await authService.register(
-          email: _emailController.text.trim(),
-          password: _passwordController.text,
-          fullName: _nameController.text.trim(),
-          // Don't send clinicId - it will be created later
-          role: UserRole.clinicAdmin.value,
-        );
-        _logger.info('Registration successful (PostgreSQL mode)');
-      }
+      final authService = ref.read(authServiceProvider);
+      await authService.register(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+        fullName: _nameController.text.trim(),
+        // Don't send clinicId - it will be created later
+        role: UserRole.clinicAdmin.value,
+      );
+      _logger.info('Registration successful');
 
       if (!mounted) {
         _logger.warning('Widget not mounted after registration');
@@ -147,7 +129,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               children: [
                 // Custom App Bar
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: [
                       if (!_isLoading)

@@ -1,39 +1,68 @@
-/// Legacy auth_provider.dart - now wraps dual_auth_provider for backward compatibility
-///
-/// This file maintains backward compatibility with existing code that imports auth_provider.
-/// All providers now work in dual-mode (Firebase or PostgreSQL) based on AppMode.
-///
-/// New code should import dual_auth_provider.dart directly for clarity.
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:clinic_app/core/services/postgresql_auth_service.dart';
 
-// Re-export everything from dual_auth_provider
-export 'package:clinic_app/core/providers/dual_auth_provider.dart'
-    show
-        UnifiedUser,
-        dualAuthServiceProvider,
-        unifiedAuthStateProvider,
-        currentUnifiedUserProvider,
-        authLoadingProvider,
-        authErrorProvider,
-        isEmailVerifiedProvider,
-        userRoleProvider,
-        canAccessScreenProvider;
+/// PostgreSQL Auth Service Provider
+final authServiceProvider = Provider<PostgresqlAuthService>((ref) {
+  return PostgresqlAuthService();
+});
 
-// Create backward-compatible aliases
-import 'package:clinic_app/core/providers/dual_auth_provider.dart';
+/// Auth State Provider - Watches user authentication state
+final authStateProvider = StreamProvider<PostgresqlUser?>((ref) {
+  final authService = ref.watch(authServiceProvider);
+  return authService.userChanges();
+});
 
-/// Auth service that works with both Firebase and PostgreSQL
-///
-/// Alias for dualAuthServiceProvider
-final authServiceProvider = dualAuthServiceProvider;
+/// Current User Provider - Returns current authenticated user
+final currentUserProvider = Provider<PostgresqlUser?>((ref) {
+  final authState = ref.watch(authStateProvider);
+  return authState.maybeWhen(
+    data: (user) => user,
+    orElse: () => null,
+  );
+});
 
-/// Auth state stream that works with both backends
-///
-/// Returns UnifiedUser which works with both Firebase.User and PostgresqlUser
-/// Alias for unifiedAuthStateProvider
-final authStateProvider = unifiedAuthStateProvider;
+/// Auth Loading Provider - Checks if auth is loading
+final authLoadingProvider = Provider<bool>((ref) {
+  final authState = ref.watch(authStateProvider);
+  return authState.isLoading;
+});
 
-/// Current user provider
-///
-/// Returns UnifiedUser? (works with both backends)
-/// Alias for currentUnifiedUserProvider
-final currentUserProvider = currentUnifiedUserProvider;
+/// Auth Error Provider - Returns auth error if any
+final authErrorProvider = Provider<Object?>((ref) {
+  final authState = ref.watch(authStateProvider);
+  return authState.maybeWhen(
+    error: (error, stack) => error,
+    orElse: () => null,
+  );
+});
+
+/// Email Verified Provider - Checks if current user's email is verified
+final isEmailVerifiedProvider = Provider<bool>((ref) {
+  final user = ref.watch(currentUserProvider);
+  return user?.emailVerified ?? false;
+});
+
+/// User Role Provider - Returns current user's role
+final userRoleProvider = Provider<String?>((ref) {
+  final user = ref.watch(currentUserProvider);
+  return user?.role;
+});
+
+/// Role-based access provider
+final canAccessScreenProvider = Provider.family<bool, String>((ref, requiredRole) {
+  final userRole = ref.watch(userRoleProvider);
+  if (userRole == null) return false;
+
+  // Define role hierarchy (higher number = more access)
+  final roleHierarchy = {
+    'clinic_admin': 4,
+    'clinic_manager': 3,
+    'operator': 2,
+    'user': 1,
+  };
+
+  final currentRoleLevel = roleHierarchy[userRole] ?? 0;
+  final requiredRoleLevel = roleHierarchy[requiredRole] ?? 999;
+
+  return currentRoleLevel >= requiredRoleLevel;
+});

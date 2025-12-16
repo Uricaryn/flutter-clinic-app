@@ -5,10 +5,7 @@ import 'package:clinic_app/features/home/presentation/screens/home_screen.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/core/services/logger_service.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
-import 'package:clinic_app/core/config/app_mode.dart';
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase;
 
 class EmailVerificationScreen extends ConsumerStatefulWidget {
   const EmailVerificationScreen({super.key});
@@ -90,11 +87,9 @@ class _EmailVerificationScreenState
     try {
       _logger.info('Checking email verification status');
 
-      // Reload user based on mode
-      if (AppMode.isFirebase) {
-        await firebase.FirebaseAuth.instance.currentUser?.reload();
-      }
-      // PostgreSQL mode doesn't need reload - it's always fresh from API
+      // Refresh user data from API
+      final authService = ref.read(authServiceProvider);
+      await authService.getCurrentUser();
 
       if (!mounted) return;
 
@@ -102,12 +97,6 @@ class _EmailVerificationScreenState
       final l10n = AppLocalizations.of(context)!;
 
       if (user?.emailVerified ?? false) {
-        if (AppMode.isFirebase) {
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user!.uid)
-              .update({'emailVerified': true});
-        }
         _logger.info('Email verified successfully');
         _autoCheckTimer?.cancel();
         ScaffoldMessenger.of(context).showSnackBar(
