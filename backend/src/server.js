@@ -2,9 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import http from 'http';
 import { testConnection } from './config/database.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { apiLimiter } from './middleware/rateLimiter.js';
+import websocketService from './services/websocketService.js';
 
 // Import routes
 import authRoutes from './routes/auth.js';
@@ -47,6 +49,7 @@ app.get('/health', (req, res) => {
     success: true,
     message: 'Server is running',
     timestamp: new Date().toISOString(),
+    websocket: websocketService.getStats(),
   });
 });
 
@@ -86,6 +89,9 @@ app.use(notFoundHandler);
 // Error handling middleware (must be last)
 app.use(errorHandler);
 
+// Create HTTP server
+const server = http.createServer(app);
+
 // Start server
 const startServer = async () => {
   try {
@@ -98,13 +104,18 @@ const startServer = async () => {
       process.exit(1);
     }
 
+    // Initialize WebSocket service
+    console.log('🔌 Initializing WebSocket service...');
+    websocketService.initialize(server);
+
     // Start listening
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log('');
       console.log('═══════════════════════════════════════════════════');
       console.log(`🚀 Server is running on port ${PORT}`);
       console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
       console.log(`🌐 API URL: http://localhost:${PORT}`);
+      console.log(`🔌 WebSocket: ws://localhost:${PORT}/ws`);
       console.log(`💚 Health check: http://localhost:${PORT}/health`);
       console.log('═══════════════════════════════════════════════════');
       console.log('');
@@ -128,14 +139,20 @@ process.on('uncaughtException', (err) => {
 });
 
 // Graceful shutdown
-process.on('SIGTERM', () => {
-  console.log('👋 SIGTERM signal received: closing HTTP server');
-  process.exit(0);
+process.on('SIGTERM', async () => {
+  console.log('👋 SIGTERM signal received: closing servers');
+  await websocketService.close();
+  server.close(() => {
+    process.exit(0);
+  });
 });
 
-process.on('SIGINT', () => {
-  console.log('👋 SIGINT signal received: closing HTTP server');
-  process.exit(0);
+process.on('SIGINT', async () => {
+  console.log('👋 SIGINT signal received: closing servers');
+  await websocketService.close();
+  server.close(() => {
+    process.exit(0);
+  });
 });
 
 // Start the server

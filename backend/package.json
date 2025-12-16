@@ -1,0 +1,42 @@
+{
+  "name": "clinic-app-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Flutter Clinic App with PostgreSQL",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "migrate": "node migrations/run-migrations.js",
+    "migrate:auth": "node migrations/run-auth-migration.js",
+    "test": "node test-connection.js",
+    "test:auth": "node test-auth-system.js"
+  },
+  "keywords": [
+    "clinic",
+    "api",
+    "postgresql",
+    "express",
+    "jwt"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.3",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
