@@ -49,7 +49,8 @@ final userRoleProvider = Provider<String?>((ref) {
 });
 
 /// Role-based access provider
-final canAccessScreenProvider = Provider.family<bool, String>((ref, requiredRole) {
+final canAccessScreenProvider =
+    Provider.family<bool, String>((ref, requiredRole) {
   final userRole = ref.watch(userRoleProvider);
   if (userRole == null) return false;
 

@@ -12,10 +12,7 @@ import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
 import 'package:clinic_app/core/enums/user_role.dart';
 import 'package:clinic_app/features/clinic/presentation/screens/clinic_manager_panel_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:clinic_app/core/providers/firestore_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:clinic_app/shared/widgets/auth_background.dart';
 import 'package:clinic_app/core/providers/theme_provider.dart';
 
@@ -33,11 +30,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Refresh all providers when screen is shown
+    // Refresh user provider when screen is shown
     ref.refresh(currentUserProvider);
-    ref.refresh(currentUserDataProvider);
-    ref.refresh(upcomingAppointmentsStreamProvider);
-    ref.refresh(lowStockItemsStreamProvider);
   }
 
   @override

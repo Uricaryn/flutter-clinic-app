@@ -37,7 +37,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
 
     try {
       final authService = ref.read(authServiceProvider);
-      
+
       await authService.changePassword(
         currentPassword: _currentPasswordController.text,
         newPassword: _newPasswordController.text,
