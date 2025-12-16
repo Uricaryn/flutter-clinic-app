@@ -71,5 +71,8 @@ router.post('/change-password', authenticate, changePasswordValidation, validate
 router.post('/send-verification-email', authenticate, authController.sendEmailVerification);
 router.post('/verify-email', verifyEmailValidation, validate, authController.verifyEmail);
 
+// Profile management
+router.put('/profile', authenticate, authController.updateProfile);
+
 export default router;
 

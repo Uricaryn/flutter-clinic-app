@@ -430,6 +430,47 @@ export const changePassword = asyncHandler(async (req, res) => {
   });
 });
 
+// Update user profile
+export const updateProfile = asyncHandler(async (req, res) => {
+  const userId = req.user.userId;
+  const { fullName, phone, avatar } = req.body;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: 'User not found',
+    });
+  }
+
+  // Update user
+  const updatedUser = await User.update(userId, {
+    fullName,
+    phone,
+    avatar,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: 'Profile updated successfully',
+    data: {
+      user: {
+        id: updatedUser.id,
+        email: updatedUser.email,
+        fullName: updatedUser.full_name,
+        phone: updatedUser.phone,
+        avatar: updatedUser.avatar,
+        role: updatedUser.role,
+        clinicId: updatedUser.clinic_id,
+        emailVerified: updatedUser.email_verified,
+        createdAt: updatedUser.created_at,
+        updatedAt: updatedUser.updated_at,
+      },
+    },
+  });
+});
+
 export default {
   register,
   login,

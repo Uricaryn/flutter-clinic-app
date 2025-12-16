@@ -204,7 +204,7 @@ class PostgresqlAuthService implements BaseAuthService {
       _logger.info('Updating profile for: ${_currentUser!.id}');
 
       final response = await _apiService.put(
-        '/users/${_currentUser!.id}',
+        '/auth/profile',
         data: data,
       );
 
