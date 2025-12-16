@@ -80,9 +80,9 @@ class StockItemModel {
       'unit': unit,
       'minimumQuantity': minimumQuantity,
       'clinicId': clinicId,
-      'lastRestocked': Timestamp.fromDate(lastRestocked),
-      'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
+      'lastRestocked': lastRestocked.toIso8601String(),
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 

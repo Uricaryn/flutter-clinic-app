@@ -83,9 +83,9 @@ class UserModel {
       'clinicId': clinicId,
       'clinicName': clinicName,
       'isActive': isActive,
-      'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
-      'lastLogin': lastLogin != null ? Timestamp.fromDate(lastLogin!) : null,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
+      'lastLogin': lastLogin?.toIso8601String(),
     };
   }
 

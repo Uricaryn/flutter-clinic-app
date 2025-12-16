@@ -50,12 +50,12 @@ class PatientModel {
       'email': email,
       'phone': phone,
       'address': address,
-      'dateOfBirth': Timestamp.fromDate(dateOfBirth),
+      'dateOfBirth': dateOfBirth.toIso8601String(),
       'gender': gender,
       'notes': notes,
       'clinicId': clinicId,
-      'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 }

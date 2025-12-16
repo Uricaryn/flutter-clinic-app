@@ -36,8 +36,8 @@ class OperatorModel {
       'phone': phone,
       'role': role,
       'isActive': isActive,
-      'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
       'isEmailVerified': isEmailVerified,
       'temporaryPassword': temporaryPassword,
     };

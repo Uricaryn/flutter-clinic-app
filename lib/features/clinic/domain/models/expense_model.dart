@@ -33,9 +33,9 @@ class ExpenseModel {
       'description': description,
       'amount': amount,
       'category': category,
-      'date': Timestamp.fromDate(date),
-      'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
+      'date': date.toIso8601String(),
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
       'invoiceNumber': invoiceNumber,
     };
   }
