@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/core/utils/date_utils.dart';
 
 enum UserRole {
   admin,
@@ -103,13 +104,9 @@ class UserModel {
       clinicId: json['clinicId'] as String?,
       clinicName: json['clinicName'] as String?,
       isActive: json['isActive'] as bool? ?? true,
-      createdAt: (json['createdAt'] as Timestamp).toDate(),
-      updatedAt: json['updatedAt'] != null
-          ? (json['updatedAt'] as Timestamp).toDate()
-          : null,
-      lastLogin: json['lastLogin'] != null
-          ? (json['lastLogin'] as Timestamp).toDate()
-          : null,
+      createdAt: DateTimeUtils.parseDateTime(json['createdAt']),
+      updatedAt: DateTimeUtils.parseNullableDateTime(json['updatedAt']),
+      lastLogin: DateTimeUtils.parseNullableDateTime(json['lastLogin']),
     );
   }
 }

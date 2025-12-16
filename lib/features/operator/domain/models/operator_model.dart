@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/core/utils/date_utils.dart';
 
 class OperatorModel {
   final String id;
@@ -52,10 +53,8 @@ class OperatorModel {
       phone: json['phone'] as String,
       role: json['role'] as String,
       isActive: json['isActive'] as bool,
-      createdAt: (json['createdAt'] as Timestamp).toDate(),
-      updatedAt: json['updatedAt'] != null
-          ? (json['updatedAt'] as Timestamp).toDate()
-          : null,
+      createdAt: DateTimeUtils.parseDateTime(json['createdAt']),
+      updatedAt: DateTimeUtils.parseNullableDateTime(json['updatedAt']),
       isEmailVerified: json['isEmailVerified'] as bool? ?? false,
       temporaryPassword: json['temporaryPassword'] as bool? ?? false,
     );

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/core/utils/date_utils.dart';
 
 class ClinicModel {
   final String id;
@@ -105,16 +106,12 @@ class ClinicModel {
       specialization: json['specialization'] as String? ?? '',
       ownerId: json['ownerId'] as String?,
       isActive: json['isActive'] as bool? ?? true,
-      createdAt: json['createdAt'] is Timestamp
-          ? (json['createdAt'] as Timestamp).toDate()
-          : json['createdAt'] is String
-              ? DateTime.parse(json['createdAt'] as String)
-              : DateTime.now(),
-      updatedAt: json['updatedAt'] is Timestamp
-          ? (json['updatedAt'] as Timestamp).toDate()
-          : json['updatedAt'] is String
-              ? DateTime.parse(json['updatedAt'] as String)
-              : DateTime.now(),
+      createdAt: json['createdAt'] != null
+          ? DateTimeUtils.parseDateTime(json['createdAt'])
+          : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+          ? DateTimeUtils.parseDateTime(json['updatedAt'])
+          : DateTime.now(),
       patientIds: (json['patientIds'] as List<dynamic>?)?.cast<String>(),
       operatorIds: (json['operatorIds'] as List<dynamic>?)?.cast<String>(),
       clinicPhoneCountryCode:

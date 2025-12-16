@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/core/utils/date_utils.dart';
 
 class StockItemModel {
   final String id;
@@ -87,15 +88,6 @@ class StockItemModel {
   }
 
   factory StockItemModel.fromJson(Map<String, dynamic> json) {
-    DateTime parseDate(dynamic value) {
-      if (value is Timestamp) {
-        return value.toDate();
-      } else if (value is String) {
-        return DateTime.parse(value);
-      }
-      throw Exception('Invalid date format: $value');
-    }
-
     return StockItemModel(
       id: json['id'] as String,
       name: json['name'] as String,
@@ -105,10 +97,9 @@ class StockItemModel {
       unit: json['unit'] as String,
       minimumQuantity: json['minimumQuantity'] as int,
       clinicId: json['clinicId'] as String,
-      lastRestocked: parseDate(json['lastRestocked']),
-      createdAt: parseDate(json['createdAt']),
-      updatedAt:
-          json['updatedAt'] != null ? parseDate(json['updatedAt']) : null,
+      lastRestocked: DateTimeUtils.parseDateTime(json['lastRestocked']),
+      createdAt: DateTimeUtils.parseDateTime(json['createdAt']),
+      updatedAt: DateTimeUtils.parseNullableDateTime(json['updatedAt']),
     );
   }
 

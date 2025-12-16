@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/core/utils/date_utils.dart';
 
 enum AppointmentStatus {
   scheduled,
@@ -137,20 +138,16 @@ class AppointmentModel {
       procedureName: json['procedureName'] as String? ?? 'İşlem',
       operatorId: json['operatorId'] as String,
       operatorName: json['operatorName'] as String? ?? 'Doktor',
-      dateTime: (json['dateTime'] as Timestamp).toDate(),
+      dateTime: DateTimeUtils.parseDateTime(json['dateTime']),
       status: json['status'] as String? ?? 'scheduled',
       notes: json['notes'] as String?,
       clinicId: json['clinicId'] as String,
-      createdAt: (json['createdAt'] as Timestamp).toDate(),
-      updatedAt: json['updatedAt'] != null
-          ? (json['updatedAt'] as Timestamp).toDate()
-          : null,
+      createdAt: DateTimeUtils.parseDateTime(json['createdAt']),
+      updatedAt: DateTimeUtils.parseNullableDateTime(json['updatedAt']),
       paymentAmount: json['paymentAmount'] != null
           ? (json['paymentAmount'] as num).toDouble()
           : null,
-      paymentDate: json['paymentDate'] != null
-          ? (json['paymentDate'] as Timestamp).toDate()
-          : null,
+      paymentDate: DateTimeUtils.parseNullableDateTime(json['paymentDate']),
       paymentMethod: json['paymentMethod'] as String?,
       paymentNote: json['paymentNote'] as String?,
       usedStockItems: json['usedStockItems'] != null

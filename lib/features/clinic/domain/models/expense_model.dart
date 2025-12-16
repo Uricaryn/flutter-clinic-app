@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/core/utils/date_utils.dart';
 
 class ExpenseModel {
   final String id;
@@ -48,11 +49,9 @@ class ExpenseModel {
       description: json['description'] as String,
       amount: (json['amount'] as num).toDouble(),
       category: json['category'] as String,
-      date: (json['date'] as Timestamp).toDate(),
-      createdAt: (json['createdAt'] as Timestamp).toDate(),
-      updatedAt: json['updatedAt'] != null
-          ? (json['updatedAt'] as Timestamp).toDate()
-          : null,
+      date: DateTimeUtils.parseDateTime(json['date']),
+      createdAt: DateTimeUtils.parseDateTime(json['createdAt']),
+      updatedAt: DateTimeUtils.parseNullableDateTime(json['updatedAt']),
       invoiceNumber: json['invoiceNumber'] as String?,
     );
   }

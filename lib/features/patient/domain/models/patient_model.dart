@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/core/utils/date_utils.dart';
 
 class PatientModel {
   final String id;
@@ -34,14 +35,12 @@ class PatientModel {
       email: json['email'] as String,
       phone: json['phone'] as String,
       address: json['address'] as String,
-      dateOfBirth: (json['dateOfBirth'] as Timestamp).toDate(),
+      dateOfBirth: DateTimeUtils.parseDateTime(json['dateOfBirth']),
       gender: json['gender'] as String,
       notes: json['notes'] as String,
       clinicId: json['clinicId'] as String,
-      createdAt: (json['createdAt'] as Timestamp).toDate(),
-      updatedAt: json['updatedAt'] != null
-          ? (json['updatedAt'] as Timestamp).toDate()
-          : null,
+      createdAt: DateTimeUtils.parseDateTime(json['createdAt']),
+      updatedAt: DateTimeUtils.parseNullableDateTime(json['updatedAt']),
     );
   }
 
