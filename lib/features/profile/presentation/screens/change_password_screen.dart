@@ -5,7 +5,6 @@ import 'package:clinic_app/core/providers/auth_provider.dart';
 import 'package:clinic_app/core/config/app_mode.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/shared/widgets/custom_text_field.dart';
-import 'package:clinic_app/core/services/auth_service.dart';
 import 'package:clinic_app/core/services/postgresql_auth_service.dart';
 
 class ChangePasswordScreen extends ConsumerStatefulWidget {

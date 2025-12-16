@@ -89,7 +89,7 @@ class _EmailVerificationScreenState
     setState(() => _isChecking = true);
     try {
       _logger.info('Checking email verification status');
-      
+
       // Reload user based on mode
       if (AppMode.isFirebase) {
         await firebase.FirebaseAuth.instance.currentUser?.reload();

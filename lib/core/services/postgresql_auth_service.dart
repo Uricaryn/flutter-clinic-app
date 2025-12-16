@@ -248,6 +248,33 @@ class PostgresqlAuthService implements BaseAuthService {
       rethrow;
     }
   }
+
+  /// Change password
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    if (_currentUser == null) {
+      throw 'No user signed in';
+    }
+
+    try {
+      _logger.info('Changing password for user: ${_currentUser!.id}');
+      
+      await _apiService.post(
+        '/auth/change-password',
+        data: {
+          'currentPassword': currentPassword,
+          'newPassword': newPassword,
+        },
+      );
+      
+      _logger.info('Password changed successfully');
+    } catch (e) {
+      _logger.error('Change password error', e, StackTrace.current);
+      rethrow;
+    }
+  }
 }
 
 /// User model for PostgreSQL backend
