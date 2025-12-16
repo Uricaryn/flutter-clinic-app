@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:clinic_app/core/config/app_config.dart';
+import 'package:clinic_app/core/config/app_mode.dart';
 import 'package:clinic_app/core/theme/app_theme.dart';
 import 'package:clinic_app/core/providers/theme_provider.dart';
 import 'package:clinic_app/core/providers/locale_provider.dart';
@@ -21,7 +22,7 @@ import 'package:clinic_app/features/splash/presentation/screens/splash_screen.da
 import 'package:clinic_app/core/routes/app_router.dart';
 import 'package:clinic_app/core/services/logger_service.dart';
 import 'firebase_options.dart';
-import 'package:clinic_app/core/providers/auth_provider.dart';
+import 'package:clinic_app/core/providers/dual_auth_provider.dart';
 
 class ErrorScreen extends StatelessWidget {
   final String error;
@@ -38,31 +39,47 @@ class ErrorScreen extends StatelessWidget {
   }
 }
 
-Future<void> initializeFirebase() async {
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+Future<void> initializeApp() async {
+  final logger = LoggerService();
+  
+  // Log current database mode
+  logger.info('🚀 Starting app in ${AppMode.modeName} mode');
+  debugPrint('═══════════════════════════════════════');
+  debugPrint('🔧 DATABASE MODE: ${AppMode.modeName}');
+  debugPrint('═══════════════════════════════════════');
 
-    // Firestore ayarlarını yapılandır
-    FirebaseFirestore.instance.settings = const Settings(
-      persistenceEnabled: true,
-      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
-    );
+  // Only initialize Firebase if in Firebase mode
+  if (AppMode.isFirebase) {
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
 
-    // Firestore bağlantısını test et
-    await FirebaseFirestore.instance.collection('test').doc('test').set({
-      'timestamp': FieldValue.serverTimestamp(),
-    });
-    await FirebaseFirestore.instance.collection('test').doc('test').delete();
+      // Firestore ayarlarını yapılandır
+      FirebaseFirestore.instance.settings = const Settings(
+        persistenceEnabled: true,
+        cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+      );
 
-    LoggerService().info('Firebase and Firestore initialized successfully');
-  } catch (e, stackTrace) {
-    LoggerService().error('Failed to initialize Firebase', e, stackTrace);
-    // Hata detaylarını göster
-    debugPrint('Firebase initialization error: $e');
-    debugPrint('Stack trace: $stackTrace');
-    rethrow;
+      // Firestore bağlantısını test et
+      await FirebaseFirestore.instance.collection('test').doc('test').set({
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      await FirebaseFirestore.instance.collection('test').doc('test').delete();
+
+      logger.info('✅ Firebase and Firestore initialized successfully');
+      debugPrint('✅ Firebase initialized');
+    } catch (e, stackTrace) {
+      logger.error('❌ Failed to initialize Firebase', e, stackTrace);
+      debugPrint('❌ Firebase initialization error: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
+  } else {
+    // PostgreSQL mode
+    logger.info('✅ PostgreSQL mode - skipping Firebase initialization');
+    debugPrint('✅ PostgreSQL mode active');
+    debugPrint('📡 Backend API: Check ApiConfig for endpoints');
   }
 }
 
@@ -70,11 +87,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    await initializeFirebase();
+    await initializeApp();
   } catch (e) {
-    // Firebase başlatma hatası durumunda kullanıcıya bilgi ver
-    debugPrint('Critical error: Firebase initialization failed. $e');
-    // Burada bir hata ekranı gösterebilirsiniz
+    debugPrint('❌ Critical error: App initialization failed. $e');
   }
 
   runApp(
@@ -89,7 +104,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authStateProvider);
+    final authState = ref.watch(unifiedAuthStateProvider);
     final _logger = LoggerService();
 
     return MaterialApp(
@@ -111,19 +126,20 @@ class MyApp extends ConsumerWidget {
       },
       home: authState.when(
         data: (user) {
+          final modeInfo = '${AppMode.modeName} mode';
           _logger.info(
-              'Auth state changed: ${user != null ? 'User logged in' : 'No user'}');
+              'Auth state changed ($modeInfo): ${user != null ? 'User logged in' : 'No user'}');
           if (user == null) {
             return const LoginScreen();
           }
           return const HomeScreen();
         },
         loading: () {
-          _logger.info('Auth state is loading, showing splash screen');
+          _logger.info('Auth state is loading (${AppMode.modeName} mode), showing splash screen');
           return const SplashScreen();
         },
         error: (error, stack) {
-          _logger.error('Auth state error', error, stack);
+          _logger.error('Auth state error (${AppMode.modeName} mode)', error, stack);
           return ErrorScreen(error: error.toString());
         },
       ),
