@@ -1,92 +1,48 @@
+/// Legacy auth_provider.dart - now wraps dual_auth_provider for backward compatibility
+///
+/// This file maintains backward compatibility with existing code that imports auth_provider.
+/// All providers now work in dual-mode (Firebase or PostgreSQL) based on AppMode.
+///
+/// New code should import dual_auth_provider.dart directly for clarity.
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:clinic_app/core/services/auth_service.dart';
-import 'package:clinic_app/core/enums/user_role.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:clinic_app/core/providers/dual_auth_provider.dart';
 
-final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthService();
-});
+// Re-export all dual-mode providers with legacy names for backward compatibility
 
-// Add a delay to ensure splash screen is shown and animations complete
-final authStateProvider = StreamProvider<User?>((ref) async* {
-  // Add initial delay to show splash screen and complete animations
-  await Future.delayed(const Duration(seconds: 2));
+/// Auth service that works with both Firebase and PostgreSQL
+/// 
+/// Alias for dualAuthServiceProvider
+final authServiceProvider = dualAuthServiceProvider;
 
-  // Get initial auth state
-  final initialUser = FirebaseAuth.instance.currentUser;
-  if (initialUser != null) {
-    // Yield current user if exists
-    yield initialUser;
-  } else {
-    yield null;
-  }
+/// Auth state stream that works with both backends
+/// 
+/// Returns UnifiedUser which works with both Firebase.User and PostgresqlUser
+/// Alias for unifiedAuthStateProvider
+final authStateProvider = unifiedAuthStateProvider;
 
-  // Listen to subsequent changes
-  yield* FirebaseAuth.instance.authStateChanges();
-});
+/// Current user provider
+/// 
+/// Returns UnifiedUser? (works with both backends)
+/// Alias for currentUnifiedUserProvider
+final currentUserProvider = currentUnifiedUserProvider;
 
-final currentUserProvider = Provider<User?>((ref) {
-  final authState = ref.watch(authStateProvider);
-  return authState.when(
-    data: (user) => user,
-    loading: () => null,
-    error: (_, __) => null,
-  );
-});
+/// Loading state for auth operations
+/// Already defined in dual_auth_provider
+// (Re-exported from dual_auth_provider)
 
-// Loading state provider for auth operations
-final authLoadingProvider = StateProvider<bool>((ref) => false);
+/// Error state for auth operations  
+/// Already defined in dual_auth_provider
+// (Re-exported from dual_auth_provider)
 
-// Error state provider for auth operations
-final authErrorProvider = StateProvider<String?>((ref) => null);
+/// Email verification state
+/// Already defined in dual_auth_provider
+// (Re-exported from dual_auth_provider)
 
-// Email verification state provider
-final isEmailVerifiedProvider = Provider<bool>((ref) {
-  final user = ref.watch(currentUserProvider);
-  return user?.emailVerified ?? false;
-});
+/// User role provider
+/// Already defined in dual_auth_provider
+// (Re-exported from dual_auth_provider)
 
-final userRoleProvider = StreamProvider<UserRole?>((ref) {
-  final user = ref.watch(currentUserProvider);
-  if (user == null) return Stream.value(null);
-
-  return FirebaseFirestore.instance
-      .collection('users')
-      .doc(user.uid)
-      .snapshots()
-      .map((doc) {
-    if (!doc.exists) return null;
-    final role = doc.data()?['role'] as String?;
-    return role != null ? UserRole.fromString(role) : null;
-  });
-});
-
-final canAccessScreenProvider =
-    Provider.family<bool, String>((ref, screenName) {
-  final roleAsync = ref.watch(userRoleProvider);
-  return roleAsync.when(
-    data: (role) {
-      if (role == null) return false;
-
-      switch (screenName) {
-        case '/clinic-manager-panel':
-          return role.isClinicAdmin;
-        case '/appointments':
-          return role.canViewAppointments;
-        case '/patients':
-          return role.isClinicAdmin || role.isOperator;
-        case '/doctors':
-          return role.isClinicAdmin;
-        case '/operators':
-          return role.isClinicAdmin;
-        case '/profile':
-          return true; // Herkes kendi profilini görebilir
-        default:
-          return false;
-      }
-    },
-    loading: () => false,
-    error: (_, __) => false,
-  );
-});
+/// Screen access permission provider
+/// Already defined in dual_auth_provider
+// (Re-exported from dual_auth_provider)
