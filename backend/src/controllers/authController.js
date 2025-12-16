@@ -32,6 +32,27 @@ export const register = asyncHandler(async (req, res) => {
   // Generate tokens
   const { accessToken, refreshToken } = generateTokens(user);
 
+  // Send verification email (non-blocking - don't fail registration if email fails)
+  try {
+    // Generate verification token
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const verificationTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+    // Save verification token to user
+    await User.update(user.id, {
+      verification_token: verificationToken,
+      verification_token_expiry: verificationTokenExpiry,
+    });
+
+    // Send email asynchronously
+    sendVerificationEmail(user.email, verificationToken, user.full_name)
+      .then(() => console.log(`✅ Verification email sent to ${user.email}`))
+      .catch((err) => console.error(`❌ Failed to send verification email: ${err.message}`));
+  } catch (emailError) {
+    // Log error but don't fail registration
+    console.error('Email sending error:', emailError.message);
+  }
+
   res.status(201).json({
     success: true,
     message: 'User registered successfully',
@@ -43,6 +64,7 @@ export const register = asyncHandler(async (req, res) => {
         phone: user.phone,
         role: user.role,
         clinicId: user.clinic_id,
+        emailVerified: user.email_verified,
       },
       accessToken,
       refreshToken,
