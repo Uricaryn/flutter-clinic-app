@@ -59,7 +59,8 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
         await firebaseUser.updatePassword(_newPasswordController.text);
       } else {
         // PostgreSQL mode - use auth service changePassword method
-        final authService = ref.read(authServiceProvider) as PostgresqlAuthService;
+        final authService =
+            ref.read(authServiceProvider) as PostgresqlAuthService;
         await authService.changePassword(
           currentPassword: _currentPasswordController.text,
           newPassword: _newPasswordController.text,
@@ -190,4 +191,3 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     );
   }
 }
- 

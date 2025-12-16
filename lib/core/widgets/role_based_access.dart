@@ -17,22 +17,21 @@ class RoleBasedAccess extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final canAccess = ref.watch(canAccessScreenProvider(screenName));
-    final roleAsync = ref.watch(userRoleProvider);
+    final role = ref.watch(userRoleProvider);
 
-    return roleAsync.when(
-      data: (role) {
-        if (!canAccess) {
-          return fallback ??
-              const Center(
-                child: Text('Bu sayfaya erişim yetkiniz bulunmuyor.'),
-              );
-        }
-        return child;
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, __) => const Center(
-        child: Text('Bir hata oluştu. Lütfen tekrar deneyin.'),
-      ),
-    );
+    // If no role, show loading or error
+    if (role == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    // Check access permission
+    if (!canAccess) {
+      return fallback ??
+          const Center(
+            child: Text('Bu sayfaya erişim yetkiniz bulunmuyor.'),
+          );
+    }
+
+    return child;
   }
 }
