@@ -54,7 +54,10 @@ class PostgresqlAuthService implements BaseAuthService {
       );
 
       if (response.statusCode == 200) {
-        final data = response.data;
+        final responseData = response.data;
+        
+        // Backend wraps response in 'data' field
+        final data = responseData['data'] ?? responseData;
 
         // Store tokens
         await _apiService.setTokens(
@@ -102,7 +105,10 @@ class PostgresqlAuthService implements BaseAuthService {
       );
 
       if (response.statusCode == 201) {
-        final data = response.data;
+        final responseData = response.data;
+        
+        // Backend wraps response in 'data' field
+        final data = responseData['data'] ?? responseData;
 
         // Store tokens
         await _apiService.setTokens(
@@ -153,7 +159,12 @@ class PostgresqlAuthService implements BaseAuthService {
       final response = await _apiService.get(ApiConfig.meEndpoint);
 
       if (response.statusCode == 200) {
-        final user = PostgresqlUser.fromJson(response.data['user']);
+        final responseData = response.data;
+        
+        // Backend wraps response in 'data' field
+        final data = responseData['data'] ?? responseData;
+        
+        final user = PostgresqlUser.fromJson(data['user'] ?? responseData['user']);
         _setCurrentUser(user);
         return user;
       }
@@ -197,7 +208,12 @@ class PostgresqlAuthService implements BaseAuthService {
       );
 
       if (response.statusCode == 200) {
-        final updatedUser = PostgresqlUser.fromJson(response.data['user']);
+        final responseData = response.data;
+        
+        // Backend wraps response in 'data' field
+        final data = responseData['data'] ?? responseData;
+        
+        final updatedUser = PostgresqlUser.fromJson(data['user'] ?? responseData['user']);
         _setCurrentUser(updatedUser);
         _logger.info('Profile updated successfully');
       }
