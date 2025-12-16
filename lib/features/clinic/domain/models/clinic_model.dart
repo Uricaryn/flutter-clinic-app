@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:clinic_app/core/utils/date_utils.dart';
 
 class ClinicModel {
