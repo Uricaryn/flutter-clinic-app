@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:clinic_app/core/config/api_config.dart';
 
 /// HTTP API Service for PostgreSQL backend
-/// 
+///
 /// Handles all REST API calls with automatic JWT token management,
 /// error handling, and request/response interceptors.
 class ApiService {
@@ -127,7 +127,8 @@ class ApiService {
   }
 
   /// Generic GET request
-  Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) async {
+  Future<Response> get(String path,
+      {Map<String, dynamic>? queryParameters}) async {
     try {
       return await _dio.get(path, queryParameters: queryParameters);
     } on DioException catch (e) {
@@ -213,9 +214,9 @@ class ApiService {
 
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
-        final message = error.response?.data['message'] ?? 
-                       error.response?.data['error'] ??
-                       'An error occurred';
+        final message = error.response?.data['message'] ??
+            error.response?.data['error'] ??
+            'An error occurred';
 
         if (statusCode == 401) {
           return 'Unauthorized. Please login again.';

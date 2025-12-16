@@ -7,7 +7,8 @@ import 'package:clinic_app/core/services/logger_service.dart';
 
 /// WebSocket service for realtime updates from PostgreSQL backend
 class FlutterWebSocketService {
-  static final FlutterWebSocketService _instance = FlutterWebSocketService._internal();
+  static final FlutterWebSocketService _instance =
+      FlutterWebSocketService._internal();
   factory FlutterWebSocketService() => _instance;
 
   WebSocketChannel? _channel;
@@ -99,8 +100,7 @@ class FlutterWebSocketService {
           break;
 
         case 'update':
-          _logger.info(
-              'Update: ${data['action']} on ${data['collection']}');
+          _logger.info('Update: ${data['action']} on ${data['collection']}');
           _messageController.add(data);
           break;
 

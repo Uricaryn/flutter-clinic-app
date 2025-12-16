@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// Utility functions for date/time handling across Firebase and PostgreSQL
 class DateTimeUtils {
   /// Parse DateTime from various sources (Timestamp, String, or DateTime)
-  /// 
+  ///
   /// This supports both Firebase Timestamp and PostgreSQL ISO string formats
   static DateTime parseDateTime(dynamic value) {
     if (value == null) {
@@ -49,7 +49,8 @@ class DateTimeUtils {
   }
 
   /// Convert nullable DateTime to JSON
-  static dynamic toJsonNullable(DateTime? dateTime, {bool useFirestore = false}) {
+  static dynamic toJsonNullable(DateTime? dateTime,
+      {bool useFirestore = false}) {
     if (dateTime == null) return null;
     return toJson(dateTime, useFirestore: useFirestore);
   }
