@@ -20,7 +20,7 @@ const registerValidation = [
   body('fullName').trim().notEmpty().withMessage('Full name is required'),
   body('role')
     .optional()
-    .isIn(['admin', 'user', 'operator'])
+    .isIn(['clinic_admin', 'clinic_manager', 'operator', 'doctor', 'patient', 'admin', 'user'])
     .withMessage('Invalid role'),
 ];
 
