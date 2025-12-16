@@ -5,7 +5,7 @@
  * It uses PostgreSQL LISTEN/NOTIFY for database change notifications.
  */
 
-import WebSocket from 'ws';
+import { WebSocket, WebSocketServer } from 'ws';
 import jwt from 'jsonwebtoken';
 import pg from 'pg';
 import dotenv from 'dotenv';
@@ -27,7 +27,7 @@ class WebSocketService {
    * @param {http.Server} server - HTTP server instance
    */
   initialize(server) {
-    this.wss = new WebSocket.Server({ 
+    this.wss = new WebSocketServer({ 
       server,
       path: '/ws'
     });
