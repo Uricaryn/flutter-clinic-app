@@ -6,27 +6,12 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _logger = LoggerService();
-  // Session timeout duration (30 minutes)
-  static const Duration sessionTimeout = Duration(minutes: 30);
-  DateTime? _lastActivityTime;
-
-  // Update last activity time
-  void _updateLastActivity() {
-    _lastActivityTime = DateTime.now();
-  }
-
-  // Check if session is expired
-  bool isSessionExpired() {
-    if (_lastActivityTime == null) return true;
-    return DateTime.now().difference(_lastActivityTime!) > sessionTimeout;
-  }
 
   // Get current user
   User? get currentUser {
     final user = _auth.currentUser;
     if (user != null) {
       _logger.info('Current user retrieved: ${user.uid}');
-      _updateLastActivity();
     } else {
       _logger.info('No current user found');
     }
@@ -39,15 +24,6 @@ class AuthService {
     return _auth.authStateChanges().asyncMap((user) async {
       if (user != null) {
         _logger.info('User session active: ${user.uid}');
-        _updateLastActivity();
-
-        // Check session timeout
-        if (isSessionExpired()) {
-          _logger.info('Session expired for user: ${user.uid}');
-          await signOut();
-          return null;
-        }
-
         // Force refresh user data
         await user.reload();
         // Get fresh user data
@@ -76,7 +52,7 @@ class AuthService {
             .doc(credential.user!.uid)
             .get();
         if (userDoc.exists) {
-          final userData = userDoc.data() as Map<String, dynamic>?;
+          final userData = userDoc.data();
           if (userData != null && userData['clinicId'] == null) {
             // If clinicId is not set, try to find the user's clinic
             final clinicsSnapshot = await _firestore

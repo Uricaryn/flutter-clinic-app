@@ -47,4 +47,17 @@
 }
 
 # Keep custom application class
--keep public class * extends android.app.Application 
+-keep public class * extends android.app.Application
+
+# Play Core (for deferred components and split installs)
+-keep class com.google.android.play.core.** { *; }
+-dontwarn com.google.android.play.core.**
+
+# Keep Play Store split compat
+-keep class com.google.android.play.core.splitcompat.** { *; }
+-keep class com.google.android.play.core.splitinstall.** { *; }
+-keep class com.google.android.play.core.tasks.** { *; }
+
+# Flutter deferred components
+-keep class io.flutter.embedding.engine.deferredcomponents.** { *; }
+-keep class io.flutter.embedding.android.FlutterPlayStoreSplitApplication { *; }

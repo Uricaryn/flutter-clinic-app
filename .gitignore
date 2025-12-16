@@ -64,6 +64,15 @@ GoogleService-Info.plist
 firebase-debug.log
 firebase-debug.*.log
 
+# Keystore files - NEVER COMMIT THESE!
+*.jks
+*.keystore
+key.properties
+**/key.properties
+android/key.properties
+keystore.jks
+upload-keystore.jks
+
 # Environment files
 .env
 .env.*

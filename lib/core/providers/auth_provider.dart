@@ -16,14 +16,8 @@ final authStateProvider = StreamProvider<User?>((ref) async* {
   // Get initial auth state
   final initialUser = FirebaseAuth.instance.currentUser;
   if (initialUser != null) {
-    // Check if session is expired
-    final authService = ref.read(authServiceProvider);
-    if (authService.isSessionExpired()) {
-      await authService.signOut();
-      yield null;
-    } else {
-      yield initialUser;
-    }
+    // Yield current user if exists
+    yield initialUser;
   } else {
     yield null;
   }

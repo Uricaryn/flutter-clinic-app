@@ -7,40 +7,64 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+// Load keystore properties
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "com.clinicapp.clinic_app"
     compileSdk = 35
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.clinicapp.clinic_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 21
+        minSdk = 23
         targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         multiDexEnabled = true
     }
 
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            signingConfig = keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            
+            // Optimize for size and performance
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
+        }
+        
+        debug {
+            signingConfig = signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
         }
     }
 
@@ -52,7 +76,7 @@ android {
 
 dependencies {
     // Add the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:32.7.4')
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
     
     // Add the dependencies for Firebase products you want to use
     implementation 'com.google.firebase:firebase-analytics'
@@ -64,8 +88,8 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     
-    // Update Play Core to Play Core KTX
-    implementation 'com.google.android.play:core-ktx:1.8.1'
+    // Update Play Core to Play Core KTX (deprecated, but keeping for backward compatibility)
+    implementation 'com.google.android.play:app-update-ktx:2.1.0'
 }
 
 flutter {

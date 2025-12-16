@@ -1,0 +1,4 @@
+storePassword=10595653
+keyPassword=10595653
+keyAlias=upload
+storeFile=C:/Users/onura/upload-keystore.jks

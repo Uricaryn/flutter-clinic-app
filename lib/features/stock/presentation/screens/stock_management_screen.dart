@@ -6,11 +6,11 @@ import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:clinic_app/core/providers/firestore_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:clinic_app/shared/widgets/auth_background.dart';
 import 'package:clinic_app/features/stock/presentation/widgets/edit_stock_item_dialog.dart';
 import 'package:clinic_app/features/stock/presentation/widgets/delete_stock_item_dialog.dart';
 import 'package:clinic_app/features/stock/presentation/widgets/add_stock_item_dialog.dart';
+import 'package:clinic_app/features/stock/presentation/widgets/restock_item_dialog.dart';
 
 class StockManagementScreen extends ConsumerWidget {
   const StockManagementScreen({super.key});
@@ -113,7 +113,11 @@ class StockManagementScreen extends ConsumerWidget {
                           },
                           onRestock: item.needsRestock
                               ? () {
-                                  // TODO: Stok yenileme dialogu
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) =>
+                                        RestockItemDialog(stockItem: item),
+                                  );
                                 }
                               : null,
                         ).animate().fadeIn().slideX();
