@@ -482,5 +482,6 @@ export default {
   sendEmailVerification,
   verifyEmail,
   changePassword,
+  updateProfile,
 };
 
