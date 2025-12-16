@@ -55,7 +55,7 @@ class PostgresqlAuthService implements BaseAuthService {
 
       if (response.statusCode == 200) {
         final responseData = response.data;
-        
+
         // Backend wraps response in 'data' field
         final data = responseData['data'] ?? responseData;
 
@@ -106,7 +106,7 @@ class PostgresqlAuthService implements BaseAuthService {
 
       if (response.statusCode == 201) {
         final responseData = response.data;
-        
+
         // Backend wraps response in 'data' field
         final data = responseData['data'] ?? responseData;
 
@@ -160,11 +160,12 @@ class PostgresqlAuthService implements BaseAuthService {
 
       if (response.statusCode == 200) {
         final responseData = response.data;
-        
+
         // Backend wraps response in 'data' field
         final data = responseData['data'] ?? responseData;
-        
-        final user = PostgresqlUser.fromJson(data['user'] ?? responseData['user']);
+
+        final user =
+            PostgresqlUser.fromJson(data['user'] ?? responseData['user']);
         _setCurrentUser(user);
         return user;
       }
@@ -209,11 +210,12 @@ class PostgresqlAuthService implements BaseAuthService {
 
       if (response.statusCode == 200) {
         final responseData = response.data;
-        
+
         // Backend wraps response in 'data' field
         final data = responseData['data'] ?? responseData;
-        
-        final updatedUser = PostgresqlUser.fromJson(data['user'] ?? responseData['user']);
+
+        final updatedUser =
+            PostgresqlUser.fromJson(data['user'] ?? responseData['user']);
         _setCurrentUser(updatedUser);
         _logger.info('Profile updated successfully');
       }
