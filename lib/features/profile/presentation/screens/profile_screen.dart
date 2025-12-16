@@ -20,7 +20,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   bool _isLoading = true;
   bool _useSystemTheme = true;
-  
+
   Future<void> _loadThemePreference() async {
     final prefs = await SharedPreferences.getInstance();
     final themeIndex = prefs.getInt('theme_mode');
@@ -154,7 +154,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         .map((locale) => DropdownMenuItem(
                               value: locale,
                               child: Text(
-                                locale.languageCode == 'en' ? 'English' : 'Türkçe',
+                                locale.languageCode == 'en'
+                                    ? 'English'
+                                    : 'Türkçe',
                               ),
                             ))
                         .toList(),

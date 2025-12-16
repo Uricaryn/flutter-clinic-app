@@ -140,12 +140,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _buildHomePage() {
     final l10n = AppLocalizations.of(context)!;
     final user = ref.watch(currentUserProvider);
-    final userDataAsync = ref.watch(currentUserDataProvider);
-    bool isClinicAdmin = false;
-    if (userDataAsync.asData != null) {
-      final data = userDataAsync.asData!.value?.data() as Map<String, dynamic>?;
-      isClinicAdmin = data != null && data['role'] == 'clinic_admin';
-    }
+    final isClinicAdmin = user?.role == 'clinic_admin';
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -198,13 +193,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildQuickActions() {
     final l10n = AppLocalizations.of(context)!;
-    final user = ref.watch(currentUserProvider);
-    final userDataAsync = ref.watch(currentUserDataProvider);
-    bool isClinicAdmin = false;
-    if (userDataAsync.asData != null) {
-      final data = userDataAsync.asData!.value?.data() as Map<String, dynamic>?;
-      isClinicAdmin = data != null && data['role'] == 'clinic_admin';
-    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,10 +300,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _buildRecentActivity() {
     final l10n = AppLocalizations.of(context)!;
 
-    final upcomingAppointmentsAsync =
-        ref.watch(upcomingAppointmentsStreamProvider);
-    final lowStockAsync = ref.watch(lowStockItemsStreamProvider);
-
+    // TODO: Implement backend API calls for recent activity
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -331,34 +316,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                upcomingAppointmentsAsync.when(
-                  data: (snapshot) {
-                    final count = snapshot.docs.length;
-                    return _buildActivityItem(
-                      icon: Icons.calendar_today,
-                      title: l10n.upcomingAppointments,
-                      subtitle: count > 0
-                          ? l10n.youHaveAppointmentsToday(count)
-                          : l10n.noAppointmentsToday,
-                      onTap: () => _onNavItemTapped(1),
-                    );
-                  },
-                  loading: () => const ListTile(title: Text('Yükleniyor...')),
-                  error: (e, _) => ListTile(title: Text('Hata: $e')),
+                _buildActivityItem(
+                  icon: Icons.calendar_today,
+                  title: l10n.upcomingAppointments,
+                  subtitle: l10n.noAppointmentsToday,
+                  onTap: () => _onNavItemTapped(1),
                 ),
                 const Divider(),
-                lowStockAsync.when(
-                  data: (snapshot) {
-                    final count = snapshot.docs.length;
-                    return _buildActivityItem(
-                      icon: Icons.inventory,
-                      title: l10n.lowStockAlert,
-                      subtitle: l10n.itemsNeedRestock(count),
-                      onTap: () => _onNavItemTapped(3),
-                    );
-                  },
-                  loading: () => const ListTile(title: Text('Yükleniyor...')),
-                  error: (e, _) => ListTile(title: Text('Hata: $e')),
+                _buildActivityItem(
+                  icon: Icons.inventory,
+                  title: l10n.lowStockAlert,
+                  subtitle: l10n.itemsNeedRestock(0),
+                  onTap: () => _onNavItemTapped(3),
                 ),
               ],
             ),

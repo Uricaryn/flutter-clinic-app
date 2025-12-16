@@ -9,7 +9,7 @@ final authServiceProvider = Provider<PostgresqlAuthService>((ref) {
 /// Auth State Provider - Watches user authentication state
 final authStateProvider = StreamProvider<PostgresqlUser?>((ref) {
   final authService = ref.watch(authServiceProvider);
-  return authService.userChanges();
+  return authService.authStateChanges;
 });
 
 /// Current User Provider - Returns current authenticated user
