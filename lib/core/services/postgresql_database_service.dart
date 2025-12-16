@@ -12,13 +12,13 @@ import 'package:clinic_app/features/clinic/domain/models/expense_model.dart';
 import 'package:clinic_app/features/operator/domain/models/operator_model.dart';
 
 /// PostgreSQL database service implementation using REST API
-/// 
+///
 /// This service communicates with the Node.js backend and uses
 /// WebSocket for realtime updates.
 class PostgresqlDatabaseService implements DatabaseService {
   final ApiService _api = ApiService();
   final FlutterWebSocketService _ws = FlutterWebSocketService();
-  
+
   // Stream controllers for realtime data
   final Map<String, StreamController<List<dynamic>>> _streamControllers = {};
 
@@ -29,14 +29,14 @@ class PostgresqlDatabaseService implements DatabaseService {
   /// Initialize WebSocket connection and listeners
   void _initializeWebSocket() {
     _ws.connect();
-    
+
     // Listen to WebSocket messages
     _ws.messages.listen((message) {
       if (message['type'] == 'update') {
         final collection = message['collection'] as String;
         final action = message['action'] as String;
         final data = message['data'];
-        
+
         _handleRealtimeUpdate(collection, action, data);
       }
     });
@@ -54,7 +54,8 @@ class PostgresqlDatabaseService implements DatabaseService {
   /// Get or create stream controller for a collection
   StreamController<List<T>> _getStreamController<T>(String collectionKey) {
     if (!_streamControllers.containsKey(collectionKey)) {
-      _streamControllers[collectionKey] = StreamController<List<dynamic>>.broadcast();
+      _streamControllers[collectionKey] =
+          StreamController<List<dynamic>>.broadcast();
     }
     return _streamControllers[collectionKey] as StreamController<List<T>>;
   }
@@ -69,14 +70,15 @@ class PostgresqlDatabaseService implements DatabaseService {
       ApiConfig.appointmentsEndpoint,
       queryParameters: {'clinicId': clinicId},
     );
-    
+
     final List data = response.data['appointments'] ?? [];
     return data.map((json) => AppointmentModel.fromJson(json)).toList();
   }
 
   @override
   Future<AppointmentModel> getAppointment(String appointmentId) async {
-    final response = await _api.get('${ApiConfig.appointmentsEndpoint}/$appointmentId');
+    final response =
+        await _api.get('${ApiConfig.appointmentsEndpoint}/$appointmentId');
     return AppointmentModel.fromJson(response.data['appointment']);
   }
 
@@ -106,12 +108,13 @@ class PostgresqlDatabaseService implements DatabaseService {
   Stream<List<AppointmentModel>> watchAppointments(String clinicId) async* {
     // Subscribe to WebSocket updates
     _ws.subscribe('appointments');
-    
-    final controller = _getStreamController<AppointmentModel>('appointments_$clinicId');
-    
+
+    final controller =
+        _getStreamController<AppointmentModel>('appointments_$clinicId');
+
     // Initial data fetch
     yield await getAppointments(clinicId);
-    
+
     // Listen for updates
     await for (final _ in controller.stream) {
       yield await getAppointments(clinicId);
@@ -119,24 +122,26 @@ class PostgresqlDatabaseService implements DatabaseService {
   }
 
   @override
-  Stream<List<AppointmentModel>> watchUpcomingAppointments(String clinicId) async* {
+  Stream<List<AppointmentModel>> watchUpcomingAppointments(
+      String clinicId) async* {
     _ws.subscribe('appointments');
-    
-    final controller = _getStreamController<AppointmentModel>('appointments_upcoming_$clinicId');
-    
+
+    final controller = _getStreamController<AppointmentModel>(
+        'appointments_upcoming_$clinicId');
+
     // Fetch upcoming appointments
     final fetch = () async {
       final response = await _api.get(
         '${ApiConfig.appointmentsEndpoint}/upcoming',
         queryParameters: {'clinicId': clinicId},
       );
-      
+
       final List data = response.data['appointments'] ?? [];
       return data.map((json) => AppointmentModel.fromJson(json)).toList();
     };
-    
+
     yield await fetch();
-    
+
     await for (final _ in controller.stream) {
       yield await fetch();
     }
@@ -152,7 +157,7 @@ class PostgresqlDatabaseService implements DatabaseService {
       ApiConfig.patientsEndpoint,
       queryParameters: {'clinicId': clinicId},
     );
-    
+
     final List data = response.data['patients'] ?? [];
     return data.map((json) => PatientModel.fromJson(json)).toList();
   }
@@ -188,18 +193,19 @@ class PostgresqlDatabaseService implements DatabaseService {
   @override
   Stream<List<PatientModel>> watchPatients(String clinicId) async* {
     _ws.subscribe('patients');
-    
+
     final controller = _getStreamController<PatientModel>('patients_$clinicId');
-    
+
     yield await getPatients(clinicId);
-    
+
     await for (final _ in controller.stream) {
       yield await getPatients(clinicId);
     }
   }
 
   @override
-  Future<List<PatientModel>> searchPatients(String clinicId, String query) async {
+  Future<List<PatientModel>> searchPatients(
+      String clinicId, String query) async {
     final response = await _api.get(
       '${ApiConfig.patientsEndpoint}/search',
       queryParameters: {
@@ -207,7 +213,7 @@ class PostgresqlDatabaseService implements DatabaseService {
         'query': query,
       },
     );
-    
+
     final List data = response.data['patients'] ?? [];
     return data.map((json) => PatientModel.fromJson(json)).toList();
   }
@@ -222,14 +228,15 @@ class PostgresqlDatabaseService implements DatabaseService {
       ApiConfig.proceduresEndpoint,
       queryParameters: {'clinicId': clinicId},
     );
-    
+
     final List data = response.data['procedures'] ?? [];
     return data.map((json) => ProcedureModel.fromJson(json)).toList();
   }
 
   @override
   Future<ProcedureModel> getProcedure(String procedureId) async {
-    final response = await _api.get('${ApiConfig.proceduresEndpoint}/$procedureId');
+    final response =
+        await _api.get('${ApiConfig.proceduresEndpoint}/$procedureId');
     return ProcedureModel.fromJson(response.data['procedure']);
   }
 
@@ -258,11 +265,12 @@ class PostgresqlDatabaseService implements DatabaseService {
   @override
   Stream<List<ProcedureModel>> watchProcedures(String clinicId) async* {
     _ws.subscribe('procedures');
-    
-    final controller = _getStreamController<ProcedureModel>('procedures_$clinicId');
-    
+
+    final controller =
+        _getStreamController<ProcedureModel>('procedures_$clinicId');
+
     yield await getProcedures(clinicId);
-    
+
     await for (final _ in controller.stream) {
       yield await getProcedures(clinicId);
     }
@@ -278,7 +286,7 @@ class PostgresqlDatabaseService implements DatabaseService {
       ApiConfig.stockEndpoint,
       queryParameters: {'clinicId': clinicId},
     );
-    
+
     final List data = response.data['stockItems'] ?? [];
     return data.map((json) => StockItemModel.fromJson(json)).toList();
   }
@@ -314,11 +322,12 @@ class PostgresqlDatabaseService implements DatabaseService {
   @override
   Stream<List<StockItemModel>> watchStockItems(String clinicId) async* {
     _ws.subscribe('stock_items');
-    
-    final controller = _getStreamController<StockItemModel>('stock_items_$clinicId');
-    
+
+    final controller =
+        _getStreamController<StockItemModel>('stock_items_$clinicId');
+
     yield await getStockItems(clinicId);
-    
+
     await for (final _ in controller.stream) {
       yield await getStockItems(clinicId);
     }
@@ -327,21 +336,22 @@ class PostgresqlDatabaseService implements DatabaseService {
   @override
   Stream<List<StockItemModel>> watchLowStockItems(String clinicId) async* {
     _ws.subscribe('stock_items');
-    
-    final controller = _getStreamController<StockItemModel>('stock_items_low_$clinicId');
-    
+
+    final controller =
+        _getStreamController<StockItemModel>('stock_items_low_$clinicId');
+
     final fetch = () async {
       final response = await _api.get(
         '${ApiConfig.stockEndpoint}/low-stock',
         queryParameters: {'clinicId': clinicId},
       );
-      
+
       final List data = response.data['stockItems'] ?? [];
       return data.map((json) => StockItemModel.fromJson(json)).toList();
     };
-    
+
     yield await fetch();
-    
+
     await for (final _ in controller.stream) {
       yield await fetch();
     }
@@ -381,11 +391,11 @@ class PostgresqlDatabaseService implements DatabaseService {
   @override
   Stream<ClinicModel?> watchClinic(String clinicId) async* {
     _ws.subscribe('clinics');
-    
+
     final controller = _getStreamController<ClinicModel>('clinic_$clinicId');
-    
+
     yield await getClinic(clinicId);
-    
+
     await for (final _ in controller.stream) {
       yield await getClinic(clinicId);
     }
@@ -401,7 +411,7 @@ class PostgresqlDatabaseService implements DatabaseService {
       ApiConfig.expensesEndpoint,
       queryParameters: {'clinicId': clinicId},
     );
-    
+
     final List data = response.data['expenses'] ?? [];
     return data.map((json) => ExpenseModel.fromJson(json)).toList();
   }
@@ -438,7 +448,7 @@ class PostgresqlDatabaseService implements DatabaseService {
       ApiConfig.operatorsEndpoint,
       queryParameters: {'clinicId': clinicId},
     );
-    
+
     final List data = response.data['operators'] ?? [];
     return data.map((json) => OperatorModel.fromJson(json)).toList();
   }
@@ -486,10 +496,11 @@ class PostgresqlDatabaseService implements DatabaseService {
 
   @override
   Stream<Map<String, dynamic>?> watchUserData(String userId) async* {
-    final controller = _getStreamController<Map<String, dynamic>>('user_$userId');
-    
+    final controller =
+        _getStreamController<Map<String, dynamic>>('user_$userId');
+
     yield await getUserData(userId);
-    
+
     await for (final _ in controller.stream) {
       yield await getUserData(userId);
     }

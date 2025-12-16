@@ -5,7 +5,7 @@ import 'package:clinic_app/core/services/firebase_database_service.dart';
 import 'package:clinic_app/core/services/postgresql_database_service.dart';
 
 /// Database service provider that selects implementation based on AppMode
-/// 
+///
 /// Returns:
 /// - FirebaseDatabaseService when in Firebase mode
 /// - PostgresqlDatabaseService when in PostgreSQL mode

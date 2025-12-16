@@ -25,7 +25,8 @@ class UnifiedUser {
     this.role,
   });
 
-  factory UnifiedUser.fromFirebase(firebase.User user, Map<String, dynamic>? userData) {
+  factory UnifiedUser.fromFirebase(
+      firebase.User user, Map<String, dynamic>? userData) {
     return UnifiedUser(
       id: user.uid,
       email: user.email,
@@ -62,7 +63,7 @@ final unifiedAuthStateProvider = StreamProvider<UnifiedUser?>((ref) async* {
   if (AppMode.isFirebase) {
     // Firebase mode
     await Future.delayed(const Duration(seconds: 2)); // Splash screen delay
-    
+
     final initialUser = firebase.FirebaseAuth.instance.currentUser;
     if (initialUser != null) {
       final db = ref.read(databaseProvider);
@@ -72,7 +73,8 @@ final unifiedAuthStateProvider = StreamProvider<UnifiedUser?>((ref) async* {
       yield null;
     }
 
-    await for (final user in firebase.FirebaseAuth.instance.authStateChanges()) {
+    await for (final user
+        in firebase.FirebaseAuth.instance.authStateChanges()) {
       if (user != null) {
         final db = ref.read(databaseProvider);
         final userData = await db.getUserData(user.uid);
@@ -84,10 +86,10 @@ final unifiedAuthStateProvider = StreamProvider<UnifiedUser?>((ref) async* {
   } else {
     // PostgreSQL mode
     await Future.delayed(const Duration(seconds: 2)); // Splash screen delay
-    
+
     final authService = PostgresqlAuthService();
     await authService.initialize();
-    
+
     final initialUser = authService.currentUser;
     if (initialUser != null) {
       yield UnifiedUser.fromPostgresql(initialUser);
@@ -135,7 +137,8 @@ final userRoleProvider = Provider<UserRole?>((ref) {
 });
 
 /// Screen access provider
-final canAccessScreenProvider = Provider.family<bool, String>((ref, screenName) {
+final canAccessScreenProvider =
+    Provider.family<bool, String>((ref, screenName) {
   final role = ref.watch(userRoleProvider);
   if (role == null) return false;
 

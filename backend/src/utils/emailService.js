@@ -29,10 +29,10 @@ export const sendVerificationEmail = async (email, token, userName) => {
   const mailOptions = {
     from: process.env.EMAIL_FROM,
     to: email,
-    subject: 'Verify Your Email - Clinic App',
+    subject: 'Verify Your Email - OrdanaApp',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2>Welcome to Clinic App, ${userName}!</h2>
+        <h2>Welcome to OrdanaApp, ${userName}!</h2>
         <p>Thank you for registering. Please verify your email address by clicking the button below:</p>
         <div style="text-align: center; margin: 30px 0;">
           <a href="${verificationUrl}" 
@@ -72,7 +72,7 @@ export const sendPasswordResetEmail = async (email, token, userName) => {
   const mailOptions = {
     from: process.env.EMAIL_FROM,
     to: email,
-    subject: 'Password Reset Request - Clinic App',
+    subject: 'Password Reset Request - OrdanaApp',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2>Password Reset Request</h2>
@@ -115,10 +115,10 @@ export const sendWelcomeEmail = async (email, userName) => {
   const mailOptions = {
     from: process.env.EMAIL_FROM,
     to: email,
-    subject: 'Welcome to Clinic App!',
+    subject: 'Welcome to OrdanaApp!',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2>Welcome to Clinic App!</h2>
+        <h2>Welcome to OrdanaApp!</h2>
         <p>Hello ${userName},</p>
         <p>Thank you for joining Clinic App. We're excited to have you on board!</p>
         <p>You can now:</p>
