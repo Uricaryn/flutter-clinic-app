@@ -36,9 +36,11 @@ class ApiConfig {
     }
   }
 
-  // Development URLs (localhost)
-  static const String _developmentBaseUrl = 'http://localhost:3000/api';
-  static const String _developmentWsUrl = 'ws://localhost:3000/ws';
+  // Development URLs (Android Emulator uses 10.0.2.2, iOS Simulator uses localhost)
+  // For Android Emulator: 10.0.2.2 maps to host machine's localhost
+  // For physical device: use your computer's IP address (e.g., 192.168.1.x)
+  static const String _developmentBaseUrl = 'http://10.0.2.2:8080/api';
+  static const String _developmentWsUrl = 'ws://10.0.2.2:8080/ws';
 
   // Staging URLs (optional)
   static const String _stagingBaseUrl =
