@@ -332,3 +332,4 @@ Response includes WebSocket stats:
    - Fetch initial data via REST API
    - Use WebSocket only for updates
    - Handle missed updates during disconnection
+

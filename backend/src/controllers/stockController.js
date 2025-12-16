@@ -151,3 +151,4 @@ export default {
   updateStockQuantity,
   deleteStockItem,
 };
+

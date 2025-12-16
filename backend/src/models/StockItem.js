@@ -174,3 +174,4 @@ export class StockItem {
 }
 
 export default StockItem;
+

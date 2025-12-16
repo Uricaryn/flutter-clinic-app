@@ -184,3 +184,4 @@ export class Expense {
 }
 
 export default Expense;
+

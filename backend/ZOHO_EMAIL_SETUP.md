@@ -365,3 +365,4 @@ Sorun yaşarsanız:
 - **Zoho Support:** https://www.zoho.com/mail/help/
 - **Backend logs:** `npm start` çıktısını kontrol edin
 - **Email test:** Verification/reset email'leri test edin
+

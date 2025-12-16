@@ -249,3 +249,4 @@ DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5432/clinic_db
 ---
 
 **Need Help?** Check the official PostgreSQL documentation: https://www.postgresql.org/docs/
+

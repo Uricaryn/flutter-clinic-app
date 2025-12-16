@@ -463,3 +463,4 @@ After successful migration:
 4. **Monitor** for any issues
 5. **Keep Firebase** as backup for a period
 6. **Eventually deprecate** Firebase after stable period
+

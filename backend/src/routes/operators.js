@@ -27,3 +27,4 @@ router.put('/:id', operatorController.updateOperator);
 router.delete('/:id', operatorController.deleteOperator);
 
 export default router;
+

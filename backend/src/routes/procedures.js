@@ -26,3 +26,4 @@ router.put('/:id', procedureController.updateProcedure);
 router.delete('/:id', procedureController.deleteProcedure);
 
 export default router;
+

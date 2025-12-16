@@ -256,3 +256,4 @@ class ApiService {
     _dio.close();
   }
 }
+

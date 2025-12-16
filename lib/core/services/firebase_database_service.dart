@@ -449,3 +449,4 @@ class FirebaseDatabaseService implements DatabaseService {
     return _firestore.watchUserData(userId);
   }
 }
+

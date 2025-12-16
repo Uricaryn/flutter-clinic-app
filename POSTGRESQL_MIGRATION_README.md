@@ -425,3 +425,4 @@ Built with:
 **Your clinic app is now ready for production with PostgreSQL! 🚀**
 
 For questions or issues, refer to the extensive documentation in the `backend/` folder.
+

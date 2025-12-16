@@ -263,3 +263,4 @@ flutter build appbundle --release --flavor production
 **Tarih:** Aralık 2025  
 **Güncelleme:** Her deploy öncesi bu dosyayı kontrol edin
 
+

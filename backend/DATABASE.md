@@ -581,3 +581,4 @@ FROM pg_statio_user_tables;
 ## License
 
 Part of the Clinic App project - Internal documentation
+

@@ -1104,3 +1104,4 @@ curl -X GET http://localhost:3000/api/patients \
 ## Support
 
 For issues or questions, please contact the development team or create an issue in the project repository.
+

@@ -90,3 +90,4 @@ SELECT * FROM migrations ORDER BY executed_at;
 -- Clean up test data
 -- DELETE FROM users WHERE email = 'test@example.com';
 -- DELETE FROM clinics WHERE name = 'Test Clinic';
+

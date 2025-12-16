@@ -45,3 +45,4 @@ async function runAuthMigration() {
 
 // Run the migration
 runAuthMigration();
+

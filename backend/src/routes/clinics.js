@@ -27,3 +27,4 @@ router.put('/:id', clinicController.updateClinic);
 router.delete('/:id', clinicController.deleteClinic);
 
 export default router;
+

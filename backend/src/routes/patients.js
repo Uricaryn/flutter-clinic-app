@@ -27,3 +27,4 @@ router.put('/:id', patientController.updatePatient);
 router.delete('/:id', patientController.deletePatient);
 
 export default router;
+

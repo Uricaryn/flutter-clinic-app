@@ -670,3 +670,4 @@ DATABASE_URL=postgresql://prod-host:5432/clinic_db
 ```
 
 Test the full deployment flow in staging before production!
+

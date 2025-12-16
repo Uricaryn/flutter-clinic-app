@@ -57,3 +57,4 @@ transporter.verify()
     console.error('\n📝 Current password in .env:', process.env.SMTP_PASSWORD);
     process.exit(1);
   });
+

@@ -33,3 +33,4 @@ router.patch('/:id/quantity', updateQuantityValidation, validate, stockControlle
 router.delete('/:id', stockController.deleteStockItem);
 
 export default router;
+

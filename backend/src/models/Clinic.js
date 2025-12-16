@@ -138,3 +138,4 @@ export class Clinic {
 }
 
 export default Clinic;
+

@@ -34,3 +34,4 @@ testConnection()
     pool.end();
     process.exit(1);
   });
+

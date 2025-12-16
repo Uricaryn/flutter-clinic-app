@@ -149,3 +149,4 @@ export default {
   updateOperator,
   deleteOperator,
 };
+

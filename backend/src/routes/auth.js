@@ -72,3 +72,4 @@ router.post('/send-verification-email', authenticate, authController.sendEmailVe
 router.post('/verify-email', verifyEmailValidation, validate, authController.verifyEmail);
 
 export default router;
+

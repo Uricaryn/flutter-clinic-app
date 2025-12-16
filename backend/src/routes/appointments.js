@@ -30,3 +30,4 @@ router.put('/:id', appointmentController.updateAppointment);
 router.delete('/:id', appointmentController.deleteAppointment);
 
 export default router;
+

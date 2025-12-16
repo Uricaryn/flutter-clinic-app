@@ -16,3 +16,4 @@ abstract class BaseAuthService {
   /// Send password reset email
   Future<void> sendPasswordResetEmail(String email);
 }
+

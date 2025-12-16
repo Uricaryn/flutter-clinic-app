@@ -179,3 +179,4 @@ FRONTEND_URL=http://localhost:8080
 ```
 
 Save this as `backend/.env` and update with your actual values!
+

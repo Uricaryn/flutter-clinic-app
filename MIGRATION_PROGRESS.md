@@ -197,3 +197,4 @@ ws://localhost:3000/ws?token=YOUR_JWT_TOKEN
 - **Easy Rollback**: Can switch back to Firebase anytime
 - **Gradual Migration**: No rush to migrate all at once
 - **Data Safety**: All data preserved with multiple backups
+
