@@ -109,3 +109,12 @@ coverage/
 *.swp
 *.swo
 *~
+
+# Backend Node.js
+backend/node_modules/
+backend/.env
+backend/.env.*
+backend/logs/
+backend/dist/
+backend/build/
+backend/*.log
