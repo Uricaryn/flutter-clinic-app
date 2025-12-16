@@ -1,54 +1,33 @@
-import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart' as path;
+/// Storage Service - Stubbed
+/// 
+/// Firebase Storage has been removed.
+/// Implement alternative file storage solution if needed.
 
 class StorageService {
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-
-  // Upload file and return download URL
-  Future<String> uploadFile(File file, String folder) async {
-    try {
-      final fileName =
-          '${DateTime.now().millisecondsSinceEpoch}${path.extension(file.path)}';
-      final ref = _storage.ref().child('$folder/$fileName');
-
-      final uploadTask = ref.putFile(file);
-      final snapshot = await uploadTask;
-
-      return await snapshot.ref.getDownloadURL();
-    } catch (e) {
-      throw 'Failed to upload file: $e';
-    }
+  // TODO: Implement alternative storage solution
+  // Options: AWS S3, local backend storage, etc.
+  
+  Future<String> uploadFile(String path, List<int> bytes) async {
+    throw UnimplementedError(
+      'File storage needs to be implemented with alternative solution.'
+    );
   }
 
-  // Delete file by URL
-  Future<void> deleteFile(String fileUrl) async {
-    try {
-      final ref = _storage.refFromURL(fileUrl);
-      await ref.delete();
-    } catch (e) {
-      throw 'Failed to delete file: $e';
-    }
+  Future<String> uploadImage(String path, List<int> bytes) async {
+    throw UnimplementedError(
+      'Image storage needs to be implemented with alternative solution.'
+    );
   }
 
-  // Get file metadata
-  Future<FullMetadata> getFileMetadata(String fileUrl) async {
-    try {
-      final ref = _storage.refFromURL(fileUrl);
-      return await ref.getMetadata();
-    } catch (e) {
-      throw 'Failed to get file metadata: $e';
-    }
+  Future<void> deleteFile(String url) async {
+    throw UnimplementedError(
+      'File deletion needs to be implemented with alternative solution.'
+    );
   }
 
-  // List files in a folder
-  Future<List<Reference>> listFiles(String folder) async {
-    try {
-      final ref = _storage.ref().child(folder);
-      final result = await ref.listAll();
-      return result.items;
-    } catch (e) {
-      throw 'Failed to list files: $e';
-    }
+  Future<String> getDownloadUrl(String path) async {
+    throw UnimplementedError(
+      'File URL retrieval needs to be implemented with alternative solution.'
+    );
   }
 }

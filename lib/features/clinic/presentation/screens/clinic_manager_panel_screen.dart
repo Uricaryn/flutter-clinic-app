@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
-import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:clinic_app/core/enums/user_role.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:clinic_app/features/operator/domain/models/operator_model.dart';
 import 'package:clinic_app/features/operator/presentation/widgets/add_operator_dialog.dart';

@@ -4,8 +4,6 @@ import 'package:clinic_app/features/clinic/domain/models/clinic_model.dart';
 import 'package:clinic_app/features/clinic/presentation/widgets/clinic_card.dart';
 import 'package:clinic_app/shared/widgets/custom_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:clinic_app/core/providers/firestore_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
 import 'package:clinic_app/core/services/logger_service.dart';
 import 'package:clinic_app/features/operator/presentation/widgets/operator_list.dart';

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:clinic_app/core/providers/auth_provider.dart';
-import 'package:clinic_app/core/providers/firestore_provider.dart';
 import 'package:clinic_app/features/appointment/domain/models/appointment_model.dart';
 import 'package:clinic_app/l10n/app_localizations.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'

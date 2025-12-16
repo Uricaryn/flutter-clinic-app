@@ -1,38 +1,33 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+/// Crashlytics Service - Stubbed
+/// 
+/// Firebase Crashlytics has been removed.
+/// Implement alternative error tracking solution if needed.
 
 class CrashlyticsService {
-  final FirebaseCrashlytics _crashlytics = FirebaseCrashlytics.instance;
+  static final CrashlyticsService _instance = CrashlyticsService._internal();
+  
+  factory CrashlyticsService() => _instance;
+  
+  CrashlyticsService._internal();
 
-  // Log a non-fatal error
-  Future<void> logError(
-    dynamic error,
-    StackTrace stackTrace, {
-    String? reason,
+  // Stub methods - implement with alternative crash reporting if needed
+  Future<void> recordError(
+    dynamic exception,
+    StackTrace? stack, {
+    dynamic reason,
+    bool fatal = false,
   }) async {
-    await _crashlytics.recordError(
-      error,
-      stackTrace,
-      reason: reason,
-    );
+    // TODO: Implement alternative crash reporting
+    // For now, just print to console
+    print('Error: $exception');
+    if (stack != null) print('Stack: $stack');
   }
 
-  // Set user identifier
-  Future<void> setUserIdentifier(String userId) async {
-    await _crashlytics.setUserIdentifier(userId);
+  Future<void> setCustomKey(String key, Object value) async {
+    // TODO: Implement alternative crash reporting
   }
 
-  // Set custom key
-  Future<void> setCustomKey(String key, dynamic value) async {
-    await _crashlytics.setCustomKey(key, value);
-  }
-
-  // Log a message
-  Future<void> log(String message) async {
-    await _crashlytics.log(message);
-  }
-
-  // Force a crash for testing
-  void forceCrash() {
-    _crashlytics.crash();
+  Future<void> setUserIdentifier(String identifier) async {
+    // TODO: Implement alternative crash reporting
   }
 }

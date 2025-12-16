@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:clinic_app/features/clinic/domain/models/expense_model.dart';
 
 class AddExpenseDialog extends ConsumerStatefulWidget {

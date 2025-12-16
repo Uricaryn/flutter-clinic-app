@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Utility functions for date/time handling across Firebase and PostgreSQL
 class DateTimeUtils {
