@@ -26,6 +26,9 @@ class UnifiedUser {
     this.role,
   });
 
+  /// Compatibility: Firebase User uses 'uid', we use 'id'
+  String get uid => id;
+
   factory UnifiedUser.fromFirebase(
       firebase.User user, Map<String, dynamic>? userData) {
     return UnifiedUser(

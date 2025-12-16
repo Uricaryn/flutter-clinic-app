@@ -236,7 +236,7 @@ class PostgresqlAuthService implements BaseAuthService {
     if (_currentUser == null) {
       throw 'No user signed in';
     }
-    
+
     try {
       await _apiService.post(
         '/auth/resend-verification',

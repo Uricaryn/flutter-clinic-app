@@ -22,18 +22,18 @@ export 'package:clinic_app/core/providers/dual_auth_provider.dart'
 import 'package:clinic_app/core/providers/dual_auth_provider.dart';
 
 /// Auth service that works with both Firebase and PostgreSQL
-/// 
+///
 /// Alias for dualAuthServiceProvider
 final authServiceProvider = dualAuthServiceProvider;
 
 /// Auth state stream that works with both backends
-/// 
+///
 /// Returns UnifiedUser which works with both Firebase.User and PostgresqlUser
 /// Alias for unifiedAuthStateProvider
 final authStateProvider = unifiedAuthStateProvider;
 
 /// Current user provider
-/// 
+///
 /// Returns UnifiedUser? (works with both backends)
 /// Alias for currentUnifiedUserProvider
 final currentUserProvider = currentUnifiedUserProvider;
