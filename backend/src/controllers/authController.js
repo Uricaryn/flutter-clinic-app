@@ -19,13 +19,14 @@ export const register = asyncHandler(async (req, res) => {
   }
 
   // Create new user
+  // Convert empty string to null for UUID fields
   const user = await User.create({
     email,
     password,
     fullName,
     phone,
     role: role || 'user',
-    clinicId,
+    clinicId: clinicId && clinicId.trim() !== '' ? clinicId : null,
   });
 
   // Generate tokens

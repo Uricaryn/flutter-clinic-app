@@ -260,7 +260,7 @@ class PostgresqlAuthService implements BaseAuthService {
 
     try {
       _logger.info('Changing password for user: ${_currentUser!.id}');
-      
+
       await _apiService.post(
         '/auth/change-password',
         data: {
@@ -268,7 +268,7 @@ class PostgresqlAuthService implements BaseAuthService {
           'newPassword': newPassword,
         },
       );
-      
+
       _logger.info('Password changed successfully');
     } catch (e) {
       _logger.error('Change password error', e, StackTrace.current);

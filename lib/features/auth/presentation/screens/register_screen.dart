@@ -86,7 +86,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           email: _emailController.text.trim(),
           password: _passwordController.text,
           fullName: _nameController.text.trim(),
-          clinicId: '', // Will be created later
+          // Don't send clinicId - it will be created later
           role: UserRole.clinicAdmin.value,
         );
         _logger.info('Registration successful (PostgreSQL mode)');
