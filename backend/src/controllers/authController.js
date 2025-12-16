@@ -444,12 +444,13 @@ export const updateProfile = asyncHandler(async (req, res) => {
     });
   }
 
-  // Update user
-  const updatedUser = await User.update(userId, {
-    fullName,
-    phone,
-    avatar,
-  });
+  // Update user - convert camelCase to snake_case for database
+  const updateData = {};
+  if (fullName !== undefined) updateData.full_name = fullName;
+  if (phone !== undefined) updateData.phone = phone;
+  if (avatar !== undefined) updateData.avatar = avatar;
+
+  const updatedUser = await User.update(userId, updateData);
 
   res.status(200).json({
     success: true,
