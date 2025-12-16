@@ -43,7 +43,7 @@ dependencies:
   video_player: ^2.8.2
   rxdart: ^0.27.7
 
-  # Firebase
+  # Firebase (for dual-mode support)
   firebase_core: ^2.24.2
   firebase_auth: ^4.15.3
   cloud_firestore: ^4.13.6
@@ -52,6 +52,11 @@ dependencies:
   firebase_analytics: ^10.7.4
   firebase_crashlytics: ^3.4.9
   provider: ^6.1.1
+
+  # PostgreSQL Backend (for dual-mode support)
+  dio: ^5.4.0
+  web_socket_channel: ^2.4.0
+  flutter_secure_storage: ^9.0.0
 
   # Utils
   image_picker: ^1.0.5
