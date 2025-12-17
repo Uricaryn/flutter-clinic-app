@@ -118,3 +118,7 @@ backend/logs/
 backend/dist/
 backend/build/
 backend/*.log
+
+# Documentation files
+*.md
+**/*.md
